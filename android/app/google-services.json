@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "938553968662",
+    "project_id": "stayscape-resort-booking-app",
+    "storage_bucket": "stayscape-resort-booking-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938553968662:android:1c263c9752ab5cd5918d37",
+        "android_client_info": {
+          "package_name": "com.example.user_resort_booking_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbmWmvmvPmrN1sf8kvLTcgJIn6sSNnDEM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

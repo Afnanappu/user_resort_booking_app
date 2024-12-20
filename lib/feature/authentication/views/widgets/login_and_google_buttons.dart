@@ -6,20 +6,17 @@ import 'package:user_resort_booking_app/core/components/elevated_button_auth.dar
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/constants/spaces.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
-import 'package:user_resort_booking_app/core/data/models/user_model.dart';
 import 'package:user_resort_booking_app/feature/authentication/view%20model/bloc/bloc_auth/auth_bloc.dart';
 import 'package:user_resort_booking_app/routes/route_names.dart';
 
-class RegisterButtonWidget extends StatelessWidget {
-  const RegisterButtonWidget({
+class SignInAndGoogleButtonWidget extends StatelessWidget {
+  const SignInAndGoogleButtonWidget({
     super.key,
-    required this.nameController,
     required this.emailController,
     required this.passwordController,
     required GlobalKey<FormState> formKey,
   }) : _formKey = formKey;
 
-  final TextEditingController nameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final GlobalKey<FormState> _formKey;
@@ -29,15 +26,12 @@ class RegisterButtonWidget extends StatelessWidget {
     return Column(
       children: [
         ElevatedButtonAuthentication(
-          title: 'Register',
+          title: 'Sign in',
           haveBg: true,
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              //TODO: add registration logic here.
-
               context.read<AuthBloc>().add(
-                    AuthEvent.register(
-                      nameController.text.trim(),
+                    AuthEvent.loginWithEmail(
                       emailController.text.trim(),
                       passwordController.text.trim(),
                     ),
@@ -46,13 +40,29 @@ class RegisterButtonWidget extends StatelessWidget {
           },
         ),
         MySpaces.hSpace20,
+        Text(
+          'Or Sign in with',
+          style: MyTextStyles.bodySmallMediumGreyLight,
+        ),
+        MySpaces.hSpace20,
+        InkWell(
+          onTap: () {
+            context.read<AuthBloc>().add(AuthEvent.loginWithGoogle());
+          },
+          child: Image.asset(
+            'assets/google-icon.png',
+            width: 35,
+            fit: BoxFit.fitWidth,
+          ),
+        ),
+        MySpaces.hSpace40,
         RichText(
           textAlign: TextAlign.center,
           text: TextSpan(
-            text: "Already have an account? ",
+            text: "Don't you have an account? ",
             children: [
               TextSpan(
-                text: "Login",
+                text: "Register",
                 style: MyTextStyles.bodyLargeNormalWhite.apply(
                   decoration: TextDecoration.underline,
                   color: MyColors.orange,
@@ -60,7 +70,7 @@ class RegisterButtonWidget extends StatelessWidget {
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    context.go('/${AppRoutes.login}');
+                    context.go('/${AppRoutes.signUp}');
                   },
               ),
             ],

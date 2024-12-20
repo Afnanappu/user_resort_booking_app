@@ -44,8 +44,7 @@ class ScreenOnboarding2 extends StatelessWidget {
             //login
             ElevatedButtonAuthentication(
               title: 'Login',
-              onPressed: () =>
-                  context.go('/${AppRoutes.onboarding2}/${AppRoutes.login}'),
+              onPressed: () => context.go('/${AppRoutes.login}'),
               haveBg: false,
             ),
             MySpaces.hSpace10,
@@ -53,8 +52,7 @@ class ScreenOnboarding2 extends StatelessWidget {
             //signin
             ElevatedButtonAuthentication(
               title: 'Sign up',
-              onPressed: () =>
-                  context.go('/${AppRoutes.onboarding2}/${AppRoutes.signUp}'),
+              onPressed: () => context.go('/${AppRoutes.signUp}'),
             ),
             MySpaces.flex1,
           ],
