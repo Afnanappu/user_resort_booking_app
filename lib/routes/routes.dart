@@ -2,27 +2,33 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:user_resort_booking_app/core/navigation/view/screen_navigation.dart';
 import 'package:user_resort_booking_app/feature/authentication/views/screens/screen_login.dart';
 import 'package:user_resort_booking_app/feature/authentication/views/screens/screen_sign_up.dart';
 import 'package:user_resort_booking_app/feature/home/views/screens/screen_home.dart';
+import 'package:user_resort_booking_app/feature/home/views/screens/screen_home_property_details_.dart';
+import 'package:user_resort_booking_app/feature/home/views/screens/screen_home_property_room_list.dart';
 import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_onboarding_2.dart';
 import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_onboarding.dart';
 import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_splash.dart';
+import 'package:user_resort_booking_app/feature/profile/view/screens/screen_profile.dart';
+import 'package:user_resort_booking_app/feature/search/view/screens/screen_search.dart';
 import 'package:user_resort_booking_app/routes/custom_route_transition.dart';
 import 'package:user_resort_booking_app/routes/route_names.dart';
 
-final _navigatorKey = GlobalKey<NavigatorState>();
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _sectionNavigatorKey = GlobalKey<NavigatorState>();
 
 final routes = GoRouter(
-  initialLocation: '/',
-  navigatorKey: _navigatorKey,
+  initialLocation: '/${AppRoutes.home}',
+  navigatorKey: _rootNavigatorKey,
   observers: [
     MyNavigatorObserver(),
   ],
   routes: [
     GoRoute(
       name: 'splash',
-      path: '/',
+      path: '/${AppRoutes.splash}',
       pageBuilder: (context, state) {
         return customTransitionPage(state, ScreenSplash());
       },
@@ -51,11 +57,68 @@ final routes = GoRouter(
           customTransitionPage(state, ScreenSignUp()),
     ),
     GoRoute(
-      name: 'home',
-      path: '/${AppRoutes.home}',
+      path: '/${AppRoutes.propertyDetailsHome}',
       pageBuilder: (context, state) =>
-          customTransitionPage(state, ScreenHome()),
+          customTransitionPage(state, ScreenHomePropertyDetails()),
     ),
+    GoRoute(
+      path: '/${AppRoutes.propertyRoomListHome}',
+      pageBuilder: (context, state) =>
+          customTransitionPage(state, ScreenHomePropertyRoomsList()),
+    ),
+
+    //Bottom navigation bar screens
+    StatefulShellRoute.indexedStack(
+      pageBuilder: (_, state, navigationShell) => customTransitionPage(
+        state,
+        ScreenNavigation(
+          navigationShell: navigationShell,
+        ),
+      ),
+      branches: [
+        StatefulShellBranch(
+          initialLocation: '/${AppRoutes.home}',
+          navigatorKey: _sectionNavigatorKey,
+          routes: [
+            GoRoute(
+              path: '/${AppRoutes.home}',
+              pageBuilder: (_, state) {
+                return customTransitionPage(
+                  state,
+                  ScreenHome(),
+                );
+              },
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/${AppRoutes.search}',
+              pageBuilder: (_, state) {
+                return customTransitionPage(
+                  state,
+                  ScreenSearch(),
+                );
+              },
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/${AppRoutes.profile}',
+              pageBuilder: (_, state) {
+                return customTransitionPage(
+                  state,
+                  ScreenProfile(),
+                );
+              },
+            ),
+          ],
+        ),
+      ],
+    )
   ],
 );
 

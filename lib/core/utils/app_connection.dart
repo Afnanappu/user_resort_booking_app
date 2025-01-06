@@ -7,7 +7,7 @@ class AppConnection {
   static Future<bool> checkConnectionState() async {
     final connection = await _connectivity.checkConnectivity();
     if (!connection.contains(ConnectivityResult.none)) {
-      return true;
+      return true; 
     } else {
       return false;
     }

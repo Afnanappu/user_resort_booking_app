@@ -1,16 +1,10 @@
-import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:user_resort_booking_app/core/components/custom_snack_bar.dart';
-import 'package:user_resort_booking_app/core/constants/my_colors.dart';
+import 'package:user_resort_booking_app/core/constants/theme.dart';
 import 'package:user_resort_booking_app/core/data/providers/user_provider.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
 import 'package:user_resort_booking_app/feature/authentication/model/user_local_data_model.dart';
@@ -19,6 +13,11 @@ import 'package:user_resort_booking_app/feature/authentication/repository/user_l
 import 'package:user_resort_booking_app/feature/authentication/services/auth_service.dart';
 import 'package:user_resort_booking_app/feature/authentication/services/user_local_service.dart';
 import 'package:user_resort_booking_app/feature/authentication/view%20model/bloc/bloc_auth/auth_bloc.dart';
+import 'package:user_resort_booking_app/feature/home/repository/property_home_repository.dart';
+import 'package:user_resort_booking_app/feature/home/services/property_home_services.dart';
+import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_details/property_details_home_bloc.dart';
+import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_home_list/property_list_home_bloc.dart';
+import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_room_list/property_home_room_list_bloc.dart';
 import 'package:user_resort_booking_app/firebase_options.dart';
 import 'package:user_resort_booking_app/routes/routes.dart';
 
@@ -33,18 +32,19 @@ Future<void> main() async {
     Hive.registerAdapter(UserLocalDataModelAdapter());
   }
 
-  if (kDebugMode) {
-    try {
-      final deviceIp = '172.16.4.113';
-      // await FirebaseAuth.instance.useAuthEmulator(deviceIp, 9099);
-      FirebaseFirestore.instance.useFirestoreEmulator(deviceIp, 8089);
-      log('Backend is running on Firebase Local Emulator');
-      log('Connected to Firestore and auth locally');
-    } catch (e) {
-      log(e.toString());
-      log('Error while connecting to Firebase Local Emulator');
-    }
-  }
+  // if (kDebugMode) {
+  //   try {
+  //     // final deviceIp = '172.16.4.113';
+  //     final deviceIp = ' 192.168.1.25';
+  //     await FirebaseAuth.instance.useAuthEmulator(deviceIp, 9099);
+  //     FirebaseFirestore.instance.useFirestoreEmulator(deviceIp, 8089);
+  //     log('Backend is running on Firebase Local Emulator');
+  //     log('Connected to Firestore and auth locally');
+  //   } catch (e) {
+  //     log(e.toString());
+  //     log('Error while connecting to Firebase Local Emulator');
+  //   }
+  // }
 
   runApp(const MainApp());
 }
@@ -69,11 +69,30 @@ class MainApp extends StatelessWidget {
             userLocalServices: UserLocalServices(),
           ),
         ),
+        RepositoryProvider(
+          create: (context) =>
+              PropertyHomeRepository(services: PropertyHomeServices()),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (context) => AuthBloc(context.read<AuthRepository>()),
+          ),
+          BlocProvider(
+            create: (context) => PropertyListHomeBloc(
+              context.read<PropertyHomeRepository>(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => PropertyDetailsHomeBloc(
+              context.read<PropertyHomeRepository>(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => PropertyHomeRoomListBloc(
+              context.read<PropertyHomeRepository>(),
+            ),
           ),
         ],
         child: MultiProvider(
@@ -89,7 +108,7 @@ class MainApp extends StatelessWidget {
             return MaterialApp.router(
               routerConfig: routes,
               debugShowCheckedModeBanner: false,
-              // theme: theme,
+              theme: customTheme,
             );
           },
         ),

@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:user_resort_booking_app/core/components/custom_circular_progress_indicator.dart';
 import 'package:user_resort_booking_app/core/components/custom_snack_bar.dart';
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/data/providers/user_provider.dart';
@@ -18,29 +19,29 @@ class ScreenSplash extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
-        await context.read<UserProvider>().getUserLocalData();
-        if (userCurrentAuthState()) {
-          final connection = await AppConnection.checkConnectionState();
-          log('This app is currently in ${connection ? "online" : "offline"}');
-          if (connection) {
-            await context.read<UserProvider>().fetchUserDataFromFirebase();
-            await context.read<UserProvider>().storeUserDataLocally();
-          } else {
-            showCustomSnackBar(
-              context: context,
-              message: 'The app is currently running in offline',
-              bgColor: MyColors.grey,
-            );
-          }
-          return context.go('/${AppRoutes.home}');
-        } else {
-          return context.go('/${AppRoutes.login}');
-        }
+        // await context.read<UserProvider>().getUserLocalData();
+        // if (userCurrentAuthState()) {
+        //   final connection = await AppConnection.checkConnectionState();
+        //   log('This app is currently in ${connection ? "online" : "offline"}');
+        //   if (connection) {
+        //     await context.read<UserProvider>().fetchUserDataFromFirebase();
+        //     await context.read<UserProvider>().storeUserDataLocally();
+        //   } else {
+        //     showCustomSnackBar(
+        //       context: context,
+        //       message: 'The app is currently running in offline',
+        //       bgColor: MyColors.grey,
+        //     );
+        //   }
+        //   return context.go('/${AppRoutes.home}');
+        // } else {
+        //   return context.go('/${AppRoutes.login}');
+        // }
       },
     );
 
     return Scaffold(
-      body: Center(child: CircularProgressIndicator()),
+      body: Center(child: CustomCircularProgressIndicator()),
     );
   }
 }

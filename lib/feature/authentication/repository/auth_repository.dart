@@ -14,13 +14,14 @@ class AuthRepository {
     try {
       //First create an account for the user
       final user = (await _authService.register(email, password)).user;
-
+      log('User registered');
       //Then add the user data to firestore for future needs
       await _authService.addUserToCollections(UserModel(
         uid: user!.uid,
         name: name,
         email: email,
       ));
+      log('User created in fireStore');
     } catch (e) {
       rethrow;
     }

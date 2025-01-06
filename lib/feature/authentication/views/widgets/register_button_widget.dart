@@ -6,7 +6,6 @@ import 'package:user_resort_booking_app/core/components/elevated_button_auth.dar
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/constants/spaces.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
-import 'package:user_resort_booking_app/core/data/models/user_model.dart';
 import 'package:user_resort_booking_app/feature/authentication/view%20model/bloc/bloc_auth/auth_bloc.dart';
 import 'package:user_resort_booking_app/routes/route_names.dart';
 

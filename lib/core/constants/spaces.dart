@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class MySpaces {
+  static const hSpace0 = SizedBox(
+    height: 0,
+  );
   static const hSpace5 = SizedBox(
     height: 5,
   );
@@ -18,6 +21,9 @@ class MySpaces {
   );
   static const hSpace80 = SizedBox(
     height: 80,
+  );
+  static const wSpace5 = SizedBox(
+    height: 5,
   );
   static const wSpace10 = SizedBox(
     height: 10,
