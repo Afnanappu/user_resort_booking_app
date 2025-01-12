@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:user_resort_booking_app/core/data/models/user_model.dart';
-import 'package:user_resort_booking_app/core/utils/custom_exceptions.dart';
+import 'package:user_resort_booking_app/core/utils/exceptions/custom_exceptions.dart';
 import 'package:user_resort_booking_app/feature/authentication/services/auth_service.dart';
 
 class AuthRepository {

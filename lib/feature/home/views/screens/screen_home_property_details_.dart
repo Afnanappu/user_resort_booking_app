@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:user_resort_booking_app/core/components/carousel_image_picked_show_widget.dart';
 import 'package:user_resort_booking_app/core/components/custom_app_bar.dart';
 import 'package:user_resort_booking_app/core/components/custom_divider.dart';
 import 'package:user_resort_booking_app/core/components/custom_elevated_button.dart';
+import 'package:user_resort_booking_app/core/components/custom_google_map_widget.dart';
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/constants/my_constants.dart';
 import 'package:user_resort_booking_app/core/constants/spaces.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
+import 'package:user_resort_booking_app/core/view_model/bloc/bloc_google_map/google_map_bloc.dart';
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_details/property_details_home_bloc.dart';
 import 'package:user_resort_booking_app/feature/home/views/components/custom_container_for_property_details.dart';
 import 'package:user_resort_booking_app/feature/home/views/components/custom_list_points_widget_for_property_details.dart';
@@ -17,9 +20,11 @@ import 'package:user_resort_booking_app/feature/home/views/widgets/about_the_res
 import 'package:user_resort_booking_app/feature/home/views/widgets/main_details_widget_for_property_details.dart';
 import 'package:user_resort_booking_app/routes/route_names.dart';
 
+// ignore: must_be_immutable
 class ScreenHomePropertyDetails extends StatelessWidget {
-  const ScreenHomePropertyDetails({super.key});
-
+  ScreenHomePropertyDetails({super.key});
+  CameraPosition? initialCameraPosition;
+  late LatLng propertyLocation;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,9 +134,70 @@ class ScreenHomePropertyDetails extends StatelessWidget {
                           title: 'Location',
 
                           //TODO: Add location here using google map.
-                          child: Placeholder(
-                            fallbackHeight: 250,
-                            strokeWidth: .5,
+                          child: SizedBox(
+                            height: 250,
+                            width: .5,
+                            child: BlocBuilder<GoogleMapBloc, GoogleMapState>(
+                              builder: (context, state) {
+                                final cameraPosition = state.maybeWhen(
+                                  mapLoaded: (cameraPosition, selectedMarker) {
+                                    return cameraPosition;
+                                  },
+                                  orElse: () {
+                                    return null;
+                                  },
+                                );
+                                if (cameraPosition != null) {
+                                  initialCameraPosition = cameraPosition;
+                                } else {
+                                  // context.read<GoogleMapBloc>().add(GoogleMapEvent.confirmLocation());
+                                }
+
+                                return initialCameraPosition == null
+                                    ? Center(
+                                        child: Text(
+                                          'Loading...',
+                                        ),
+                                      )
+                                    : CustomGoogleMapWidget(
+                                        initialCameraPosition:
+                                            initialCameraPosition,
+                                        onMapCreated: (controller) {
+                                          context
+                                              .read<GoogleMapBloc>()
+                                              .getMapController
+                                              .complete(controller);
+                                        },
+                                        markers:
+                                            // {
+                                            //   Marker(
+                                            //     markerId:
+                                            //         MarkerId('selectedPlace'),
+                                            //     icon: BitmapDescriptor
+                                            //         .defaultMarker,
+                                            //     position: propertyLocation,
+                                            //   ),
+                                            // }
+
+                                            state.maybeWhen(
+                                          locationConfirmed:
+                                              (selectedLocation) => {
+                                            Marker(
+                                              markerId:
+                                                  MarkerId('selectedPlace'),
+                                              icon: BitmapDescriptor
+                                                  .defaultMarker,
+                                              position: LatLng(
+                                                selectedLocation.latitude,
+                                                selectedLocation.longitude,
+                                              ),
+                                            )
+                                          },
+                                          orElse: () => {},
+                                        ),
+                                      );
+                              },
+                            ),
                           ),
                         ),
 

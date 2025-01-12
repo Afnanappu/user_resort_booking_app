@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:user_resort_booking_app/core/constants/theme.dart';
 import 'package:user_resort_booking_app/core/data/providers/user_provider.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
+import 'package:user_resort_booking_app/core/view_model/bloc/bloc_google_map/google_map_bloc.dart';
 import 'package:user_resort_booking_app/feature/authentication/model/user_local_data_model.dart';
 import 'package:user_resort_booking_app/feature/authentication/repository/auth_repository.dart';
 import 'package:user_resort_booking_app/feature/authentication/repository/user_local_repository.dart';
@@ -97,6 +98,9 @@ class MainApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => FilterDataCubit(),
+          ),
+          BlocProvider(
+            create: (context) => GoogleMapBloc(),
           ),
           BlocProvider(
             create: (context) =>

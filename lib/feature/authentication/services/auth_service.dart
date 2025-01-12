@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:user_resort_booking_app/core/data/models/user_model.dart';
-import 'package:user_resort_booking_app/core/utils/custom_exceptions.dart';
+import 'package:user_resort_booking_app/core/utils/exceptions/custom_exceptions.dart';
 
 class AuthService {
   final userCollection = 'users';

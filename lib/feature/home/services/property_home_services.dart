@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:user_resort_booking_app/core/utils/custom_exceptions.dart';
+import 'package:user_resort_booking_app/core/utils/exceptions/custom_exceptions.dart';
 
 class PropertyHomeServices {
   final _propertiesCollection =

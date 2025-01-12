@@ -5,7 +5,8 @@ import 'package:user_resort_booking_app/core/components/custom_app_container.dar
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/constants/my_constants.dart';
 import 'package:user_resort_booking_app/core/constants/spaces.dart';
-import 'package:user_resort_booking_app/core/constants/text_styles.dart';import 'package:user_resort_booking_app/core/models/location_model.dart';
+import 'package:user_resort_booking_app/core/constants/text_styles.dart';
+import 'package:user_resort_booking_app/core/models/location_model.dart';
 import 'package:user_resort_booking_app/feature/home/views/components/price_per_day_widget.dart';
 
 class PropertyWidget extends StatelessWidget {
@@ -45,7 +46,7 @@ class PropertyWidget extends StatelessWidget {
                   topRight: Radius.circular(borderRad10),
                 ),
                 child: SizedBox(
-                  height: 180,
+                  height: 150,
                   child: Image.memory(
                     base64Decode(image),
                     fit: BoxFit.cover,
@@ -67,7 +68,7 @@ class PropertyWidget extends StatelessWidget {
                       style: MyTextStyles.titleMediumSemiBoldBlack,
                     ),
                     _locationAndReviewRow(),
-                    _totalRoomsAndPriceRow()
+                    _totalRoomsAndPriceRow(),
                   ],
                 ),
               ),

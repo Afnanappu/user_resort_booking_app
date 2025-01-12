@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:user_resort_booking_app/core/components/custom_search_bar.dart';
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/constants/spaces.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
+import 'package:user_resort_booking_app/core/view_model/bloc/bloc_google_map/google_map_bloc.dart';
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_details/property_details_home_bloc.dart';
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_home_list/property_list_home_bloc.dart';
 import 'package:user_resort_booking_app/feature/home/views/components/app_bar_for_home.dart';
@@ -86,6 +88,7 @@ class ScreenHome extends StatelessWidget {
                     ),
                     loaded: (propertyList) {
                       return Column(
+                        // mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -97,42 +100,62 @@ class ScreenHome extends StatelessWidget {
                               ? Center(
                                   child: Text('No property added'),
                                 )
-                              : ListView.builder(
-                                  shrinkWrap: true,
-                                  // scrollDirection: Axis.horizontal,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: propertyList.length,
-                                  itemBuilder: (context, index) {
-                                    final property = propertyList[index];
-                                    return Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 10),
-                                      child: PropertyWidget(
-                                        image: property.image.base64file,
-                                        propertyName: property.name,
-                                        location: property.location,
-                                        rating: property.rating ?? 0,
-                                        reviews: property.reviews,
-                                        rooms: property.rooms,
-                                        price: property.price,
-                                        onTap: () {
-                                          context.push(
-                                              '/${AppRoutes.propertyDetailsHome}');
+                              : SizedBox(
+                                  height: 250,
+                                  child: ListView(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    children: propertyList.map(
+                                      (property) {
+                                        return SizedBox(
+                                          // height: 100,
+                                          width: MyScreenSize.width * .8,
+                                          child: PropertyWidget(
+                                            image: property.image.base64file,
+                                            propertyName: property.name,
+                                            location: property.location,
+                                            rating: property.rating ?? 0,
+                                            reviews: property.reviews,
+                                            rooms: property.rooms,
+                                            price: property.price,
+                                            onTap: () {
+                                              context.push(
+                                                  '/${AppRoutes.propertyDetailsHome}');
 
-                                          //Loading the property details for next screen
-                                          context
-                                              .read<PropertyDetailsHomeBloc>()
-                                              .add(
-                                                PropertyDetailsHomeEvent
-                                                    .fetchPropertyDetails(
-                                                  id: property.id!,
-                                                ),
+                                              //Loading the property details for next screen
+                                              context
+                                                  .read<
+                                                      PropertyDetailsHomeBloc>()
+                                                  .add(
+                                                    PropertyDetailsHomeEvent
+                                                        .fetchPropertyDetails(
+                                                      id: property.id!,
+                                                    ),
+                                                  );
+
+                                              final latLng = LatLng(
+                                                property.location.latitude,
+                                                property.location.longitude,
                                               );
-                                        },
-                                      ),
-                                    );
-                                  },
-                                ),
+                                              context.read<GoogleMapBloc>().add(
+                                                    GoogleMapEvent
+                                                        .mapInitialized(
+                                                      latLng,
+                                                    ),
+                                                  );
+                                              context.read<GoogleMapBloc>().add(
+                                                    GoogleMapEvent
+                                                        .confirmLocation(
+                                                      latLng,
+                                                    ),
+                                                  );
+                                            },
+                                          ),
+                                        );
+                                      },
+                                    ).toList(),
+                                  ),
+                                )
                         ],
                       );
                     },
