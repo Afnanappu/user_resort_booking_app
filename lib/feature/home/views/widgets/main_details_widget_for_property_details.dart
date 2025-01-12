@@ -3,6 +3,7 @@ import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
 import 'package:user_resort_booking_app/feature/home/models/property_details_model.dart';
 import 'package:user_resort_booking_app/feature/home/views/components/custom_icon_widget.dart';
+
 class MainDetailsWidgetForPropertyDetails extends StatelessWidget {
   const MainDetailsWidgetForPropertyDetails({
     super.key,
@@ -31,7 +32,7 @@ class MainDetailsWidgetForPropertyDetails extends StatelessWidget {
                 size: 22,
               ),
               content: Text(
-                '${propertyModel.rating ?? 0}/5',
+                '${propertyModel.rating}/5',
                 style: MyTextStyles.ratingStyle,
               ),
             ),
@@ -43,9 +44,12 @@ class MainDetailsWidgetForPropertyDetails extends StatelessWidget {
             color: MyColors.grey,
             size: 22,
           ),
-          content: Text(
-            propertyModel.location,
-            style: MyTextStyles.locationStyle,
+          content: Expanded(
+            child: Text(
+              propertyModel.location.address,
+              style: MyTextStyles.locationStyle,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ),
         Text(

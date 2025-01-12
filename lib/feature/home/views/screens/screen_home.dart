@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -33,14 +32,18 @@ class ScreenHome extends StatelessWidget {
         padding: const EdgeInsets.all(15),
         child: RefreshIndicator.adaptive(
           onRefresh: () async {
-            context
-                .read<PropertyListHomeBloc>()
-                .add(PropertyListHomeEvent.fetchProperties());
+            context.read<PropertyListHomeBloc>().add(
+                  PropertyListHomeEvent.fetchProperties(),
+                );
           },
           child: ListView(
             children: [
               CustomSearchBar(
                 searchController: searchController,
+                suggestionsBuilder:
+                    (BuildContext context, SearchController controller) {
+                  return [];
+                },
               ),
               MySpaces.hSpace40,
 
@@ -96,6 +99,7 @@ class ScreenHome extends StatelessWidget {
                                 )
                               : ListView.builder(
                                   shrinkWrap: true,
+                                  // scrollDirection: Axis.horizontal,
                                   physics: NeverScrollableScrollPhysics(),
                                   itemCount: propertyList.length,
                                   itemBuilder: (context, index) {
@@ -108,7 +112,7 @@ class ScreenHome extends StatelessWidget {
                                         propertyName: property.name,
                                         location: property.location,
                                         rating: property.rating ?? 0,
-                                        reviews: property.reviews ?? 0,
+                                        reviews: property.reviews,
                                         rooms: property.rooms,
                                         price: property.price,
                                         onTap: () {

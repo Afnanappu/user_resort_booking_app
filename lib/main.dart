@@ -1,4 +1,3 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +17,11 @@ import 'package:user_resort_booking_app/feature/home/services/property_home_serv
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_details/property_details_home_bloc.dart';
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_home_list/property_list_home_bloc.dart';
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_room_list/property_home_room_list_bloc.dart';
+import 'package:user_resort_booking_app/feature/search/repository/my_property_repository.dart';
+import 'package:user_resort_booking_app/feature/search/services/my_property_services.dart';
+import 'package:user_resort_booking_app/feature/search/view_model/bloc_property_list/my_property_list_bloc.dart';
+import 'package:user_resort_booking_app/feature/search/view_model/cubit/filter_data_cubit.dart';
+import 'package:user_resort_booking_app/feature/search/view_model/cubit/property_type_cubit.dart';
 import 'package:user_resort_booking_app/firebase_options.dart';
 import 'package:user_resort_booking_app/routes/routes.dart';
 
@@ -73,6 +77,10 @@ class MainApp extends StatelessWidget {
           create: (context) =>
               PropertyHomeRepository(services: PropertyHomeServices()),
         ),
+        RepositoryProvider(
+          create: (context) =>
+              MyPropertyRepository(services: MyPropertyServices()),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -80,9 +88,19 @@ class MainApp extends StatelessWidget {
             create: (context) => AuthBloc(context.read<AuthRepository>()),
           ),
           BlocProvider(
-            create: (context) => PropertyListHomeBloc(
-              context.read<PropertyHomeRepository>(),
-            ),
+            create: (context) =>
+                PropertyListHomeBloc(context.read<PropertyHomeRepository>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                MyPropertyListBloc(context.read<MyPropertyRepository>()),
+          ),
+          BlocProvider(
+            create: (context) => FilterDataCubit(),
+          ),
+          BlocProvider(
+            create: (context) =>
+                PropertyTypeCubit(context.read<MyPropertyRepository>()),
           ),
           BlocProvider(
             create: (context) => PropertyDetailsHomeBloc(

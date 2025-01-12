@@ -5,7 +5,7 @@ import 'package:user_resort_booking_app/core/components/custom_app_container.dar
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/constants/my_constants.dart';
 import 'package:user_resort_booking_app/core/constants/spaces.dart';
-import 'package:user_resort_booking_app/core/constants/text_styles.dart';
+import 'package:user_resort_booking_app/core/constants/text_styles.dart';import 'package:user_resort_booking_app/core/models/location_model.dart';
 import 'package:user_resort_booking_app/feature/home/views/components/price_per_day_widget.dart';
 
 class PropertyWidget extends StatelessWidget {
@@ -22,9 +22,9 @@ class PropertyWidget extends StatelessWidget {
   });
   final String image;
   final String propertyName;
-  final String location;
+  final LocationModel location;
   final double rating;
-  final int reviews;
+  final List<String> reviews;
   final int rooms;
   final double price;
   final void Function()? onTap;
@@ -44,12 +44,12 @@ class PropertyWidget extends StatelessWidget {
                   topLeft: Radius.circular(borderRad10),
                   topRight: Radius.circular(borderRad10),
                 ),
-                child:
-                    // Image.network(
-                    //   image,
-                    Image.memory(
-                  base64Decode(image),
-                  fit: BoxFit.fitWidth,
+                child: SizedBox(
+                  height: 180,
+                  child: Image.memory(
+                    base64Decode(image),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               MySpaces.hSpace10,
@@ -60,7 +60,7 @@ class PropertyWidget extends StatelessWidget {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 8,
+                  spacing: 5,
                   children: [
                     Text(
                       propertyName,
@@ -83,7 +83,7 @@ class PropertyWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Available Rooms: $rooms',
+          'Total Rooms: $rooms',
           style: MyTextStyles.bodySmallMediumBlack,
         ),
         PricePerDayWidget(
@@ -101,19 +101,25 @@ class PropertyWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       spacing: 10,
       children: [
-        Row(
-          children: [
-            Icon(
-              Icons.location_on_outlined,
-              size: 20,
-              color: MyColors.greyLight,
-            ),
-            MySpaces.wSpace5,
-            Text(
-              location,
-              style: MyTextStyles.textFieldMediumGreyLight,
-            ),
-          ],
+        Expanded(
+          child: Row(
+            children: [
+              Icon(
+                Icons.location_on_outlined,
+                size: 20,
+                color: MyColors.greyLight,
+              ),
+              MySpaces.wSpace5,
+              Expanded(
+                child: Text(
+                  location.address,
+                  style: MyTextStyles.textFieldMediumGreyLight,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+            ],
+          ),
         ),
         SizedBox(
           width: 1,
@@ -132,7 +138,7 @@ class PropertyWidget extends StatelessWidget {
             MySpaces.wSpace5,
             Text(
               // '3.3 (251 Reviews)',
-              '$rating ($reviews Reviews)',
+              '$rating (${reviews.length} Reviews)',
               style: MyTextStyles.textFieldMediumGreyLight,
             ),
           ],

@@ -155,21 +155,21 @@ class ScreenHomePropertyDetails extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '${propertyModel.rating ?? 0}/5',
+                                      '${propertyModel.rating}/5',
                                       style: MyTextStyles.ratingStyle.apply(
                                         color: MyColors.white,
                                       ),
                                     ),
                                     Text(
                                       //? NOTE: user review count here
-                                      '186 Ratings',
+                                      '${propertyModel.rating} Ratings',
                                       style: TextStyle(
                                         color: MyColors.white,
                                       ),
                                     ),
                                     Text(
                                       //? NOTE: user review count here
-                                      '1064 Ratings',
+                                      '${propertyModel.reviews.length} Reviews',
                                       style: TextStyle(
                                         color: MyColors.white,
                                       ),
@@ -202,7 +202,6 @@ class ScreenHomePropertyDetails extends StatelessWidget {
         width: MyScreenSize.width * .65,
         text: 'Select Rooms',
         onPressed: () {
-          
           context.push('/${AppRoutes.propertyRoomListHome}');
         },
       ),

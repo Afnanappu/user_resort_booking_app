@@ -1,17 +1,33 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
+
 class CustomSearchBar extends StatelessWidget {
-  CustomSearchBar({super.key, required this.searchController, this.trailing});
+  CustomSearchBar({
+    super.key,
+    required this.searchController,
+    this.trailing,
+    this.onTap,
+    required this.suggestionsBuilder,
+    this.onChanged,
+  });
 
   final SearchController searchController;
   final Iterable<Widget>? trailing;
   final focusNode = FocusNode();
+  final void Function()? onTap;
+  final void Function(String value)? onChanged;
+  final FutureOr<Iterable<Widget>> Function(
+      BuildContext context, SearchController controller) suggestionsBuilder;
   @override
   Widget build(BuildContext context) {
     return SearchAnchor(
       builder: (_, controller) {
         return SearchBar(
           focusNode: focusNode,
+          onTap: onTap,
+          onChanged: onChanged,
           onTapOutside: (event) => focusNode.unfocus(),
           backgroundColor: WidgetStateColor.resolveWith(
             (_) => MyColors.orangeBackground,
@@ -39,11 +55,7 @@ class CustomSearchBar extends StatelessWidget {
         );
       },
 
-      //TODO: Give suggestions here.
-
-      suggestionsBuilder: (context, controller) {
-        return [];
-      },
+      suggestionsBuilder: suggestionsBuilder,
     );
   }
 }

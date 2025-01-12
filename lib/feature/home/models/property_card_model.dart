@@ -1,16 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+import 'package:user_resort_booking_app/core/models/location_model.dart';
 import 'package:user_resort_booking_app/core/models/picked_file_model.dart';
-
 class PropertyCardModel {
   String? id;
   PickedFileModel image;
   String name;
-  String location;
+  LocationModel location;
   double price;
   double? rating;
-  int? reviews;
+  List<String> reviews;
   int rooms;
   PropertyCardModel({
     this.id,
@@ -27,10 +28,10 @@ class PropertyCardModel {
     String? id,
     PickedFileModel? image,
     String? name,
-    String? location,
+    LocationModel? location,
     double? price,
     double? rating,
-    int? reviews,
+    List<String>? reviews,
     int? rooms,
   }) {
     return PropertyCardModel(
@@ -50,7 +51,7 @@ class PropertyCardModel {
       'id': id,
       'image': image.toMap(),
       'name': name,
-      'location': location,
+      'location': location.toMap(),
       'price': price,
       'rating': rating,
       'reviews': reviews,
@@ -64,10 +65,10 @@ class PropertyCardModel {
       image: PickedFileModel.fromMap(
           (map['images'] as List<dynamic>).first as Map<String, dynamic>),
       name: map['name'] as String,
-      location: map['location'] as String,
+      location: LocationModel.fromMap(map['location'] as Map<String, dynamic>),
       price: map['roomPrice'] as double,
       rating: map['rating'] != null ? map['rating'] as double : null,
-      reviews: map['reviews'] != null ? map['reviews'] as int : null,
+      reviews: List<String>.from((map['reviews'] as List<dynamic>)),
       rooms: map['roomCount'] as int,
     );
   }
@@ -92,7 +93,7 @@ class PropertyCardModel {
         other.location == location &&
         other.price == price &&
         other.rating == rating &&
-        other.reviews == reviews &&
+        listEquals(other.reviews, reviews) &&
         other.rooms == rooms;
   }
 
