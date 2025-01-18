@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
-import 'package:user_resort_booking_app/feature/home/views/components/custom_icon_widget.dart';
+import 'package:user_resort_booking_app/core/components/custom_icon_widget.dart';
 
 class CustomListPointsWidgetForPropertyDetails extends StatelessWidget {
   const CustomListPointsWidgetForPropertyDetails({

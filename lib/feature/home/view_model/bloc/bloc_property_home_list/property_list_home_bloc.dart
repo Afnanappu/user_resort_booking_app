@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:user_resort_booking_app/feature/home/models/property_card_model.dart';
@@ -17,9 +15,8 @@ class PropertyListHomeBloc
       emit(PropertyListHomeState.loading());
 
       try {
-        final propertyList = await _repository.fetchProperties();
+        final propertyList = await _repository.fetchProperties(type: event.type);
         emit(PropertyListHomeState.loaded(propertyList));
-        log(propertyList.toString());
       } catch (e) {
         emit(PropertyListHomeState.error(e.toString()));
       }

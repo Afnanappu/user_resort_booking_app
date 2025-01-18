@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,16 +9,19 @@ import 'package:user_resort_booking_app/core/components/custom_divider.dart';
 import 'package:user_resort_booking_app/core/components/custom_elevated_button.dart';
 import 'package:user_resort_booking_app/core/components/custom_google_map_widget.dart';
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
-import 'package:user_resort_booking_app/core/constants/my_constants.dart';
 import 'package:user_resort_booking_app/core/constants/spaces.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
+import 'package:user_resort_booking_app/core/data/models/rules_details_model.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
-import 'package:user_resort_booking_app/core/view_model/bloc/bloc_google_map/google_map_bloc.dart';
+import 'package:user_resort_booking_app/core/data/view_model/bloc/bloc_google_map/google_map_bloc.dart';
+import 'package:user_resort_booking_app/feature/booking/views/widgets/select_date_and_gust_sheet.dart';
+import 'package:user_resort_booking_app/feature/home/models/property_details_model.dart';
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_details/property_details_home_bloc.dart';
 import 'package:user_resort_booking_app/feature/home/views/components/custom_container_for_property_details.dart';
 import 'package:user_resort_booking_app/feature/home/views/components/custom_list_points_widget_for_property_details.dart';
 import 'package:user_resort_booking_app/feature/home/views/widgets/about_the_resort_widget_for_property_details.dart';
 import 'package:user_resort_booking_app/feature/home/views/widgets/main_details_widget_for_property_details.dart';
+import 'package:user_resort_booking_app/feature/home/views/widgets/review_and_rating_widget.dart';
 import 'package:user_resort_booking_app/routes/route_names.dart';
 
 // ignore: must_be_immutable
@@ -27,6 +31,7 @@ class ScreenHomePropertyDetails extends StatelessWidget {
   late LatLng propertyLocation;
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Details Resort',
@@ -35,6 +40,10 @@ class ScreenHomePropertyDetails extends StatelessWidget {
           IconButton(
             onPressed: () {
               //TODO: Add favorite option here
+
+              //!currently adding payment option here
+
+              context.push('/${AppRoutes.payment}');
             },
             icon: Icon(
               Icons.favorite_border,
@@ -78,6 +87,7 @@ class ScreenHomePropertyDetails extends StatelessWidget {
               return ListView(
                 children: [
                   CarouselImagePickedShowWidget(
+                    horizontal: 0,
                     pickedImages: propertyModel.images,
                   ),
                   MySpaces.hSpace20,
@@ -103,148 +113,14 @@ class ScreenHomePropertyDetails extends StatelessWidget {
                         ),
 
                         //Resort rules
-                        CustomContainerForPropertyDetails(
-                          title: 'Resort Rules',
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Check-In: ${propertyModel.checkInTime} | Check-Out: ${propertyModel.checkOutTime}',
-                                    style: MyTextStyles.bodySmallMediumBlack
-                                        .copyWith(letterSpacing: 0),
-                                  ),
-                                ],
-                              ),
-                              CustomDivider(
-                                vertical: 10,
-                                horizontal: 34,
-                              ),
-                              CustomListPointsWidgetForPropertyDetails(
-                                title: rules.title,
-                                details: rules.rules,
-                              ),
-                            ],
-                          ),
-                        ),
+                        _resortRulesBuilder(propertyModel, rules),
 
                         //Location
-                        CustomContainerForPropertyDetails(
-                          title: 'Location',
-
-                          //TODO: Add location here using google map.
-                          child: SizedBox(
-                            height: 250,
-                            width: .5,
-                            child: BlocBuilder<GoogleMapBloc, GoogleMapState>(
-                              builder: (context, state) {
-                                final cameraPosition = state.maybeWhen(
-                                  mapLoaded: (cameraPosition, selectedMarker) {
-                                    return cameraPosition;
-                                  },
-                                  orElse: () {
-                                    return null;
-                                  },
-                                );
-                                if (cameraPosition != null) {
-                                  initialCameraPosition = cameraPosition;
-                                } else {
-                                  // context.read<GoogleMapBloc>().add(GoogleMapEvent.confirmLocation());
-                                }
-
-                                return initialCameraPosition == null
-                                    ? Center(
-                                        child: Text(
-                                          'Loading...',
-                                        ),
-                                      )
-                                    : CustomGoogleMapWidget(
-                                        initialCameraPosition:
-                                            initialCameraPosition,
-                                        onMapCreated: (controller) {
-                                          context
-                                              .read<GoogleMapBloc>()
-                                              .getMapController
-                                              .complete(controller);
-                                        },
-                                        markers:
-                                            // {
-                                            //   Marker(
-                                            //     markerId:
-                                            //         MarkerId('selectedPlace'),
-                                            //     icon: BitmapDescriptor
-                                            //         .defaultMarker,
-                                            //     position: propertyLocation,
-                                            //   ),
-                                            // }
-
-                                            state.maybeWhen(
-                                          locationConfirmed:
-                                              (selectedLocation) => {
-                                            Marker(
-                                              markerId:
-                                                  MarkerId('selectedPlace'),
-                                              icon: BitmapDescriptor
-                                                  .defaultMarker,
-                                              position: LatLng(
-                                                selectedLocation.latitude,
-                                                selectedLocation.longitude,
-                                              ),
-                                            )
-                                          },
-                                          orElse: () => {},
-                                        ),
-                                      );
-                              },
-                            ),
-                          ),
-                        ),
+                        _locationBuilder(),
 
                         //Review and rating
-                        CustomContainerForPropertyDetails(
-                          padding: 20,
-                          title: 'Review & Rating',
-
-                          //TODO: Add Review & Rating.
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 120,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.circular(borderRad10),
-                                  color: const Color.fromARGB(255, 54, 187, 59),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '${propertyModel.rating}/5',
-                                      style: MyTextStyles.ratingStyle.apply(
-                                        color: MyColors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      //? NOTE: user review count here
-                                      '${propertyModel.rating} Ratings',
-                                      style: TextStyle(
-                                        color: MyColors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      //? NOTE: user review count here
-                                      '${propertyModel.reviews.length} Reviews',
-                                      style: TextStyle(
-                                        color: MyColors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                        ReviewAndRatingWidget(
+                          propertyModel: propertyModel,
                         ),
                         MySpaces.hSpace60,
                         //
@@ -268,10 +144,101 @@ class ScreenHomePropertyDetails extends StatelessWidget {
         width: MyScreenSize.width * .65,
         text: 'Select Rooms',
         onPressed: () {
-          context.push('/${AppRoutes.propertyRoomListHome}');
+          selectDateAndGustBottomSheet(context);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+
+  CustomContainerForPropertyDetails _resortRulesBuilder(
+      PropertyDetailsModel propertyModel, RulesDetailsModel rules) {
+    return CustomContainerForPropertyDetails(
+      title: 'Resort Rules',
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Check-In: ${propertyModel.checkInTime} | Check-Out: ${propertyModel.checkOutTime}',
+                style: MyTextStyles.bodySmallMediumBlack
+                    .copyWith(letterSpacing: 0),
+              ),
+            ],
+          ),
+          CustomDivider(
+            vertical: 10,
+            horizontal: 34,
+          ),
+          CustomListPointsWidgetForPropertyDetails(
+            title: rules.title,
+            details: rules.rules,
+          ),
+        ],
+      ),
+    );
+  }
+
+  CustomContainerForPropertyDetails _locationBuilder() {
+    return CustomContainerForPropertyDetails(
+      title: 'Location',
+
+      //TODO: Add location here using google map.
+      child: SizedBox(
+        height: 250,
+        width: .5,
+        child: BlocBuilder<GoogleMapBloc, GoogleMapState>(
+          builder: (context, state) {
+            final cameraPosition = state.maybeWhen(
+              mapLoaded: (cameraPosition, selectedMarker) {
+                return cameraPosition;
+              },
+              orElse: () {
+                return null;
+              },
+            );
+            if (cameraPosition != null) {
+              initialCameraPosition = cameraPosition;
+            } else {
+              // context.read<GoogleMapBloc>().add(GoogleMapEvent.confirmLocation());
+            }
+
+            return initialCameraPosition == null
+                ? Center(
+                    child: Text(
+                      'Loading...',
+                    ),
+                  )
+                : CustomGoogleMapWidget(
+                    initialCameraPosition: initialCameraPosition,
+                    onMapCreated: (controller) {
+                      context
+                          .read<GoogleMapBloc>()
+                          .getMapController
+                          .complete(controller);
+                    },
+                    markers: state.maybeWhen(
+                      locationConfirmed: (selectedLocation, _) => {
+                        Marker(
+                          markerId: MarkerId('selectedPlace'),
+                          icon: BitmapDescriptor.defaultMarker,
+                          position: LatLng(
+                            selectedLocation.latitude,
+                            selectedLocation.longitude,
+                          ),
+                        )
+                      },
+                      orElse: () => {},
+                    ),
+                    polylines: state.maybeWhen(
+                      locationConfirmed: (_, polylines) => polylines ?? {},
+                      orElse: () => {},
+                    ),
+                  );
+          },
+        ),
+      ),
     );
   }
 }

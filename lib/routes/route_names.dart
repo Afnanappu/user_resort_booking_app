@@ -6,7 +6,11 @@ class AppRoutes{
   static const signUp = 'sign-up';
   static const home = 'home';
   static const propertyDetailsHome = 'property-details-home';
-  static const propertyRoomListHome = 'property-room-list-home';
+  static const propertyRoomDetails = 'property-room-details';
+  static const propertyRoomList = 'property-room-list';
   static const search = 'search';
+  static const reviewBooking = 'review-booking';
   static const profile = 'profile';
+  static const payment = 'payment';
+  static const myBookings = 'my-bookings';
 }

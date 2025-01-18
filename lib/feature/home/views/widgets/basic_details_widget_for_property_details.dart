@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:user_resort_booking_app/core/components/custom_divider.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
-import 'package:user_resort_booking_app/core/models/basic_details_model.dart';
+import 'package:user_resort_booking_app/core/data/models/basic_details_model.dart';
 import 'package:user_resort_booking_app/feature/home/views/components/custom_list_points_widget_for_property_details.dart';
 class BasicDetailsWidgetForPropertyDetails extends StatelessWidget {
   const BasicDetailsWidgetForPropertyDetails({

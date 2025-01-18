@@ -1,18 +1,20 @@
-import 'dart:convert';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:user_resort_booking_app/core/components/custom_search_bar.dart';
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/constants/spaces.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
-import 'package:user_resort_booking_app/core/models/location_model.dart';
 import 'package:user_resort_booking_app/core/utils/debouncer.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
+import 'package:user_resort_booking_app/core/data/view_model/bloc/bloc_google_map/google_map_bloc.dart';
+import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_details/property_details_home_bloc.dart';
 import 'package:user_resort_booking_app/feature/search/view/components/custom_filter_widget.dart';
-import 'package:user_resort_booking_app/feature/search/view/components/search_property_card_widget.dart';
+import 'package:user_resort_booking_app/core/components/property_simple_card_component.dart';
 import 'package:user_resort_booking_app/feature/search/view_model/bloc_property_list/my_property_list_bloc.dart';
+import 'package:user_resort_booking_app/routes/route_names.dart';
 
 class ScreenSearch extends StatelessWidget {
   ScreenSearch({super.key});
@@ -73,6 +75,20 @@ class ScreenSearch extends StatelessWidget {
                 },
               ),
               MySpaces.hSpace20,
+              ListTile(
+                leading: Icon(
+                  Icons.my_location_outlined,
+                  color: MyColors.blue,
+                ),
+                title: Text('find nearby resorts'),
+                onTap: () async {
+                  //get the nearby properties
+                  context.read<MyPropertyListBloc>().add(
+                        MyPropertyListEvent.fetchNearbyProperties(),
+                      );
+                },
+              ),
+              MySpaces.hSpace20,
               BlocBuilder<MyPropertyListBloc, MyPropertyListState>(
                 builder: (context, state) {
                   return state.maybeWhen(
@@ -128,62 +144,45 @@ class ScreenSearch extends StatelessWidget {
                                   itemCount: propertyList.length,
                                   itemBuilder: (context, index) {
                                     final property = propertyList[index];
-                                    return SearchPropertyCardWidget(
+                                    return PropertySimpleCardComponent(
+                                      havePlaceholder: false,
                                       image: property.image.base64file,
                                       propertyName: property.name,
                                       location: property.location,
                                       rating: property.rating ?? 0,
                                       reviews: property.reviews,
-                                      rooms: property.rooms,
                                       price: property.price,
                                       onTap: () {
                                         print("Tapped on ${property.name}");
+                                        context.push(
+                                            '/${AppRoutes.propertyDetailsHome}');
+
+                                        //Loading the property details for next screen
+                                        context
+                                            .read<PropertyDetailsHomeBloc>()
+                                            .add(
+                                              PropertyDetailsHomeEvent
+                                                  .fetchPropertyDetails(
+                                                id: property.id!,
+                                              ),
+                                            );
+
+                                        final latLng = LatLng(
+                                          property.location.latitude,
+                                          property.location.longitude,
+                                        );
+                                        context.read<GoogleMapBloc>().add(
+                                              GoogleMapEvent.mapInitialized(
+                                                latLng,
+                                              ),
+                                            );
+                                        context.read<GoogleMapBloc>().add(
+                                              GoogleMapEvent.confirmLocation(
+                                                latLng,
+                                              ),
+                                            );
                                       },
                                     );
-
-                                    // Padding(
-                                    //   padding:
-                                    //       const EdgeInsets.only(bottom: 10),
-                                    // child: PropertyWidget(
-                                    //     image: property.image.base64file,
-                                    //     propertyName: property.name,
-                                    //     location: property.location,
-                                    //     rating: property.rating ?? 0,
-                                    //     reviews: property.reviews,
-                                    //     rooms: property.rooms,
-                                    //     price: property.price,
-                                    //     onTap: () {
-                                    //TODO: add list item onTap function
-                                    // context.push(
-                                    //     '/${AppRoutes.myPropertyDetails}');
-
-                                    //Loading the property details for next screen
-                                    // context
-                                    //     .read<PropertyDetailsBloc>()
-                                    //     .add(
-                                    //       PropertyDetailsEvent
-                                    //           .fetchPropertyDetails(
-                                    //         id: property.id!,
-                                    //       ),
-                                    //     );
-
-                                    // final latLng = LatLng(
-                                    //   property.location.latitude,
-                                    //   property.location.longitude,
-                                    // );
-                                    // context.read<GoogleMapBloc>().add(
-                                    //       GoogleMapEvent.mapInitialized(
-                                    //         latLng,
-                                    //       ),
-                                    //     );
-                                    // context.read<GoogleMapBloc>().add(
-                                    //       GoogleMapEvent.confirmLocation(
-                                    //         latLng,
-                                    //       ),
-                                    //     );
-                                    //     },
-                                    //   ),
-                                    // );
                                   },
                                 ),
                         ],

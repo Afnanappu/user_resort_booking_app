@@ -5,7 +5,7 @@ import 'package:user_resort_booking_app/core/components/custom_snack_bar.dart';
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/constants/spaces.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
-import 'package:user_resort_booking_app/core/data/providers/user_provider.dart';
+import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
 import 'package:user_resort_booking_app/feature/authentication/view%20model/bloc/bloc_auth/auth_bloc.dart';
 import 'package:user_resort_booking_app/feature/authentication/views/widgets/login_text_form_fields.dart';
@@ -30,7 +30,7 @@ class ScreenLogin extends StatelessWidget {
             listener: (context, state) {
               state.maybeWhen(
                 authenticated: (user) async {
-                  await context.read<UserProvider>().setUser(user);
+                  context.read<UserDataCubit>().setUser(user);
 
                   showCustomSnackBar(
                     context: context,

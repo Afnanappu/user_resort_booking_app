@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:user_resort_booking_app/core/components/custom_search_bar.dart';
-import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/constants/spaces.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
-import 'package:user_resort_booking_app/core/utils/screen_size.dart';
-import 'package:user_resort_booking_app/core/view_model/bloc/bloc_google_map/google_map_bloc.dart';
-import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_details/property_details_home_bloc.dart';
+import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
+import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_home_extra_list/property_home_extra_list_bloc.dart';
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_home_list/property_list_home_bloc.dart';
 import 'package:user_resort_booking_app/feature/home/views/components/app_bar_for_home.dart';
-import 'package:user_resort_booking_app/feature/home/views/widgets/property_widget.dart';
-import 'package:user_resort_booking_app/routes/route_names.dart';
+import 'package:user_resort_booking_app/feature/home/views/widgets/extra_property_list_home_widget.dart';
+import 'package:user_resort_booking_app/feature/home/views/widgets/top_rated_property_list_widget.dart';
 
 class ScreenHome extends StatelessWidget {
   ScreenHome({super.key});
@@ -22,10 +17,7 @@ class ScreenHome extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
-        // final uid = FirebaseAuth.instance.currentUser!.uid;
-        context
-            .read<PropertyListHomeBloc>()
-            .add(PropertyListHomeEvent.fetchProperties());
+        context.read<UserDataCubit>().fetchUserData();
       },
     );
     return Scaffold(
@@ -35,137 +27,35 @@ class ScreenHome extends StatelessWidget {
         child: RefreshIndicator.adaptive(
           onRefresh: () async {
             context.read<PropertyListHomeBloc>().add(
-                  PropertyListHomeEvent.fetchProperties(),
+                  PropertyListHomeEvent.fetchProperties(type: 'top-rated'),
+                );
+            context.read<PropertyHomeExtraListBloc>().add(
+                  PropertyHomeExtraListEvent.fetchProperties(type: 'all'),
                 );
           },
           child: ListView(
+            shrinkWrap: true,
             children: [
-              CustomSearchBar(
-                searchController: searchController,
-                suggestionsBuilder:
-                    (BuildContext context, SearchController controller) {
-                  return [];
-                },
-              ),
-              MySpaces.hSpace40,
+              MySpaces.hSpace20,
 
               //top rated
-              BlocBuilder<PropertyListHomeBloc, PropertyListHomeState>(
-                builder: (context, state) {
-                  return state.maybeWhen(
-                    initial: () => SizedBox(
-                      height: MyScreenSize.height - sizedBoxHeight,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.search, size: 48, color: Colors.grey),
-                          SizedBox(height: 16),
-                          Text(
-                            'Welcome! Start exploring properties.',
-                            style: TextStyle(fontSize: 16, color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                    ),
-                    error: (message) => SizedBox(
-                      height: MyScreenSize.height - sizedBoxHeight,
-                      child: Center(
-                        child: Text(
-                          message,
-                          style: TextStyle(
-                            color: MyColors.error,
-                          ),
-                        ),
-                      ),
-                    ),
-                    loading: () => SizedBox(
-                      height: MyScreenSize.height - sizedBoxHeight,
-                      child: Center(
-                        child: Text(
-                          'Loading...',
-                        ),
-                      ),
-                    ),
-                    loaded: (propertyList) {
-                      return Column(
-                        // mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Top Rated Resorts',
-                            style: MyTextStyles.titleMediumSemiBoldBlack,
-                          ),
-                          MySpaces.hSpace10,
-                          propertyList.isEmpty
-                              ? Center(
-                                  child: Text('No property added'),
-                                )
-                              : SizedBox(
-                                  height: 250,
-                                  child: ListView(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    children: propertyList.map(
-                                      (property) {
-                                        return SizedBox(
-                                          // height: 100,
-                                          width: MyScreenSize.width * .8,
-                                          child: PropertyWidget(
-                                            image: property.image.base64file,
-                                            propertyName: property.name,
-                                            location: property.location,
-                                            rating: property.rating ?? 0,
-                                            reviews: property.reviews,
-                                            rooms: property.rooms,
-                                            price: property.price,
-                                            onTap: () {
-                                              context.push(
-                                                  '/${AppRoutes.propertyDetailsHome}');
+              TopRatedPropertyListWidget(
+                sizedBoxHeight: sizedBoxHeight,
+              ),
 
-                                              //Loading the property details for next screen
-                                              context
-                                                  .read<
-                                                      PropertyDetailsHomeBloc>()
-                                                  .add(
-                                                    PropertyDetailsHomeEvent
-                                                        .fetchPropertyDetails(
-                                                      id: property.id!,
-                                                    ),
-                                                  );
+              MySpaces.hSpace40,
 
-                                              final latLng = LatLng(
-                                                property.location.latitude,
-                                                property.location.longitude,
-                                              );
-                                              context.read<GoogleMapBloc>().add(
-                                                    GoogleMapEvent
-                                                        .mapInitialized(
-                                                      latLng,
-                                                    ),
-                                                  );
-                                              context.read<GoogleMapBloc>().add(
-                                                    GoogleMapEvent
-                                                        .confirmLocation(
-                                                      latLng,
-                                                    ),
-                                                  );
-                                            },
-                                          ),
-                                        );
-                                      },
-                                    ).toList(),
-                                  ),
-                                )
-                        ],
-                      );
-                    },
-                    orElse: () {
-                      return Center(
-                        child: Text('Something unexpected happened, try again'),
-                      );
-                    },
-                  );
-                },
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Resorts',
+                    style: MyTextStyles.titleMediumSemiBoldBlack,
+                  ),
+                  ExtraPropertyListHomeWidget(
+                    sizedBoxHeight: sizedBoxHeight,
+                  ),
+                ],
               )
             ],
           ),
@@ -174,121 +64,3 @@ class ScreenHome extends StatelessWidget {
     );
   }
 }
-
-// class PropertyCardHomeWidget extends StatelessWidget {
-//   const PropertyCardHomeWidget({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         Container(
-//           clipBehavior: Clip.antiAlias,
-//           decoration: ShapeDecoration(
-//             color: Colors.white,
-//             shape: RoundedRectangleBorder(
-//               side: BorderSide(width: 0.20, color: Color(0xFF8A8989)),
-//               borderRadius: BorderRadius.circular(6),
-//             ),
-//           ),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               // Image section
-//               Container(
-//                 height: 114,
-//                 width: double.infinity,
-//                 decoration: BoxDecoration(
-//                   image: DecorationImage(
-//                     image: NetworkImage("https://via.placeholder.com/207x114"),
-//                     fit: BoxFit.cover,
-//                   ),
-//                 ),
-//               ),
-//               // Content section
-//               Padding(
-//                 padding:
-//                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     // Title
-//                     Text(
-//                       'Caitlyn Resort',
-//                       style: MyTextStyles.titleSmallSemiBoldBlack,
-//                       maxLines: 1,
-//                       overflow: TextOverflow.ellipsis,
-//                     ),
-//                     const SizedBox(height: 4),
-//                     // Location and Rating
-//                     Row(
-//                       children: [
-//                         // Location
-//                         Row(
-//                           children: [
-//                             Icon(Icons.location_on,
-//                                 size: 12, color: Colors.grey),
-//                             const SizedBox(width: 4),
-//                             Text(
-//                               'Canggu, Bali',
-//                               style: MyTextStyles.textFieldNormalGreyLight,
-//                               maxLines: 1,
-//                               overflow: TextOverflow.ellipsis,
-//                             ),
-//                           ],
-//                         ),
-//                         const Spacer(),
-//                         // Rating
-//                         Row(
-//                           children: [
-//                             Icon(Icons.star, size: 12, color: Colors.yellow),
-//                             const SizedBox(width: 4),
-//                             Text(
-//                               '4.9 (132 Reviews)',
-//                               style: MyTextStyles.textFieldNormalGreyLight,
-//                               maxLines: 1,
-//                               overflow: TextOverflow.ellipsis,
-//                             ),
-//                           ],
-//                         ),
-//                       ],
-//                     ),
-//                     const SizedBox(height: 8),
-//                     // Rooms and Price
-//                     Row(
-//                       children: [
-//                         Text(
-//                           'Available Rooms: 4',
-//                           style: MyTextStyles.bodySmallMediumBlack,
-//                           maxLines: 1,
-//                           overflow: TextOverflow.ellipsis,
-//                         ),
-//                         const Spacer(),
-//                         Text.rich(
-//                           TextSpan(
-//                             children: [
-//                               TextSpan(
-//                                 text: 'from ₹4290 ',
-//                                 style: MyTextStyles.bodySmallMediumBlack,
-//                               ),
-//                               TextSpan(
-//                                 text: '/day',
-//                                 style: MyTextStyles.textFieldNormalGreyLight,
-//                               ),
-//                             ],
-//                           ),
-//                           maxLines: 1,
-//                           overflow: TextOverflow.ellipsis,
-//                         ),
-//                       ],
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }

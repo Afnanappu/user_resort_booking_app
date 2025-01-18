@@ -2,22 +2,35 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:user_resort_booking_app/core/constants/theme.dart';
-import 'package:user_resort_booking_app/core/data/providers/user_provider.dart';
+import 'package:user_resort_booking_app/core/data/repository/user_repository.dart';
+import 'package:user_resort_booking_app/core/data/services/user_services.dart';
+import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
-import 'package:user_resort_booking_app/core/view_model/bloc/bloc_google_map/google_map_bloc.dart';
+import 'package:user_resort_booking_app/core/data/view_model/bloc/bloc_google_map/google_map_bloc.dart';
 import 'package:user_resort_booking_app/feature/authentication/model/user_local_data_model.dart';
 import 'package:user_resort_booking_app/feature/authentication/repository/auth_repository.dart';
 import 'package:user_resort_booking_app/feature/authentication/repository/user_local_repository.dart';
 import 'package:user_resort_booking_app/feature/authentication/services/auth_service.dart';
 import 'package:user_resort_booking_app/feature/authentication/services/user_local_service.dart';
 import 'package:user_resort_booking_app/feature/authentication/view%20model/bloc/bloc_auth/auth_bloc.dart';
+import 'package:user_resort_booking_app/feature/booking/repository/booking_repository.dart';
+import 'package:user_resort_booking_app/feature/booking/services/booking_service.dart';
+import 'package:user_resort_booking_app/feature/booking/view_model/bloc/bloc_booking/booking_bloc.dart';
+import 'package:user_resort_booking_app/feature/booking/view_model/bloc/bloc_property_room_list/property_room_list_bloc.dart';
+import 'package:user_resort_booking_app/feature/booking/view_model/bloc/bloc_room_details/property_room_details_bloc.dart';
+import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_details_cubit.dart';
+import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_select_date_cubit.dart';
+import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_select_people_cubit.dart';
+import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_selected_rooms_cubit.dart';
 import 'package:user_resort_booking_app/feature/home/repository/property_home_repository.dart';
 import 'package:user_resort_booking_app/feature/home/services/property_home_services.dart';
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_details/property_details_home_bloc.dart';
+import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_home_extra_list/property_home_extra_list_bloc.dart';
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_home_list/property_list_home_bloc.dart';
-import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_room_list/property_home_room_list_bloc.dart';
+import 'package:user_resort_booking_app/feature/my_bookings/repository/my_booking_repository.dart';
+import 'package:user_resort_booking_app/feature/my_bookings/services/my_booking_services.dart';
+import 'package:user_resort_booking_app/feature/my_bookings/view_model/bloc/bloc_booked_property_list/booked_property_list_bloc.dart';
 import 'package:user_resort_booking_app/feature/search/repository/my_property_repository.dart';
 import 'package:user_resort_booking_app/feature/search/services/my_property_services.dart';
 import 'package:user_resort_booking_app/feature/search/view_model/bloc_property_list/my_property_list_bloc.dart';
@@ -82,7 +95,25 @@ class MainApp extends StatelessWidget {
           create: (context) =>
               MyPropertyRepository(services: MyPropertyServices()),
         ),
+        RepositoryProvider(
+          create: (context) => UserRepository(services: UserServices()),
+        ),
+        RepositoryProvider(
+          create: (context) => MyBookingRepository(
+            services: MyBookingServices(),
+          ),
+        ),
+        RepositoryProvider(
+          create: (context) => BookingRepository(
+            service: BookingService(),
+          ),
+        ),
+        RepositoryProvider(
+          create: (context) => GoogleMapBloc(),
+        ),
       ],
+
+      //Providers
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -93,8 +124,10 @@ class MainApp extends StatelessWidget {
                 PropertyListHomeBloc(context.read<PropertyHomeRepository>()),
           ),
           BlocProvider(
-            create: (context) =>
-                MyPropertyListBloc(context.read<MyPropertyRepository>()),
+            create: (context) => MyPropertyListBloc(
+              repository: context.read<MyPropertyRepository>(),
+              googleMapBloc: context.read<GoogleMapBloc>(),
+            ),
           ),
           BlocProvider(
             create: (context) => FilterDataCubit(),
@@ -103,8 +136,32 @@ class MainApp extends StatelessWidget {
             create: (context) => GoogleMapBloc(),
           ),
           BlocProvider(
+            create: (context) => BookingDetailsCubit(),
+          ),
+          BlocProvider(
+            create: (context) => BookingSelectPeopleCubit(),
+          ),
+          BlocProvider(
+            create: (context) => BookingSelectDateCubit(),
+          ),
+          BlocProvider(
+            create: (context) =>
+                PropertyRoomDetailsBloc(context.read<BookingRepository>()),
+          ),
+          BlocProvider(
+            create: (context) => BookingSelectedRoomsCubit(),
+          ),
+          BlocProvider(
+            create: (context) => UserDataCubit(context.read<UserRepository>()),
+          ),
+          BlocProvider(
             create: (context) =>
                 PropertyTypeCubit(context.read<MyPropertyRepository>()),
+          ),
+          BlocProvider(
+            create: (context) => BookedPropertyListBloc(
+              context.read<MyBookingRepository>(),
+            ),
           ),
           BlocProvider(
             create: (context) => PropertyDetailsHomeBloc(
@@ -112,27 +169,22 @@ class MainApp extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (context) => PropertyHomeRoomListBloc(
+            create: (context) =>
+                PropertyRoomListBloc(context.read<BookingRepository>()),
+          ),
+          BlocProvider(
+            create: (context) => BookingBloc(context.read<BookingRepository>()),
+          ),
+          BlocProvider(
+            create: (context) => PropertyHomeExtraListBloc(
               context.read<PropertyHomeRepository>(),
             ),
           ),
         ],
-        child: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (context) => UserProvider(
-                authRepository: context.read<AuthRepository>(),
-                userLocalRepository: context.read<UserLocalRepository>(),
-              ),
-            ),
-          ],
-          builder: (context, state) {
-            return MaterialApp.router(
-              routerConfig: routes,
-              debugShowCheckedModeBanner: false,
-              theme: customTheme,
-            );
-          },
+        child: MaterialApp.router(
+          routerConfig: routes,
+          debugShowCheckedModeBanner: false,
+          theme: customTheme,
         ),
       ),
     );

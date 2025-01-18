@@ -35,8 +35,12 @@ class MyPropertyRepository {
         return modelList
             .where(
               (element) =>
-                  element.name.contains(search) ||
-                  element.location.address.contains(search),
+                  element.name.toLowerCase().contains(
+                        search.toLowerCase(),
+                      ) ||
+                  element.location.address.toLowerCase().contains(
+                        search.toLowerCase(),
+                      ),
             )
             .toList();
       } else {
@@ -47,6 +51,8 @@ class MyPropertyRepository {
       rethrow;
     }
   }
+
+  // List<PropertyCardModel> convertLatLng
 
   // Future<PropertyDetailsModel> fetchPropertyDetails(
   //     {required String id}) async {

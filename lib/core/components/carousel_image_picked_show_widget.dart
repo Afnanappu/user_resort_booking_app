@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:user_resort_booking_app/core/components/custom_app_container.dart';
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
-import 'package:user_resort_booking_app/core/models/picked_file_model.dart';
+import 'package:user_resort_booking_app/core/data/models/picked_file_model.dart';
 
 class CarouselImagePickedShowWidget extends StatelessWidget {
   const CarouselImagePickedShowWidget({
@@ -57,7 +56,8 @@ class CarouselImagePickedShowWidget extends StatelessWidget {
                               onLongPress: onLongPressImage,
                               child: Container(
                                 margin: EdgeInsets.symmetric(
-                                    horizontal: horizontal),
+                                  horizontal: horizontal,
+                                ),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16),
                                   boxShadow: [
@@ -83,6 +83,7 @@ class CarouselImagePickedShowWidget extends StatelessWidget {
                           enlargeCenterPage: true,
                           viewportFraction: 0.85,
                           onPageChanged: onPageChanged,
+                          enableInfiniteScroll: false,
                         ),
                       ),
                       Positioned(

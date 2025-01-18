@@ -16,19 +16,20 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PropertyListHomeEvent {
+  String get type => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() fetchProperties,
+    required TResult Function(String type) fetchProperties,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? fetchProperties,
+    TResult? Function(String type)? fetchProperties,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fetchProperties,
+    TResult Function(String type)? fetchProperties,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -48,6 +49,12 @@ mixin _$PropertyListHomeEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Create a copy of PropertyListHomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PropertyListHomeEventCopyWith<PropertyListHomeEvent> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -55,6 +62,8 @@ abstract class $PropertyListHomeEventCopyWith<$Res> {
   factory $PropertyListHomeEventCopyWith(PropertyListHomeEvent value,
           $Res Function(PropertyListHomeEvent) then) =
       _$PropertyListHomeEventCopyWithImpl<$Res, PropertyListHomeEvent>;
+  @useResult
+  $Res call({String type});
 }
 
 /// @nodoc
@@ -70,13 +79,29 @@ class _$PropertyListHomeEventCopyWithImpl<$Res,
 
   /// Create a copy of PropertyListHomeEvent
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$FetchPropertiesImplCopyWith<$Res> {
+abstract class _$$FetchPropertiesImplCopyWith<$Res>
+    implements $PropertyListHomeEventCopyWith<$Res> {
   factory _$$FetchPropertiesImplCopyWith(_$FetchPropertiesImpl value,
           $Res Function(_$FetchPropertiesImpl) then) =
       __$$FetchPropertiesImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type});
 }
 
 /// @nodoc
@@ -89,51 +114,77 @@ class __$$FetchPropertiesImplCopyWithImpl<$Res>
 
   /// Create a copy of PropertyListHomeEvent
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_$FetchPropertiesImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$FetchPropertiesImpl implements _FetchProperties {
-  const _$FetchPropertiesImpl();
+  const _$FetchPropertiesImpl({required this.type});
+
+  @override
+  final String type;
 
   @override
   String toString() {
-    return 'PropertyListHomeEvent.fetchProperties()';
+    return 'PropertyListHomeEvent.fetchProperties(type: $type)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$FetchPropertiesImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$FetchPropertiesImpl &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, type);
+
+  /// Create a copy of PropertyListHomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FetchPropertiesImplCopyWith<_$FetchPropertiesImpl> get copyWith =>
+      __$$FetchPropertiesImplCopyWithImpl<_$FetchPropertiesImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() fetchProperties,
+    required TResult Function(String type) fetchProperties,
   }) {
-    return fetchProperties();
+    return fetchProperties(type);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? fetchProperties,
+    TResult? Function(String type)? fetchProperties,
   }) {
-    return fetchProperties?.call();
+    return fetchProperties?.call(type);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fetchProperties,
+    TResult Function(String type)? fetchProperties,
     required TResult orElse(),
   }) {
     if (fetchProperties != null) {
-      return fetchProperties();
+      return fetchProperties(type);
     }
     return orElse();
   }
@@ -168,7 +219,18 @@ class _$FetchPropertiesImpl implements _FetchProperties {
 }
 
 abstract class _FetchProperties implements PropertyListHomeEvent {
-  const factory _FetchProperties() = _$FetchPropertiesImpl;
+  const factory _FetchProperties({required final String type}) =
+      _$FetchPropertiesImpl;
+
+  @override
+  String get type;
+
+  /// Create a copy of PropertyListHomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FetchPropertiesImplCopyWith<_$FetchPropertiesImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

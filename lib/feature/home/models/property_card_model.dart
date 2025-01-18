@@ -2,8 +2,9 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:user_resort_booking_app/core/models/location_model.dart';
-import 'package:user_resort_booking_app/core/models/picked_file_model.dart';
+import 'package:user_resort_booking_app/core/data/models/location_model.dart';
+import 'package:user_resort_booking_app/core/data/models/picked_file_model.dart';
+
 class PropertyCardModel {
   String? id;
   PickedFileModel image;
@@ -66,8 +67,8 @@ class PropertyCardModel {
           (map['images'] as List<dynamic>).first as Map<String, dynamic>),
       name: map['name'] as String,
       location: LocationModel.fromMap(map['location'] as Map<String, dynamic>),
-      price: map['roomPrice'] as double,
-      rating: map['rating'] != null ? map['rating'] as double : null,
+      price: (map['roomPrice'] as num).toDouble(),
+      rating: map['rating'] != null ? (map['rating'] as num).toDouble() : null,
       reviews: List<String>.from((map['reviews'] as List<dynamic>)),
       rooms: map['roomCount'] as int,
     );

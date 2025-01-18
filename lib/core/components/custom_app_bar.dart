@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:user_resort_booking_app/core/components/custom_divider.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
+
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,
@@ -10,16 +11,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.actions,
     this.needUnderline = true,
     this.needSystemOverlayStyle = true,
+    this.hadLeading = true,
   });
   final String title;
   final List<Widget>? actions;
   final bool needUnderline;
   final bool needSystemOverlayStyle;
+  final bool hadLeading;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         AppBar(
+          automaticallyImplyLeading: hadLeading,
           systemOverlayStyle: needSystemOverlayStyle
               ? SystemUiOverlayStyle(statusBarColor: Colors.black12)
               : null,

@@ -1,16 +1,6 @@
-import 'dart:developer';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:user_resort_booking_app/core/components/custom_circular_progress_indicator.dart';
-import 'package:user_resort_booking_app/core/components/custom_snack_bar.dart';
-import 'package:user_resort_booking_app/core/constants/my_colors.dart';
-import 'package:user_resort_booking_app/core/data/providers/user_provider.dart';
-import 'package:user_resort_booking_app/core/utils/app_connection.dart';
-import 'package:user_resort_booking_app/core/utils/user_auth_state.dart';
-import 'package:user_resort_booking_app/routes/route_names.dart';
 
 class ScreenSplash extends StatelessWidget {
   const ScreenSplash({super.key});

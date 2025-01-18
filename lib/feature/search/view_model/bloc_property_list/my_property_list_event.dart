@@ -10,5 +10,8 @@ class MyPropertyListEvent with _$MyPropertyListEvent {
     int? rating,
   }) = _FetchProperties;
 
+  const factory MyPropertyListEvent.fetchNearbyProperties() =
+      _FetchNearbyProperties;
+
   const factory MyPropertyListEvent.clear() = _Clear;
 }

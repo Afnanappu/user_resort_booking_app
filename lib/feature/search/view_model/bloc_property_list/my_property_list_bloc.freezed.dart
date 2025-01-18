@@ -21,6 +21,7 @@ mixin _$MyPropertyListEvent {
     required TResult Function(String? search, FilterOptions? filterOptions,
             String? priceRange, List<String>? category, int? rating)
         fetchProperties,
+    required TResult Function() fetchNearbyProperties,
     required TResult Function() clear,
   }) =>
       throw _privateConstructorUsedError;
@@ -29,6 +30,7 @@ mixin _$MyPropertyListEvent {
     TResult? Function(String? search, FilterOptions? filterOptions,
             String? priceRange, List<String>? category, int? rating)?
         fetchProperties,
+    TResult? Function()? fetchNearbyProperties,
     TResult? Function()? clear,
   }) =>
       throw _privateConstructorUsedError;
@@ -37,6 +39,7 @@ mixin _$MyPropertyListEvent {
     TResult Function(String? search, FilterOptions? filterOptions,
             String? priceRange, List<String>? category, int? rating)?
         fetchProperties,
+    TResult Function()? fetchNearbyProperties,
     TResult Function()? clear,
     required TResult orElse(),
   }) =>
@@ -44,18 +47,22 @@ mixin _$MyPropertyListEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchProperties value) fetchProperties,
+    required TResult Function(_FetchNearbyProperties value)
+        fetchNearbyProperties,
     required TResult Function(_Clear value) clear,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchProperties value)? fetchProperties,
+    TResult? Function(_FetchNearbyProperties value)? fetchNearbyProperties,
     TResult? Function(_Clear value)? clear,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchProperties value)? fetchProperties,
+    TResult Function(_FetchNearbyProperties value)? fetchNearbyProperties,
     TResult Function(_Clear value)? clear,
     required TResult orElse(),
   }) =>
@@ -209,6 +216,7 @@ class _$FetchPropertiesImpl implements _FetchProperties {
     required TResult Function(String? search, FilterOptions? filterOptions,
             String? priceRange, List<String>? category, int? rating)
         fetchProperties,
+    required TResult Function() fetchNearbyProperties,
     required TResult Function() clear,
   }) {
     return fetchProperties(search, filterOptions, priceRange, category, rating);
@@ -220,6 +228,7 @@ class _$FetchPropertiesImpl implements _FetchProperties {
     TResult? Function(String? search, FilterOptions? filterOptions,
             String? priceRange, List<String>? category, int? rating)?
         fetchProperties,
+    TResult? Function()? fetchNearbyProperties,
     TResult? Function()? clear,
   }) {
     return fetchProperties?.call(
@@ -232,6 +241,7 @@ class _$FetchPropertiesImpl implements _FetchProperties {
     TResult Function(String? search, FilterOptions? filterOptions,
             String? priceRange, List<String>? category, int? rating)?
         fetchProperties,
+    TResult Function()? fetchNearbyProperties,
     TResult Function()? clear,
     required TResult orElse(),
   }) {
@@ -246,6 +256,8 @@ class _$FetchPropertiesImpl implements _FetchProperties {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchProperties value) fetchProperties,
+    required TResult Function(_FetchNearbyProperties value)
+        fetchNearbyProperties,
     required TResult Function(_Clear value) clear,
   }) {
     return fetchProperties(this);
@@ -255,6 +267,7 @@ class _$FetchPropertiesImpl implements _FetchProperties {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchProperties value)? fetchProperties,
+    TResult? Function(_FetchNearbyProperties value)? fetchNearbyProperties,
     TResult? Function(_Clear value)? clear,
   }) {
     return fetchProperties?.call(this);
@@ -264,6 +277,7 @@ class _$FetchPropertiesImpl implements _FetchProperties {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchProperties value)? fetchProperties,
+    TResult Function(_FetchNearbyProperties value)? fetchNearbyProperties,
     TResult Function(_Clear value)? clear,
     required TResult orElse(),
   }) {
@@ -293,6 +307,126 @@ abstract class _FetchProperties implements MyPropertyListEvent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FetchPropertiesImplCopyWith<_$FetchPropertiesImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$FetchNearbyPropertiesImplCopyWith<$Res> {
+  factory _$$FetchNearbyPropertiesImplCopyWith(
+          _$FetchNearbyPropertiesImpl value,
+          $Res Function(_$FetchNearbyPropertiesImpl) then) =
+      __$$FetchNearbyPropertiesImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FetchNearbyPropertiesImplCopyWithImpl<$Res>
+    extends _$MyPropertyListEventCopyWithImpl<$Res, _$FetchNearbyPropertiesImpl>
+    implements _$$FetchNearbyPropertiesImplCopyWith<$Res> {
+  __$$FetchNearbyPropertiesImplCopyWithImpl(_$FetchNearbyPropertiesImpl _value,
+      $Res Function(_$FetchNearbyPropertiesImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of MyPropertyListEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$FetchNearbyPropertiesImpl implements _FetchNearbyProperties {
+  const _$FetchNearbyPropertiesImpl();
+
+  @override
+  String toString() {
+    return 'MyPropertyListEvent.fetchNearbyProperties()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FetchNearbyPropertiesImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String? search, FilterOptions? filterOptions,
+            String? priceRange, List<String>? category, int? rating)
+        fetchProperties,
+    required TResult Function() fetchNearbyProperties,
+    required TResult Function() clear,
+  }) {
+    return fetchNearbyProperties();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String? search, FilterOptions? filterOptions,
+            String? priceRange, List<String>? category, int? rating)?
+        fetchProperties,
+    TResult? Function()? fetchNearbyProperties,
+    TResult? Function()? clear,
+  }) {
+    return fetchNearbyProperties?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String? search, FilterOptions? filterOptions,
+            String? priceRange, List<String>? category, int? rating)?
+        fetchProperties,
+    TResult Function()? fetchNearbyProperties,
+    TResult Function()? clear,
+    required TResult orElse(),
+  }) {
+    if (fetchNearbyProperties != null) {
+      return fetchNearbyProperties();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchProperties value) fetchProperties,
+    required TResult Function(_FetchNearbyProperties value)
+        fetchNearbyProperties,
+    required TResult Function(_Clear value) clear,
+  }) {
+    return fetchNearbyProperties(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchProperties value)? fetchProperties,
+    TResult? Function(_FetchNearbyProperties value)? fetchNearbyProperties,
+    TResult? Function(_Clear value)? clear,
+  }) {
+    return fetchNearbyProperties?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchProperties value)? fetchProperties,
+    TResult Function(_FetchNearbyProperties value)? fetchNearbyProperties,
+    TResult Function(_Clear value)? clear,
+    required TResult orElse(),
+  }) {
+    if (fetchNearbyProperties != null) {
+      return fetchNearbyProperties(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchNearbyProperties implements MyPropertyListEvent {
+  const factory _FetchNearbyProperties() = _$FetchNearbyPropertiesImpl;
 }
 
 /// @nodoc
@@ -339,6 +473,7 @@ class _$ClearImpl implements _Clear {
     required TResult Function(String? search, FilterOptions? filterOptions,
             String? priceRange, List<String>? category, int? rating)
         fetchProperties,
+    required TResult Function() fetchNearbyProperties,
     required TResult Function() clear,
   }) {
     return clear();
@@ -350,6 +485,7 @@ class _$ClearImpl implements _Clear {
     TResult? Function(String? search, FilterOptions? filterOptions,
             String? priceRange, List<String>? category, int? rating)?
         fetchProperties,
+    TResult? Function()? fetchNearbyProperties,
     TResult? Function()? clear,
   }) {
     return clear?.call();
@@ -361,6 +497,7 @@ class _$ClearImpl implements _Clear {
     TResult Function(String? search, FilterOptions? filterOptions,
             String? priceRange, List<String>? category, int? rating)?
         fetchProperties,
+    TResult Function()? fetchNearbyProperties,
     TResult Function()? clear,
     required TResult orElse(),
   }) {
@@ -374,6 +511,8 @@ class _$ClearImpl implements _Clear {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchProperties value) fetchProperties,
+    required TResult Function(_FetchNearbyProperties value)
+        fetchNearbyProperties,
     required TResult Function(_Clear value) clear,
   }) {
     return clear(this);
@@ -383,6 +522,7 @@ class _$ClearImpl implements _Clear {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchProperties value)? fetchProperties,
+    TResult? Function(_FetchNearbyProperties value)? fetchNearbyProperties,
     TResult? Function(_Clear value)? clear,
   }) {
     return clear?.call(this);
@@ -392,6 +532,7 @@ class _$ClearImpl implements _Clear {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchProperties value)? fetchProperties,
+    TResult Function(_FetchNearbyProperties value)? fetchNearbyProperties,
     TResult Function(_Clear value)? clear,
     required TResult orElse(),
   }) {

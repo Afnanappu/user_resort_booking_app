@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
+import 'package:user_resort_booking_app/core/data/models/user_model.dart';
+import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
+
 class AppBarForHome extends StatelessWidget implements PreferredSizeWidget {
   const AppBarForHome({super.key});
 
@@ -56,14 +60,18 @@ class AppBarForHome extends StatelessWidget implements PreferredSizeWidget {
             top: 65,
             child: Row(
               children: [
-                Text(
-                  'Hello, Anshif',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w700,
-                  ),
+                BlocBuilder<UserDataCubit, UserModel?>(
+                  builder: (context, user) {
+                    return Text(
+                      'Hello, ${user == null ? 'Sir' : user.name}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w700,
+                      ),
+                    );
+                  },
                 ),
                 SizedBox(
                   width: 160,

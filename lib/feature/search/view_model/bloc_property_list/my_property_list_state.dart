@@ -6,5 +6,7 @@ class MyPropertyListState with _$MyPropertyListState {
   const factory MyPropertyListState.loading() = _Loading;
   const factory MyPropertyListState.loaded(
       List<PropertyCardModel> propertyList) = _Loaded;
+  // const factory MyPropertyListState.nearbyProperties(
+  //     List<PropertyCardModel> propertyList) = _NearbyProperties;
   const factory MyPropertyListState.error(String message) = _Error;
 }

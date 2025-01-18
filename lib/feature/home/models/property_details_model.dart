@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:user_resort_booking_app/core/models/extra_details_model.dart';
-import 'package:user_resort_booking_app/core/models/location_model.dart';
-import 'package:user_resort_booking_app/core/models/picked_file_model.dart';
+import 'package:user_resort_booking_app/core/data/models/extra_details_model.dart';
+import 'package:user_resort_booking_app/core/data/models/location_model.dart';
+import 'package:user_resort_booking_app/core/data/models/picked_file_model.dart';
 
 class PropertyDetailsModel {
   String? id;
@@ -104,10 +104,10 @@ class PropertyDetailsModel {
       name: map['name'] as String,
       location: LocationModel.fromMap(map['location'] as Map<String, dynamic>),
       type: map['type'] as String,
-      rating: map['rating'] as double,
+      rating: (map['rating'] as num).toDouble(),
       reviews: List<String>.from((map['reviews'] as List<dynamic>)),
       description: map['description'] as String,
-      price: map['roomPrice'] as double,
+      price: (map['roomPrice'] as num).toDouble(),
       licenses: List<PickedFileModel>.from(
         (map['licenses'] as List<dynamic>).map<PickedFileModel>(
           (x) => PickedFileModel.fromMap(x as Map<String, dynamic>),

@@ -6,8 +6,8 @@ import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/constants/my_constants.dart';
 import 'package:user_resort_booking_app/core/constants/spaces.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
-import 'package:user_resort_booking_app/core/models/location_model.dart';
-import 'package:user_resort_booking_app/feature/home/views/components/price_per_day_widget.dart';
+import 'package:user_resort_booking_app/core/data/models/location_model.dart';
+import 'package:user_resort_booking_app/feature/booking/views/components/price_per_day_widget.dart';
 
 class PropertyWidget extends StatelessWidget {
   const PropertyWidget({

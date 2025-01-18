@@ -10,7 +10,7 @@ class UserModel {
   String email;
 
   String? profilePicture;
-  
+
   UserModel({
     this.uid,
     required this.name,

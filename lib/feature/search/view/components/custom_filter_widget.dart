@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +8,7 @@ import 'package:user_resort_booking_app/feature/search/services/my_property_serv
 import 'package:user_resort_booking_app/feature/search/view_model/bloc_property_list/my_property_list_bloc.dart';
 import 'package:user_resort_booking_app/feature/search/view_model/cubit/filter_data_cubit.dart';
 import 'package:user_resort_booking_app/feature/search/view_model/cubit/property_type_cubit.dart';
+
 void openFilterBottomSheet(BuildContext context) async {
   await showModalBottomSheet(
     context: context,
@@ -143,9 +143,7 @@ class _SortOptionsTabState extends State<_SortOptionsTab> {
                   final filterCubit = context.read<FilterDataCubit>();
 
                   if (filterCubit.state == null) {
-                    final uid = FirebaseAuth.instance.currentUser!.uid;
                     final filterModel = FilterDataModel(
-                      uid: uid,
                       filterOptions: _selectedSortOption,
                     );
 
@@ -160,7 +158,6 @@ class _SortOptionsTabState extends State<_SortOptionsTab> {
 
                   context.read<FilterDataCubit>().setFilterData(
                         FilterDataModel(
-                          uid: filterModel.uid,
                           category: filterModel.category,
                           filterOptions: filterModel.filterOptions,
                           priceRange: filterModel.priceRange,
@@ -355,12 +352,8 @@ class _FiltersTabState extends State<_FiltersTab> {
                     _priceRange = RangeValues(100, 1000);
                     _selectedRating = null;
                     _selectedResortTypes.clear();
-
-                    final uid = FirebaseAuth.instance.currentUser!.uid;
-
                     context.read<FilterDataCubit>().setFilterData(
                           FilterDataModel(
-                            uid: uid,
                             category: [],
                             filterOptions: null,
                             priceRange: null,
@@ -378,8 +371,6 @@ class _FiltersTabState extends State<_FiltersTab> {
               // Apply Button
               ElevatedButton(
                 onPressed: () {
-                  final uid = FirebaseAuth.instance.currentUser!.uid;
-
                   final filterCubit = context.read<FilterDataCubit>();
                   FilterOptions? filterOption =
                       filterCubit.state?.filterOptions;
@@ -397,7 +388,6 @@ class _FiltersTabState extends State<_FiltersTab> {
 
                   context.read<FilterDataCubit>().setFilterData(
                         FilterDataModel(
-                          uid: uid,
                           category: _selectedResortTypes,
                           filterOptions: filterOption,
                           priceRange: priceRange,

@@ -2,12 +2,16 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:user_resort_booking_app/core/navigation/view/screen_navigation.dart';
+import 'package:user_resort_booking_app/core/navigation/screen_navigation.dart';
 import 'package:user_resort_booking_app/feature/authentication/views/screens/screen_login.dart';
 import 'package:user_resort_booking_app/feature/authentication/views/screens/screen_sign_up.dart';
+import 'package:user_resort_booking_app/feature/booking/views/screens/screen_payment.dart';
+import 'package:user_resort_booking_app/feature/booking/views/screens/screen_property_room_details.dart';
+import 'package:user_resort_booking_app/feature/booking/views/screens/screen_review_booking.dart';
 import 'package:user_resort_booking_app/feature/home/views/screens/screen_home.dart';
 import 'package:user_resort_booking_app/feature/home/views/screens/screen_home_property_details_.dart';
-import 'package:user_resort_booking_app/feature/home/views/screens/screen_home_property_room_list.dart';
+import 'package:user_resort_booking_app/feature/booking/views/screens/screen_property_room_list.dart';
+import 'package:user_resort_booking_app/feature/my_bookings/views/screens/screen_my_bookings.dart';
 import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_onboarding_2.dart';
 import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_onboarding.dart';
 import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_splash.dart';
@@ -62,9 +66,28 @@ final routes = GoRouter(
           customTransitionPage(state, ScreenHomePropertyDetails()),
     ),
     GoRoute(
-      path: '/${AppRoutes.propertyRoomListHome}',
+      path: '/${AppRoutes.payment}',
       pageBuilder: (context, state) =>
-          customTransitionPage(state, ScreenHomePropertyRoomsList()),
+          customTransitionPage(state, ScreenPayment()),
+    ),
+    GoRoute(
+      path: '/${AppRoutes.reviewBooking}',
+      pageBuilder: (context, state) =>
+          customTransitionPage(state, ScreenReviewBooking()),
+    ),
+    GoRoute(
+      path: '/${AppRoutes.propertyRoomList}',
+      pageBuilder: (context, state) => customTransitionPage(
+        state,
+        ScreenPropertyRoomsList(),
+      ),
+    ),
+    GoRoute(
+      path: '/${AppRoutes.propertyRoomDetails}',
+      pageBuilder: (context, state) => customTransitionPage(
+        state,
+        ScreenPropertyRoomDetails(),
+      ),
     ),
 
     //Bottom navigation bar screens
@@ -99,6 +122,19 @@ final routes = GoRouter(
                 return customTransitionPage(
                   state,
                   ScreenSearch(),
+                );
+              },
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/${AppRoutes.myBookings}',
+              pageBuilder: (_, state) {
+                return customTransitionPage(
+                  state,
+                  ScreenMyBookings(),
                 );
               },
             ),

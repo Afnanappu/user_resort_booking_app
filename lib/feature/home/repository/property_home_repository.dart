@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:user_resort_booking_app/core/models/room_model.dart';
+import 'package:user_resort_booking_app/core/data/models/room_model.dart';
 import 'package:user_resort_booking_app/feature/home/models/property_card_model.dart';
 import 'package:user_resort_booking_app/feature/home/models/property_details_model.dart';
 import 'package:user_resort_booking_app/feature/home/services/property_home_services.dart';
@@ -11,9 +11,10 @@ class PropertyHomeRepository {
   PropertyHomeRepository({required PropertyHomeServices services})
       : _services = services;
 
-  Future<List<PropertyCardModel>> fetchProperties() async {
+  Future<List<PropertyCardModel>> fetchProperties(
+      {required String type}) async {
     try {
-      final data = await _services.fetchProperties();
+      final data = await _services.fetchProperties(type: type);
 
       return data
           .map(
@@ -37,33 +38,4 @@ class PropertyHomeRepository {
     }
   }
 
-  Future<List<RoomModel>> fetchPropertyRooms(
-      {required String propertyId}) async {
-    try {
-      final data = await _services.fetchPropertyRooms(propertyId: propertyId);
-      return data
-          .map(
-            (e) => RoomModel.fromMap(e),
-          )
-          .toList();
-    } catch (e, stack) {
-      log(e.toString(), stackTrace: stack);
-      rethrow;
-    }
-  }
-
-  //fetch room details
-  Future<RoomModel> fetchRoomDetails(
-      {required String propertyId, required String roomId}) async {
-    try {
-      final data = await _services.fetchRoomDetails(
-        propertyId: propertyId,
-        roomId: roomId,
-      );
-      return RoomModel.fromMap(data);
-    } catch (e, stack) {
-      log(e.toString(), stackTrace: stack);
-      rethrow;
-    }
-  }
 }

@@ -8,12 +8,14 @@ class CustomGoogleMapWidget extends StatelessWidget {
     this.onMapCreated,
     this.onTap,
     this.markers = const {},
+    this.polylines = const <Polyline>{},
   });
 
   final CameraPosition? initialCameraPosition;
   final void Function(GoogleMapController)? onMapCreated;
   final void Function(LatLng)? onTap;
   final Set<Marker> markers;
+  final Set<Polyline> polylines;
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
@@ -25,6 +27,7 @@ class CustomGoogleMapWidget extends StatelessWidget {
       onMapCreated: onMapCreated,
       onTap: onTap,
       markers: markers,
+      polylines: polylines,
     );
   }
 }
