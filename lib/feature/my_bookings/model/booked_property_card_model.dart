@@ -3,15 +3,17 @@ import 'dart:convert';
 
 class BookedPropertyCardModel {
   final String bookingId;
+  final String ownerId;
   final String propertyName;
   final DateTime startDate;
   final DateTime endDate;
   final String price;
   final String imageUrl;
   final String status;
-  
+
   BookedPropertyCardModel({
     required this.bookingId,
+    required this.ownerId,
     required this.propertyName,
     required this.startDate,
     required this.endDate,
@@ -22,6 +24,7 @@ class BookedPropertyCardModel {
 
   BookedPropertyCardModel copyWith({
     String? bookingId,
+    String? ownerId,
     String? propertyName,
     DateTime? startDate,
     DateTime? endDate,
@@ -31,6 +34,7 @@ class BookedPropertyCardModel {
   }) {
     return BookedPropertyCardModel(
       bookingId: bookingId ?? this.bookingId,
+      ownerId: ownerId ?? this.ownerId,
       propertyName: propertyName ?? this.propertyName,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
@@ -43,6 +47,7 @@ class BookedPropertyCardModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'bookingId': bookingId,
+      'ownerId': ownerId,
       'propertyName': propertyName,
       'startDate': startDate.millisecondsSinceEpoch,
       'endDate': endDate.millisecondsSinceEpoch,
@@ -55,6 +60,7 @@ class BookedPropertyCardModel {
   factory BookedPropertyCardModel.fromMap(Map<String, dynamic> map) {
     return BookedPropertyCardModel(
       bookingId: map['bookingId'] as String,
+      ownerId: map['ownerId'] as String,
       propertyName: map['propertyName'] as String,
       startDate: DateTime.fromMillisecondsSinceEpoch(map['startDate'] as int),
       endDate: DateTime.fromMillisecondsSinceEpoch(map['endDate'] as int),
@@ -72,7 +78,7 @@ class BookedPropertyCardModel {
 
   @override
   String toString() {
-    return 'BookedPropertyCardModel(bookingId: $bookingId, propertyName: $propertyName, startDate: $startDate, endDate: $endDate, price: $price, imageUrl: $imageUrl, status: $status)';
+    return 'BookedPropertyCardModel(bookingId: $bookingId, ownerId: $ownerId, propertyName: $propertyName, startDate: $startDate, endDate: $endDate, price: $price, imageUrl: $imageUrl, status: $status)';
   }
 
   @override
@@ -81,6 +87,7 @@ class BookedPropertyCardModel {
   
     return 
       other.bookingId == bookingId &&
+      other.ownerId == ownerId &&
       other.propertyName == propertyName &&
       other.startDate == startDate &&
       other.endDate == endDate &&
@@ -92,6 +99,7 @@ class BookedPropertyCardModel {
   @override
   int get hashCode {
     return bookingId.hashCode ^
+      ownerId.hashCode ^
       propertyName.hashCode ^
       startDate.hashCode ^
       endDate.hashCode ^

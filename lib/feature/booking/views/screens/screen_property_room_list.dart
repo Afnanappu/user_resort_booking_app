@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_resort_booking_app/core/components/custom_app_bar.dart';
@@ -39,6 +41,8 @@ class ScreenPropertyRoomsList extends StatelessWidget {
         context.read<BookingSelectedRoomsCubit>().clear();
         context.read<BookingSelectPeopleCubit>().clear();
         context.read<BookingSelectDateCubit>().clear();
+
+        log('Data cleared');
       },
       child: Scaffold(
         appBar: CustomAppBar(

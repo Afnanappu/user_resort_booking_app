@@ -17,9 +17,10 @@ class BookedPropertyListBloc
       emit(BookedPropertyListState.loading());
 
       try {
-        final bookedModelList =
-            await _repository.fetchMyBookings(userId: event.userId);
-        log(bookedModelList.toString());
+        final bookedModelList = await _repository.fetchMyBookings(
+          userId: event.userId,
+          type: event.type?.toLowerCase(),
+        );
         emit(BookedPropertyListState.loaded(bookedModelList));
       } catch (e) {
         log(e.toString());

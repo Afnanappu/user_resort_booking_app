@@ -19,7 +19,6 @@ class RoomListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
       itemCount: roomList.length,
       itemBuilder: (context, index) {
         final room = roomList[index];

@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:user_resort_booking_app/core/components/custom_app_bar.dart';
-import 'package:user_resort_booking_app/core/components/custom_elevated_button.dart';
+import 'package:user_resort_booking_app/core/components/payment_review_widget.dart';
 import 'package:user_resort_booking_app/core/components/property_simple_card_component.dart';
+import 'package:user_resort_booking_app/core/components/selected_room_widget.dart';
 import 'package:user_resort_booking_app/core/constants/spaces.dart';
-import 'package:user_resort_booking_app/core/constants/text_styles.dart';
 import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
 import 'package:user_resort_booking_app/core/utils/custom_date_formats.dart';
-import 'package:user_resort_booking_app/core/data/models/booking_model.dart';
-import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_details_cubit.dart';
 import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_select_date_cubit.dart';
 import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_select_people_cubit.dart';
 import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_selected_rooms_cubit.dart';
-import 'package:user_resort_booking_app/feature/booking/views/widgets/payment_review_widget.dart';
-import 'package:user_resort_booking_app/feature/booking/views/widgets/selected_room_widget.dart';
+import 'package:user_resort_booking_app/feature/booking/views/widgets/review_booking_bottom_navigation_widget.dart';
 import 'package:user_resort_booking_app/feature/booking/views/widgets/your_booking_details_widget.dart';
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_details/property_details_home_bloc.dart';
-import 'package:user_resort_booking_app/routes/route_names.dart';
 
 class ScreenReviewBooking extends StatelessWidget {
   const ScreenReviewBooking({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // context.read<BookingDetailsCubit>().setBookingDetails(bookingModel: bookingModel, roomList: roomList);
+
     final property = context.read<PropertyDetailsHomeBloc>().state.maybeWhen(
           loaded: (propertyDetails) => propertyDetails,
           orElse: () {},
@@ -102,68 +100,14 @@ class ScreenReviewBooking extends StatelessWidget {
         ),
       ),
       // ReviewBookingContinueWidget
-      bottomNavigationBar: Container(
-        constraints: BoxConstraints(maxHeight: 95),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withValues(alpha: 0.4),
-              blurRadius: 8,
-              offset: const Offset(0, -3),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    customCurrencyFormat(
-                        (price * nights) + 50 + ((price * nights) * .08)),
-                    style: MyTextStyles.titleLargeSemiBoldBlack,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '+${(price * nights) * .08} taxes & fees included ',
-                    style: MyTextStyles.bodySmallMediumGrey,
-                    softWrap: true,
-                    overflow: TextOverflow.visible,
-                  ),
-                ],
-              ),
-            ),
-            CustomElevatedButton(
-              text: 'Continue',
-              onPressed: () {
-                //creating a booking model
-                final bookingModel = BookingModel(
-                  userId: userData.uid!,
-                  userName: userData.name,
-                  propertyId: property.id!,
-                  startDate: selectedDate.startDate!,
-                  endDate: selectedDate.endDate!,
-                  totalPrice: (price * nights) + 50 + ((price * nights) * .08),
-                  bookedRoomsId: roomList
-                      .map(
-                        (e) => e.id!,
-                      )
-                      .toList(),
-                  createdAt: DateTime.now(),
-                  updatedAt: DateTime.now(),
-                  // propertyName: property.name,
-                );
-                context.read<BookingDetailsCubit>().setBookingDetails(
-                    bookingModel: bookingModel, roomList: roomList);
-                context.push('/${AppRoutes.payment}');
-              },
-            )
-          ],
-        ),
+      bottomNavigationBar: ReviewBookingBottomNavigationWidget(
+        price: price,
+        nights: nights,
+        userData: userData,
+        property: property,
+        selectedDate: selectedDate,
+        roomList: roomList,
+        peoples: peoples,
       ),
     );
   }

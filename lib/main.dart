@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:user_resort_booking_app/core/constants/theme.dart';
 import 'package:user_resort_booking_app/core/data/repository/user_repository.dart';
+import 'package:user_resort_booking_app/core/data/services/transaction_services.dart';
 import 'package:user_resort_booking_app/core/data/services/user_services.dart';
 import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
@@ -30,7 +31,11 @@ import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_proper
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_home_list/property_list_home_bloc.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/repository/my_booking_repository.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/services/my_booking_services.dart';
+import 'package:user_resort_booking_app/feature/my_bookings/view_model/bloc/bloc/booked_property_details_bloc.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/view_model/bloc/bloc_booked_property_list/booked_property_list_bloc.dart';
+import 'package:user_resort_booking_app/feature/profile/repository/payment_history_repository.dart';
+import 'package:user_resort_booking_app/feature/profile/services/payment_history_services.dart';
+import 'package:user_resort_booking_app/feature/profile/view_model/bloc/payment_history_bloc.dart';
 import 'package:user_resort_booking_app/feature/search/repository/my_property_repository.dart';
 import 'package:user_resort_booking_app/feature/search/services/my_property_services.dart';
 import 'package:user_resort_booking_app/feature/search/view_model/bloc_property_list/my_property_list_bloc.dart';
@@ -109,6 +114,12 @@ class MainApp extends StatelessWidget {
           ),
         ),
         RepositoryProvider(
+          create: (context) => PaymentHistoryRepository(
+            paymentHistoryServices: PaymentHistoryServices(),
+            transactionServices: TransactionServices(),
+          ),
+        ),
+        RepositoryProvider(
           create: (context) => GoogleMapBloc(),
         ),
       ],
@@ -143,6 +154,14 @@ class MainApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => BookingSelectDateCubit(),
+          ),
+          BlocProvider(
+            create: (context) =>
+                PaymentHistoryBloc(context.read<PaymentHistoryRepository>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                BookedPropertyDetailsBloc(context.read<MyBookingRepository>()),
           ),
           BlocProvider(
             create: (context) =>

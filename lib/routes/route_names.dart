@@ -13,4 +13,6 @@ class AppRoutes{
   static const profile = 'profile';
   static const payment = 'payment';
   static const myBookings = 'my-bookings';
+  static const paymentHistory = 'payment-history';
+  static const bookedPropertyDetails = 'booked-property-details';
 }

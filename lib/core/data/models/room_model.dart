@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import 'package:user_resort_booking_app/core/data/models/amenities_model.dart';
+import 'package:user_resort_booking_app/core/data/models/picked_date_range_model.dart';
 import 'package:user_resort_booking_app/core/data/models/picked_file_model.dart';
 
 class RoomModel {
@@ -19,7 +19,7 @@ class RoomModel {
   String maxGustCount;
   String description;
   List<AmenitiesModel> amenities;
-  List<PickerDateRange> bookedDays;
+  List<PickedDateRangeModel> bookedDays;
   RoomModel({
     this.id,
     required this.images,
@@ -45,7 +45,7 @@ class RoomModel {
     String? maxGustCount,
     String? description,
     List<AmenitiesModel>? amenities,
-    List<PickerDateRange>? bookedDays,
+    List<PickedDateRangeModel>? bookedDays,
   }) {
     return RoomModel(
       id: id ?? this.id,
@@ -108,15 +108,15 @@ class RoomModel {
           (x) => AmenitiesModel.fromMap(x as Map<String, dynamic>),
         ),
       ),
-      bookedDays: List<PickerDateRange>.from(
-        (map['bookedDays'] as List<dynamic>).map<PickerDateRange>(
+      bookedDays: List<PickedDateRangeModel>.from(
+        (map['bookedDays'] as List<dynamic>).map<PickedDateRangeModel>(
           (x) {
             //?Note: I did this in custom way, so If use data class generator, it will not be here like this.
             final date = x as Map<String, dynamic>;
             final start = (date['start']! as Timestamp).toDate();
             final end = (date['end']! as Timestamp).toDate();
 
-            return PickerDateRange(start, end);
+            return PickedDateRangeModel(start, end);
           },
         ),
       ),
@@ -165,3 +165,67 @@ class RoomModel {
         bookedDays.hashCode;
   }
 }
+
+
+
+
+  // Map<String, dynamic> toMap() {
+  //   return <String, dynamic>{
+  //     'id': id,
+  //     'images': images.map((x) => x.toMap()).toList(),
+  //     'roomType': roomType,
+  //     'roomId': roomId,
+  //     'price': price,
+  //     'roomArea': roomArea,
+  //     'bedType': bedType,
+  //     'maxGustCount': maxGustCount,
+  //     'description': description,
+  //     'amenities': amenities.map((x) => x.toMap()).toList(),
+  //     'bookedDays': bookedDays
+  //         .map(
+  //           (x) =>
+  //               //?Note: I did this in custom way, so If use data class generator, it will not be here like this.
+  //               {
+  //             'start': x.startDate,
+  //             'end': x.endDate,
+  //           },
+  //         )
+  //         .toList(),
+  //   };
+  // }
+
+  // factory RoomModel.fromMap(Map<String, dynamic> map) {
+  //   return RoomModel(
+  //     //?Note: Copy this before doing the data class generation
+  //     id: map['id'] != null ? map['id'] as String : null,
+  //     images: List<PickedFileModel>.from(
+  //       (map['images'] as List<dynamic>).map<PickedFileModel>(
+  //         (x) => PickedFileModel.fromMap(x as Map<String, dynamic>),
+  //       ),
+  //     ),
+  //     roomType: map['roomType'] as String,
+  //     roomId: map['roomId'] as String,
+  //     price: map['price'] as String,
+  //     roomArea: map['roomArea'] as String,
+  //     bedType: map['bedType'] as String,
+  //     maxGustCount: map['maxGustCount'] as String,
+  //     description: map['description'] as String,
+  //     amenities: List<AmenitiesModel>.from(
+  //       (map['amenities'] as List<dynamic>).map<AmenitiesModel>(
+  //         (x) => AmenitiesModel.fromMap(x as Map<String, dynamic>),
+  //       ),
+  //     ),
+  //     bookedDays: List<PickerDateRange>.from(
+  //       (map['bookedDays'] as List<dynamic>).map<PickerDateRange>(
+  //         (x) {
+  //           //?Note: I did this in custom way, so If use data class generator, it will not be here like this.
+  //           final date = x as Map<String, dynamic>;
+  //           final start = (date['start']! as Timestamp).toDate();
+  //           final end = (date['end']! as Timestamp).toDate();
+
+  //           return PickerDateRange(start, end);
+  //         },
+  //       ),
+  //     ),
+  //   );
+  // }

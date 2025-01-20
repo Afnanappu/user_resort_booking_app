@@ -4,7 +4,7 @@ import 'package:user_resort_booking_app/core/components/custom_divider.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
 import 'package:user_resort_booking_app/core/data/models/room_model.dart';
 import 'package:user_resort_booking_app/core/utils/custom_date_formats.dart';
-import 'package:user_resort_booking_app/feature/booking/views/components/row_data_widget.dart';
+import 'package:user_resort_booking_app/core/components/row_data_widget.dart';
 
 class PaymentReviewWidget extends StatelessWidget {
   const PaymentReviewWidget({

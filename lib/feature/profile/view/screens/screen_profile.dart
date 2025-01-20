@@ -10,17 +10,25 @@ class ScreenProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            await FirebaseAuth.instance.signOut();
-            if (await GoogleSignIn().isSignedIn()) {
-              GoogleSignIn().signOut();
-            }
-            context.go("/${AppRoutes.login}");
-          },
-          child: Text('Profile Screen'),
-        ),
+      body: ListView(
+        children: [
+          ElevatedButton(
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              if (await GoogleSignIn().isSignedIn()) {
+                GoogleSignIn().signOut();
+              }
+              context.go("/${AppRoutes.login}");
+            },
+            child: Text('Profile Screen'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              context.push("/${AppRoutes.paymentHistory}");
+            },
+            child: Text('payment history screen'),
+          ),
+        ],
       ),
     );
   }

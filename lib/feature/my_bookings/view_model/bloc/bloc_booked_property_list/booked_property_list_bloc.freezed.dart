@@ -17,19 +17,20 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$BookedPropertyListEvent {
   String get userId => throw _privateConstructorUsedError;
+  String? get type => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String userId) fetchMyBookings,
+    required TResult Function(String userId, String? type) fetchMyBookings,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String userId)? fetchMyBookings,
+    TResult? Function(String userId, String? type)? fetchMyBookings,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String userId)? fetchMyBookings,
+    TResult Function(String userId, String? type)? fetchMyBookings,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -63,7 +64,7 @@ abstract class $BookedPropertyListEventCopyWith<$Res> {
           $Res Function(BookedPropertyListEvent) then) =
       _$BookedPropertyListEventCopyWithImpl<$Res, BookedPropertyListEvent>;
   @useResult
-  $Res call({String userId});
+  $Res call({String userId, String? type});
 }
 
 /// @nodoc
@@ -83,12 +84,17 @@ class _$BookedPropertyListEventCopyWithImpl<$Res,
   @override
   $Res call({
     Object? userId = null,
+    Object? type = freezed,
   }) {
     return _then(_value.copyWith(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -101,7 +107,7 @@ abstract class _$$FetchMyBookingsImplCopyWith<$Res>
       __$$FetchMyBookingsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String userId});
+  $Res call({String userId, String? type});
 }
 
 /// @nodoc
@@ -118,12 +124,17 @@ class __$$FetchMyBookingsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userId = null,
+    Object? type = freezed,
   }) {
     return _then(_$FetchMyBookingsImpl(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -131,14 +142,16 @@ class __$$FetchMyBookingsImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$FetchMyBookingsImpl implements _FetchMyBookings {
-  const _$FetchMyBookingsImpl({required this.userId});
+  const _$FetchMyBookingsImpl({required this.userId, this.type});
 
   @override
   final String userId;
+  @override
+  final String? type;
 
   @override
   String toString() {
-    return 'BookedPropertyListEvent.fetchMyBookings(userId: $userId)';
+    return 'BookedPropertyListEvent.fetchMyBookings(userId: $userId, type: $type)';
   }
 
   @override
@@ -146,11 +159,12 @@ class _$FetchMyBookingsImpl implements _FetchMyBookings {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FetchMyBookingsImpl &&
-            (identical(other.userId, userId) || other.userId == userId));
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, userId);
+  int get hashCode => Object.hash(runtimeType, userId, type);
 
   /// Create a copy of BookedPropertyListEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -164,27 +178,27 @@ class _$FetchMyBookingsImpl implements _FetchMyBookings {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String userId) fetchMyBookings,
+    required TResult Function(String userId, String? type) fetchMyBookings,
   }) {
-    return fetchMyBookings(userId);
+    return fetchMyBookings(userId, type);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String userId)? fetchMyBookings,
+    TResult? Function(String userId, String? type)? fetchMyBookings,
   }) {
-    return fetchMyBookings?.call(userId);
+    return fetchMyBookings?.call(userId, type);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String userId)? fetchMyBookings,
+    TResult Function(String userId, String? type)? fetchMyBookings,
     required TResult orElse(),
   }) {
     if (fetchMyBookings != null) {
-      return fetchMyBookings(userId);
+      return fetchMyBookings(userId, type);
     }
     return orElse();
   }
@@ -219,11 +233,14 @@ class _$FetchMyBookingsImpl implements _FetchMyBookings {
 }
 
 abstract class _FetchMyBookings implements BookedPropertyListEvent {
-  const factory _FetchMyBookings({required final String userId}) =
-      _$FetchMyBookingsImpl;
+  const factory _FetchMyBookings(
+      {required final String userId,
+      final String? type}) = _$FetchMyBookingsImpl;
 
   @override
   String get userId;
+  @override
+  String? get type;
 
   /// Create a copy of BookedPropertyListEvent
   /// with the given fields replaced by the non-null parameter values.

@@ -50,6 +50,7 @@ class RegisterButtonWidget extends StatelessWidget {
           text: TextSpan(
             text: "Already have an account? ",
             children: [
+              
               TextSpan(
                 text: "Login",
                 style: MyTextStyles.bodyLargeNormalWhite.apply(

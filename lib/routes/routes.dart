@@ -11,10 +11,12 @@ import 'package:user_resort_booking_app/feature/booking/views/screens/screen_rev
 import 'package:user_resort_booking_app/feature/home/views/screens/screen_home.dart';
 import 'package:user_resort_booking_app/feature/home/views/screens/screen_home_property_details_.dart';
 import 'package:user_resort_booking_app/feature/booking/views/screens/screen_property_room_list.dart';
+import 'package:user_resort_booking_app/feature/my_bookings/views/screens/screen_booked_property_details.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/views/screens/screen_my_bookings.dart';
 import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_onboarding_2.dart';
 import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_onboarding.dart';
 import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_splash.dart';
+import 'package:user_resort_booking_app/feature/profile/view/screens/screen_payment_history.dart';
 import 'package:user_resort_booking_app/feature/profile/view/screens/screen_profile.dart';
 import 'package:user_resort_booking_app/feature/search/view/screens/screen_search.dart';
 import 'package:user_resort_booking_app/routes/custom_route_transition.dart';
@@ -74,6 +76,18 @@ final routes = GoRouter(
       path: '/${AppRoutes.reviewBooking}',
       pageBuilder: (context, state) =>
           customTransitionPage(state, ScreenReviewBooking()),
+    ),
+    GoRoute(
+      path: '/${AppRoutes.paymentHistory}',
+      pageBuilder: (context, state) =>
+          customTransitionPage(state, ScreenPaymentHistory()),
+    ),
+    GoRoute(
+      path: '/${AppRoutes.bookedPropertyDetails}',
+      pageBuilder: (context, state) => customTransitionPage(
+        state,
+        ScreenBookedPropertyDetails(),
+      ),
     ),
     GoRoute(
       path: '/${AppRoutes.propertyRoomList}',

@@ -5,6 +5,12 @@ import 'package:intl/intl.dart';
 ///Eg: Sat, 18 Oct
 String customDateFormat(DateTime date) => DateFormat('E, d MMM').format(date);
 
+///Eg: Jan 20, 3:15 PM
+///
+///Eg: Aug 2, 6:29 PM
+String customDateFormat3(DateTime date) =>
+    DateFormat('MMM d, h:mm a').format(date);
+
 ///Eg: 15/6/2024
 ///
 ///Eg: 29/12/2029

@@ -19,22 +19,27 @@ mixin _$BookingEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            BookingModel bookingModel, List<RoomModel> roomList)
+            BookingModel bookingModel, List<RoomModel> roomList, String ownerId)
         requestBooking,
+    required TResult Function(TransactionModel transactionModel) failedBooking,
     required TResult Function() clear,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(BookingModel bookingModel, List<RoomModel> roomList)?
+    TResult? Function(BookingModel bookingModel, List<RoomModel> roomList,
+            String ownerId)?
         requestBooking,
+    TResult? Function(TransactionModel transactionModel)? failedBooking,
     TResult? Function()? clear,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(BookingModel bookingModel, List<RoomModel> roomList)?
+    TResult Function(BookingModel bookingModel, List<RoomModel> roomList,
+            String ownerId)?
         requestBooking,
+    TResult Function(TransactionModel transactionModel)? failedBooking,
     TResult Function()? clear,
     required TResult orElse(),
   }) =>
@@ -42,18 +47,21 @@ mixin _$BookingEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_RequestBooking value) requestBooking,
+    required TResult Function(_FailedBooking value) failedBooking,
     required TResult Function(_ClearData value) clear,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_RequestBooking value)? requestBooking,
+    TResult? Function(_FailedBooking value)? failedBooking,
     TResult? Function(_ClearData value)? clear,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_RequestBooking value)? requestBooking,
+    TResult Function(_FailedBooking value)? failedBooking,
     TResult Function(_ClearData value)? clear,
     required TResult orElse(),
   }) =>
@@ -87,7 +95,8 @@ abstract class _$$RequestBookingImplCopyWith<$Res> {
           $Res Function(_$RequestBookingImpl) then) =
       __$$RequestBookingImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({BookingModel bookingModel, List<RoomModel> roomList});
+  $Res call(
+      {BookingModel bookingModel, List<RoomModel> roomList, String ownerId});
 }
 
 /// @nodoc
@@ -105,6 +114,7 @@ class __$$RequestBookingImplCopyWithImpl<$Res>
   $Res call({
     Object? bookingModel = null,
     Object? roomList = null,
+    Object? ownerId = null,
   }) {
     return _then(_$RequestBookingImpl(
       bookingModel: null == bookingModel
@@ -115,6 +125,10 @@ class __$$RequestBookingImplCopyWithImpl<$Res>
           ? _value._roomList
           : roomList // ignore: cast_nullable_to_non_nullable
               as List<RoomModel>,
+      ownerId: null == ownerId
+          ? _value.ownerId
+          : ownerId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -123,7 +137,9 @@ class __$$RequestBookingImplCopyWithImpl<$Res>
 
 class _$RequestBookingImpl implements _RequestBooking {
   const _$RequestBookingImpl(
-      {required this.bookingModel, required final List<RoomModel> roomList})
+      {required this.bookingModel,
+      required final List<RoomModel> roomList,
+      required this.ownerId})
       : _roomList = roomList;
 
   @override
@@ -137,8 +153,11 @@ class _$RequestBookingImpl implements _RequestBooking {
   }
 
   @override
+  final String ownerId;
+
+  @override
   String toString() {
-    return 'BookingEvent.requestBooking(bookingModel: $bookingModel, roomList: $roomList)';
+    return 'BookingEvent.requestBooking(bookingModel: $bookingModel, roomList: $roomList, ownerId: $ownerId)';
   }
 
   @override
@@ -148,12 +167,13 @@ class _$RequestBookingImpl implements _RequestBooking {
             other is _$RequestBookingImpl &&
             (identical(other.bookingModel, bookingModel) ||
                 other.bookingModel == bookingModel) &&
-            const DeepCollectionEquality().equals(other._roomList, _roomList));
+            const DeepCollectionEquality().equals(other._roomList, _roomList) &&
+            (identical(other.ownerId, ownerId) || other.ownerId == ownerId));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, bookingModel,
-      const DeepCollectionEquality().hash(_roomList));
+      const DeepCollectionEquality().hash(_roomList), ownerId);
 
   /// Create a copy of BookingEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -168,33 +188,38 @@ class _$RequestBookingImpl implements _RequestBooking {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            BookingModel bookingModel, List<RoomModel> roomList)
+            BookingModel bookingModel, List<RoomModel> roomList, String ownerId)
         requestBooking,
+    required TResult Function(TransactionModel transactionModel) failedBooking,
     required TResult Function() clear,
   }) {
-    return requestBooking(bookingModel, roomList);
+    return requestBooking(bookingModel, roomList, ownerId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(BookingModel bookingModel, List<RoomModel> roomList)?
+    TResult? Function(BookingModel bookingModel, List<RoomModel> roomList,
+            String ownerId)?
         requestBooking,
+    TResult? Function(TransactionModel transactionModel)? failedBooking,
     TResult? Function()? clear,
   }) {
-    return requestBooking?.call(bookingModel, roomList);
+    return requestBooking?.call(bookingModel, roomList, ownerId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(BookingModel bookingModel, List<RoomModel> roomList)?
+    TResult Function(BookingModel bookingModel, List<RoomModel> roomList,
+            String ownerId)?
         requestBooking,
+    TResult Function(TransactionModel transactionModel)? failedBooking,
     TResult Function()? clear,
     required TResult orElse(),
   }) {
     if (requestBooking != null) {
-      return requestBooking(bookingModel, roomList);
+      return requestBooking(bookingModel, roomList, ownerId);
     }
     return orElse();
   }
@@ -203,6 +228,7 @@ class _$RequestBookingImpl implements _RequestBooking {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_RequestBooking value) requestBooking,
+    required TResult Function(_FailedBooking value) failedBooking,
     required TResult Function(_ClearData value) clear,
   }) {
     return requestBooking(this);
@@ -212,6 +238,7 @@ class _$RequestBookingImpl implements _RequestBooking {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_RequestBooking value)? requestBooking,
+    TResult? Function(_FailedBooking value)? failedBooking,
     TResult? Function(_ClearData value)? clear,
   }) {
     return requestBooking?.call(this);
@@ -221,6 +248,7 @@ class _$RequestBookingImpl implements _RequestBooking {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_RequestBooking value)? requestBooking,
+    TResult Function(_FailedBooking value)? failedBooking,
     TResult Function(_ClearData value)? clear,
     required TResult orElse(),
   }) {
@@ -234,15 +262,171 @@ class _$RequestBookingImpl implements _RequestBooking {
 abstract class _RequestBooking implements BookingEvent {
   const factory _RequestBooking(
       {required final BookingModel bookingModel,
-      required final List<RoomModel> roomList}) = _$RequestBookingImpl;
+      required final List<RoomModel> roomList,
+      required final String ownerId}) = _$RequestBookingImpl;
 
   BookingModel get bookingModel;
   List<RoomModel> get roomList;
+  String get ownerId;
 
   /// Create a copy of BookingEvent
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RequestBookingImplCopyWith<_$RequestBookingImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$FailedBookingImplCopyWith<$Res> {
+  factory _$$FailedBookingImplCopyWith(
+          _$FailedBookingImpl value, $Res Function(_$FailedBookingImpl) then) =
+      __$$FailedBookingImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({TransactionModel transactionModel});
+}
+
+/// @nodoc
+class __$$FailedBookingImplCopyWithImpl<$Res>
+    extends _$BookingEventCopyWithImpl<$Res, _$FailedBookingImpl>
+    implements _$$FailedBookingImplCopyWith<$Res> {
+  __$$FailedBookingImplCopyWithImpl(
+      _$FailedBookingImpl _value, $Res Function(_$FailedBookingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? transactionModel = null,
+  }) {
+    return _then(_$FailedBookingImpl(
+      transactionModel: null == transactionModel
+          ? _value.transactionModel
+          : transactionModel // ignore: cast_nullable_to_non_nullable
+              as TransactionModel,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FailedBookingImpl implements _FailedBooking {
+  const _$FailedBookingImpl({required this.transactionModel});
+
+  @override
+  final TransactionModel transactionModel;
+
+  @override
+  String toString() {
+    return 'BookingEvent.failedBooking(transactionModel: $transactionModel)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FailedBookingImpl &&
+            (identical(other.transactionModel, transactionModel) ||
+                other.transactionModel == transactionModel));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, transactionModel);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FailedBookingImplCopyWith<_$FailedBookingImpl> get copyWith =>
+      __$$FailedBookingImplCopyWithImpl<_$FailedBookingImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            BookingModel bookingModel, List<RoomModel> roomList, String ownerId)
+        requestBooking,
+    required TResult Function(TransactionModel transactionModel) failedBooking,
+    required TResult Function() clear,
+  }) {
+    return failedBooking(transactionModel);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(BookingModel bookingModel, List<RoomModel> roomList,
+            String ownerId)?
+        requestBooking,
+    TResult? Function(TransactionModel transactionModel)? failedBooking,
+    TResult? Function()? clear,
+  }) {
+    return failedBooking?.call(transactionModel);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(BookingModel bookingModel, List<RoomModel> roomList,
+            String ownerId)?
+        requestBooking,
+    TResult Function(TransactionModel transactionModel)? failedBooking,
+    TResult Function()? clear,
+    required TResult orElse(),
+  }) {
+    if (failedBooking != null) {
+      return failedBooking(transactionModel);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_RequestBooking value) requestBooking,
+    required TResult Function(_FailedBooking value) failedBooking,
+    required TResult Function(_ClearData value) clear,
+  }) {
+    return failedBooking(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_RequestBooking value)? requestBooking,
+    TResult? Function(_FailedBooking value)? failedBooking,
+    TResult? Function(_ClearData value)? clear,
+  }) {
+    return failedBooking?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_RequestBooking value)? requestBooking,
+    TResult Function(_FailedBooking value)? failedBooking,
+    TResult Function(_ClearData value)? clear,
+    required TResult orElse(),
+  }) {
+    if (failedBooking != null) {
+      return failedBooking(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FailedBooking implements BookingEvent {
+  const factory _FailedBooking(
+      {required final TransactionModel transactionModel}) = _$FailedBookingImpl;
+
+  TransactionModel get transactionModel;
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FailedBookingImplCopyWith<_$FailedBookingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -288,8 +472,9 @@ class _$ClearDataImpl implements _ClearData {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            BookingModel bookingModel, List<RoomModel> roomList)
+            BookingModel bookingModel, List<RoomModel> roomList, String ownerId)
         requestBooking,
+    required TResult Function(TransactionModel transactionModel) failedBooking,
     required TResult Function() clear,
   }) {
     return clear();
@@ -298,8 +483,10 @@ class _$ClearDataImpl implements _ClearData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(BookingModel bookingModel, List<RoomModel> roomList)?
+    TResult? Function(BookingModel bookingModel, List<RoomModel> roomList,
+            String ownerId)?
         requestBooking,
+    TResult? Function(TransactionModel transactionModel)? failedBooking,
     TResult? Function()? clear,
   }) {
     return clear?.call();
@@ -308,8 +495,10 @@ class _$ClearDataImpl implements _ClearData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(BookingModel bookingModel, List<RoomModel> roomList)?
+    TResult Function(BookingModel bookingModel, List<RoomModel> roomList,
+            String ownerId)?
         requestBooking,
+    TResult Function(TransactionModel transactionModel)? failedBooking,
     TResult Function()? clear,
     required TResult orElse(),
   }) {
@@ -323,6 +512,7 @@ class _$ClearDataImpl implements _ClearData {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_RequestBooking value) requestBooking,
+    required TResult Function(_FailedBooking value) failedBooking,
     required TResult Function(_ClearData value) clear,
   }) {
     return clear(this);
@@ -332,6 +522,7 @@ class _$ClearDataImpl implements _ClearData {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_RequestBooking value)? requestBooking,
+    TResult? Function(_FailedBooking value)? failedBooking,
     TResult? Function(_ClearData value)? clear,
   }) {
     return clear?.call(this);
@@ -341,6 +532,7 @@ class _$ClearDataImpl implements _ClearData {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_RequestBooking value)? requestBooking,
+    TResult Function(_FailedBooking value)? failedBooking,
     TResult Function(_ClearData value)? clear,
     required TResult orElse(),
   }) {
@@ -361,6 +553,7 @@ mixin _$BookingState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(BookingModel bookingDetails) booked,
+    required TResult Function() failed,
     required TResult Function() loading,
     required TResult Function(String error) error,
   }) =>
@@ -369,6 +562,7 @@ mixin _$BookingState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(BookingModel bookingDetails)? booked,
+    TResult? Function()? failed,
     TResult? Function()? loading,
     TResult? Function(String error)? error,
   }) =>
@@ -377,6 +571,7 @@ mixin _$BookingState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(BookingModel bookingDetails)? booked,
+    TResult Function()? failed,
     TResult Function()? loading,
     TResult Function(String error)? error,
     required TResult orElse(),
@@ -386,6 +581,7 @@ mixin _$BookingState {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Booked value) booked,
+    required TResult Function(_Failed value) failed,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
   }) =>
@@ -394,6 +590,7 @@ mixin _$BookingState {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Booked value)? booked,
+    TResult? Function(_Failed value)? failed,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Error value)? error,
   }) =>
@@ -402,6 +599,7 @@ mixin _$BookingState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Booked value)? booked,
+    TResult Function(_Failed value)? failed,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -473,6 +671,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(BookingModel bookingDetails) booked,
+    required TResult Function() failed,
     required TResult Function() loading,
     required TResult Function(String error) error,
   }) {
@@ -484,6 +683,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(BookingModel bookingDetails)? booked,
+    TResult? Function()? failed,
     TResult? Function()? loading,
     TResult? Function(String error)? error,
   }) {
@@ -495,6 +695,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(BookingModel bookingDetails)? booked,
+    TResult Function()? failed,
     TResult Function()? loading,
     TResult Function(String error)? error,
     required TResult orElse(),
@@ -510,6 +711,7 @@ class _$InitialImpl implements _Initial {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Booked value) booked,
+    required TResult Function(_Failed value) failed,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
   }) {
@@ -521,6 +723,7 @@ class _$InitialImpl implements _Initial {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Booked value)? booked,
+    TResult? Function(_Failed value)? failed,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Error value)? error,
   }) {
@@ -532,6 +735,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Booked value)? booked,
+    TResult Function(_Failed value)? failed,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -618,6 +822,7 @@ class _$BookedImpl implements _Booked {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(BookingModel bookingDetails) booked,
+    required TResult Function() failed,
     required TResult Function() loading,
     required TResult Function(String error) error,
   }) {
@@ -629,6 +834,7 @@ class _$BookedImpl implements _Booked {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(BookingModel bookingDetails)? booked,
+    TResult? Function()? failed,
     TResult? Function()? loading,
     TResult? Function(String error)? error,
   }) {
@@ -640,6 +846,7 @@ class _$BookedImpl implements _Booked {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(BookingModel bookingDetails)? booked,
+    TResult Function()? failed,
     TResult Function()? loading,
     TResult Function(String error)? error,
     required TResult orElse(),
@@ -655,6 +862,7 @@ class _$BookedImpl implements _Booked {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Booked value) booked,
+    required TResult Function(_Failed value) failed,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
   }) {
@@ -666,6 +874,7 @@ class _$BookedImpl implements _Booked {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Booked value)? booked,
+    TResult? Function(_Failed value)? failed,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Error value)? error,
   }) {
@@ -677,6 +886,7 @@ class _$BookedImpl implements _Booked {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Booked value)? booked,
+    TResult Function(_Failed value)? failed,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -698,6 +908,129 @@ abstract class _Booked implements BookingState {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BookedImplCopyWith<_$BookedImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$FailedImplCopyWith<$Res> {
+  factory _$$FailedImplCopyWith(
+          _$FailedImpl value, $Res Function(_$FailedImpl) then) =
+      __$$FailedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FailedImplCopyWithImpl<$Res>
+    extends _$BookingStateCopyWithImpl<$Res, _$FailedImpl>
+    implements _$$FailedImplCopyWith<$Res> {
+  __$$FailedImplCopyWithImpl(
+      _$FailedImpl _value, $Res Function(_$FailedImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BookingState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$FailedImpl implements _Failed {
+  const _$FailedImpl();
+
+  @override
+  String toString() {
+    return 'BookingState.failed()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$FailedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(BookingModel bookingDetails) booked,
+    required TResult Function() failed,
+    required TResult Function() loading,
+    required TResult Function(String error) error,
+  }) {
+    return failed();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function(BookingModel bookingDetails)? booked,
+    TResult? Function()? failed,
+    TResult? Function()? loading,
+    TResult? Function(String error)? error,
+  }) {
+    return failed?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(BookingModel bookingDetails)? booked,
+    TResult Function()? failed,
+    TResult Function()? loading,
+    TResult Function(String error)? error,
+    required TResult orElse(),
+  }) {
+    if (failed != null) {
+      return failed();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Booked value) booked,
+    required TResult Function(_Failed value) failed,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Error value) error,
+  }) {
+    return failed(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Booked value)? booked,
+    TResult? Function(_Failed value)? failed,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Error value)? error,
+  }) {
+    return failed?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Booked value)? booked,
+    TResult Function(_Failed value)? failed,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Error value)? error,
+    required TResult orElse(),
+  }) {
+    if (failed != null) {
+      return failed(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Failed implements BookingState {
+  const factory _Failed() = _$FailedImpl;
 }
 
 /// @nodoc
@@ -743,6 +1076,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(BookingModel bookingDetails) booked,
+    required TResult Function() failed,
     required TResult Function() loading,
     required TResult Function(String error) error,
   }) {
@@ -754,6 +1088,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(BookingModel bookingDetails)? booked,
+    TResult? Function()? failed,
     TResult? Function()? loading,
     TResult? Function(String error)? error,
   }) {
@@ -765,6 +1100,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(BookingModel bookingDetails)? booked,
+    TResult Function()? failed,
     TResult Function()? loading,
     TResult Function(String error)? error,
     required TResult orElse(),
@@ -780,6 +1116,7 @@ class _$LoadingImpl implements _Loading {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Booked value) booked,
+    required TResult Function(_Failed value) failed,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
   }) {
@@ -791,6 +1128,7 @@ class _$LoadingImpl implements _Loading {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Booked value)? booked,
+    TResult? Function(_Failed value)? failed,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Error value)? error,
   }) {
@@ -802,6 +1140,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Booked value)? booked,
+    TResult Function(_Failed value)? failed,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -887,6 +1226,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(BookingModel bookingDetails) booked,
+    required TResult Function() failed,
     required TResult Function() loading,
     required TResult Function(String error) error,
   }) {
@@ -898,6 +1238,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(BookingModel bookingDetails)? booked,
+    TResult? Function()? failed,
     TResult? Function()? loading,
     TResult? Function(String error)? error,
   }) {
@@ -909,6 +1250,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(BookingModel bookingDetails)? booked,
+    TResult Function()? failed,
     TResult Function()? loading,
     TResult Function(String error)? error,
     required TResult orElse(),
@@ -924,6 +1266,7 @@ class _$ErrorImpl implements _Error {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Booked value) booked,
+    required TResult Function(_Failed value) failed,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
   }) {
@@ -935,6 +1278,7 @@ class _$ErrorImpl implements _Error {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Booked value)? booked,
+    TResult? Function(_Failed value)? failed,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Error value)? error,
   }) {
@@ -946,6 +1290,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Booked value)? booked,
+    TResult Function(_Failed value)? failed,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
     required TResult orElse(),

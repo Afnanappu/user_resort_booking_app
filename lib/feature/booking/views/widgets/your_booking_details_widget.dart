@@ -6,7 +6,7 @@ import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
 import 'package:user_resort_booking_app/core/data/models/user_model.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
-import 'package:user_resort_booking_app/feature/booking/views/components/row_data_widget.dart';
+import 'package:user_resort_booking_app/core/components/row_data_widget.dart';
 
 class YourBookingDetailsWidget extends StatelessWidget {
   const YourBookingDetailsWidget({

@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:user_resort_booking_app/core/data/models/room_model.dart';
 import 'package:user_resort_booking_app/core/data/models/booking_model.dart';
+import 'package:user_resort_booking_app/core/data/models/transaction_model.dart';
 import 'package:user_resort_booking_app/feature/booking/repository/booking_repository.dart';
 
 part 'booking_event.dart';
@@ -18,20 +19,34 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         final bookingId = await _repository.bookRooms(
           bookingModel: event.bookingModel,
           roomList: event.roomList,
+          ownerId: event.ownerId,
         );
 
-        final bookingDetails =
-            await _repository.fetchBookingDetails(bookingId: bookingId);
+        final bookingDetails = await _repository.fetchBookingDetails(
+          bookingId: bookingId,
+          ownerId: event.ownerId,
+        );
         emit(BookingState.booked(bookingDetails));
       } catch (e) {
         emit(BookingState.error(e.toString()));
       }
     });
 
-    on<_ClearData>(
-      (event, emit) {
-        emit(BookingState.initial());
-      },
-    );
+    on<_FailedBooking>((event, emit) async {
+      emit(BookingState.loading());
+
+      try {
+        //
+        await _repository.failedBooking(
+          transactionModel: event.transactionModel,
+        );
+        emit(BookingState.failed());
+      } catch (e) {
+        emit(BookingState.error(e.toString()));
+      }
+    });
+    on<_ClearData>((event, emit) {
+      emit(BookingState.initial());
+    });
   }
 }

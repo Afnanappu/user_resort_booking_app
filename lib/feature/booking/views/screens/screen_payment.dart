@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +9,7 @@ import 'package:user_resort_booking_app/core/components/custom_circular_progress
 import 'package:user_resort_booking_app/core/components/custom_snack_bar.dart';
 import 'package:user_resort_booking_app/core/constants/api_keys.dart';
 import 'package:user_resort_booking_app/core/data/models/room_model.dart';
+import 'package:user_resort_booking_app/core/data/models/transaction_model.dart';
 import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
 import 'package:user_resort_booking_app/core/utils/custom_date_formats.dart';
 import 'package:user_resort_booking_app/core/data/models/booking_model.dart';
@@ -102,31 +104,69 @@ class _ScreenPaymentState extends State<ScreenPayment> {
     final bookingModel = bookingDetails['bookingModel']! as BookingModel;
     final roomList =
         List<RoomModel>.from(bookingDetails['roomList']! as List<dynamic>);
+    final ownerId = context.read<PropertyDetailsHomeBloc>().state.maybeWhen(
+          loaded: (propertyDetails) => propertyDetails.ownerId,
+          orElse: () {},
+        );
+
+    if (ownerId == null) {
+      throw Exception('owner id is empty');
+    }
 
     //request booking
     context.read<BookingBloc>().add(BookingEvent.requestBooking(
           bookingModel: bookingModel,
           roomList: roomList,
+          ownerId: ownerId,
         ));
 
-    //TODO: maybe want to send this 'response' variable to bloc for success state.
     log(response.data.toString());
     // response.
     // context.pop();
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    // Handle payment failure
+    final userId = context.read<UserDataCubit>().state?.uid;
 
-    showCustomSnackBar(
-        context: context,
-        message: 'Payment Error: ${response.code} | ${response.message}');
-    log('Payment Error: ${response.code} | ${response.message}');
-    // context.pop();
+    assert(userId == null, 'User data can\'t be null');
+
+    final ownerId = context.read<PropertyDetailsHomeBloc>().state.maybeWhen(
+          loaded: (propertyDetails) => propertyDetails.ownerId,
+          orElse: () {},
+        );
+
+    final bookingDetails = context.read<BookingDetailsCubit>().state;
+
+    if (bookingDetails.isEmpty) {
+      throw Exception('Booking model is empty');
+    }
+
+    final bookingModel = bookingDetails['bookingModel']! as BookingModel;
+
+    final transactionModel = TransactionModel(
+      transactionId: bookingModel.transactionId,
+      userId: bookingModel.userId,
+      amount: bookingModel.totalPrice,
+      status: 'failed',
+      paymentMethod: 'Net banking',
+      transactionDate: Timestamp.now().toDate(),
+      bookingId: bookingModel.bookingId,
+      createdAt: Timestamp.now().toDate(),
+      updatedAt: Timestamp.now().toDate(),
+      type: 'debited',
+      ownerId: ownerId!,
+    );
+
+    context.read<BookingBloc>().add(BookingEvent.failedBooking(
+       
+          transactionModel: transactionModel,
+         
+        ));
+
+    log('Payment Error or Failed: ${response.code} | ${response.message}');
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
-    // Handle external wallet
     log('External Wallet: ${response.walletName}');
     context.pop();
   }
@@ -138,12 +178,28 @@ class _ScreenPaymentState extends State<ScreenPayment> {
           orElse: () {},
         );
     return Scaffold(
-      body: BlocBuilder<BookingBloc, BookingState>(
+      body: BlocConsumer<BookingBloc, BookingState>(
+        listener: (context, state) {
+          state.maybeWhen(
+            failed: () {
+              showCustomSnackBar(
+                context: context,
+                message: 'Payment failed',
+              );
+
+              context.pop();
+            },
+            orElse: () {},
+          );
+        },
         builder: (context, state) {
           return state.maybeWhen(
             initial: () => SizedBox(),
             loading: () => Center(
               child: CustomCircularProgressIndicator(),
+            ),
+            failed: () => Center(
+              child: Text('Booking failed'),
             ),
             error: (error) => Center(
               child: Text(error),

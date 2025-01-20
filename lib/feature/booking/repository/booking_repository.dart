@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:user_resort_booking_app/core/data/models/room_model.dart';
 import 'package:user_resort_booking_app/core/data/models/booking_model.dart';
+import 'package:user_resort_booking_app/core/data/models/transaction_model.dart';
 import 'package:user_resort_booking_app/feature/booking/services/booking_service.dart';
 
 class BookingRepository {
@@ -86,27 +87,49 @@ class BookingRepository {
   Future<String> bookRooms({
     required BookingModel bookingModel,
     required List<RoomModel> roomList,
+    required String ownerId,
   }) async {
     try {
       //calling book room function
       return await _services.bookRooms(
         bookingModel: bookingModel,
         roomList: roomList,
+        ownerId: ownerId,
       );
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<BookingModel> fetchBookingDetails({required String bookingId}) async {
+  Future<void> failedBooking({
+    required TransactionModel transactionModel,
+  }) async {
     try {
-      final data = await _services.fetchBookingDetails(bookingId: bookingId);
+      await _services.transactionServices.makeTransaction(
+        transactionModel: transactionModel,
+        owner: false,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<BookingModel> fetchBookingDetails({
+    required String bookingId,
+    required String ownerId,
+  }) async {
+    try {
+      final data = await _services.fetchBookingDetails(
+        bookingId: bookingId,
+        ownerId: ownerId,
+      );
       if (data != null) {
         return BookingModel.fromMap(data);
       } else {
         throw FormatException('Booking model data is null');
       }
-    } catch (e) {
+    } catch (e, stack) {
+      log(e.toString(), stackTrace: stack);
       rethrow;
     }
   }

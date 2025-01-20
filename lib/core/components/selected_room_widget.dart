@@ -11,12 +11,14 @@ class SelectedRoomWidget extends StatelessWidget {
     required this.selectedDate,
     required this.peoples,
     required this.nights,
+    this.isBooked = false,
   });
 
   final List<RoomModel> roomList;
   final PickerDateRange selectedDate;
   final int nights;
   final int peoples;
+  final bool isBooked;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class SelectedRoomWidget extends StatelessWidget {
       spacing: 8,
       children: [
         Text(
-          'Selected Rooms (${roomList.length})',
+          '${isBooked ? 'Booked' : 'Selected'} Rooms (${roomList.length})',
           style: MyTextStyles.titleMediumSemiBoldBlack,
         ),
         ListView.builder(

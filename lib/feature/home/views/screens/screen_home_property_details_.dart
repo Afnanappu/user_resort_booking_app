@@ -17,7 +17,7 @@ import 'package:user_resort_booking_app/core/data/view_model/bloc/bloc_google_ma
 import 'package:user_resort_booking_app/feature/booking/views/widgets/select_date_and_gust_sheet.dart';
 import 'package:user_resort_booking_app/feature/home/models/property_details_model.dart';
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_details/property_details_home_bloc.dart';
-import 'package:user_resort_booking_app/feature/home/views/components/custom_container_for_property_details.dart';
+import 'package:user_resort_booking_app/core/components/custom_container_for_property_details.dart';
 import 'package:user_resort_booking_app/feature/home/views/components/custom_list_points_widget_for_property_details.dart';
 import 'package:user_resort_booking_app/feature/home/views/widgets/about_the_resort_widget_for_property_details.dart';
 import 'package:user_resort_booking_app/feature/home/views/widgets/main_details_widget_for_property_details.dart';
