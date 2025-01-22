@@ -15,7 +15,7 @@ class MyPropertyServices {
       FirebaseFirestore.instance.collection('additional_options');
   final _propertiesCollection =
       FirebaseFirestore.instance.collection('properties');
-  final _roomCollectionName = 'rooms';
+  // final _roomCollectionName = 'rooms';
   //All this owner property with filter enabled
   Future<List<Map<String, dynamic>>> fetchProperties({
     String? search,

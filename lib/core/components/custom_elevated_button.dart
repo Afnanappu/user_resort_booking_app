@@ -13,6 +13,8 @@ class CustomElevatedButton extends StatelessWidget {
     this.child,
     this.outlined = false,
     this.height,
+    this.style,
+    // this.horizontal,
   });
   final String text;
   final double? width;
@@ -21,6 +23,8 @@ class CustomElevatedButton extends StatelessWidget {
   final Color? backgroundColor;
   final Widget? child;
   final bool outlined;
+  final TextStyle? style;
+  // final double? horizontal;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -31,15 +35,16 @@ class CustomElevatedButton extends StatelessWidget {
         label: child == null
             ? Text(
                 text,
-                style: outlined
-                    ? MyTextStyles.titleMediumSemiBoldWhite
-                        .copyWith(color: MyColors.orange)
-                    : MyTextStyles.titleMediumSemiBoldWhite,
+                style: style ??
+                    (outlined
+                        ? MyTextStyles.titleMediumSemiBoldWhite
+                            .copyWith(color: MyColors.orange)
+                        : MyTextStyles.titleMediumSemiBoldWhite),
               )
             : child!,
         style: ElevatedButton.styleFrom(
           // padding:
-          //     EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          //     horizontal != null ? null : EdgeInsets.symmetric(horizontal: 50),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRad10),
             side: outlined

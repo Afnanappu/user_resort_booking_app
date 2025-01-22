@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:user_resort_booking_app/core/data/models/transaction_model.dart';
+import 'package:user_resort_booking_app/core/utils/custom_id_generate.dart';
 import 'package:user_resort_booking_app/core/utils/exceptions/custom_exceptions.dart';
 
 class TransactionServices {
@@ -19,7 +20,10 @@ class TransactionServices {
       final userId = transactionModel.userId;
       final isBatchNull = batch == null;
       batch ??= FirebaseFirestore.instance.batch();
-
+      transactionModel.transactionId ??= customIdGenerate(
+        prefix: 'Scap',
+        separator: '_',
+      );
       if (user) {
         final userRef = _userCollection
             .doc(userId)

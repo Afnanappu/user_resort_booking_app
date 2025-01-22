@@ -11,18 +11,16 @@ class PropertyHomeExtraListBloc
     extends Bloc<PropertyHomeExtraListEvent, PropertyHomeExtraListState> {
   final PropertyHomeRepository _repository;
   PropertyHomeExtraListBloc(this._repository) : super(_Initial()) {
-    on<PropertyHomeExtraListEvent>((event, emit) {
-      on<_FetchProperties>((event, emit) async {
-        emit(PropertyHomeExtraListState.loading());
+    on<_FetchProperties>((event, emit) async {
+      emit(PropertyHomeExtraListState.loading());
 
-        try {
-          final propertyList =
-              await _repository.fetchProperties(type: event.type);
-          emit(PropertyHomeExtraListState.loaded(propertyList));
-        } catch (e) {
-          emit(PropertyHomeExtraListState.error(e.toString()));
-        }
-      });
+      try {
+        final propertyList =
+            await _repository.fetchProperties(type: event.type);
+        emit(PropertyHomeExtraListState.loaded(propertyList));
+      } catch (e) {
+        emit(PropertyHomeExtraListState.error(e.toString()));
+      }
     });
   }
 }

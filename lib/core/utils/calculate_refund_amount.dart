@@ -23,6 +23,6 @@ double calculateRefundAmount({
   } else {
     refundPercentage = 0.0; // No refund
   }
-  
-  return totalAmount * refundPercentage;
+
+  return (totalAmount * refundPercentage) - 50;
 }

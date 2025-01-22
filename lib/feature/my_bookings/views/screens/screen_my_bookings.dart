@@ -6,7 +6,7 @@ import 'package:user_resort_booking_app/core/components/custom_circular_progress
 import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
 import 'package:user_resort_booking_app/core/utils/custom_date_formats.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
-import 'package:user_resort_booking_app/feature/my_bookings/view_model/bloc/bloc/booked_property_details_bloc.dart';
+import 'package:user_resort_booking_app/feature/my_bookings/view_model/bloc/bloc_booked_property_details/booked_property_details_bloc.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/view_model/bloc/bloc_booked_property_list/booked_property_list_bloc.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/views/components/booked_property_card.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/views/components/popup_menu_for_my_bookings.dart';
@@ -48,11 +48,12 @@ class ScreenMyBookings extends StatelessWidget {
               BlocBuilder<BookedPropertyListBloc, BookedPropertyListState>(
                 builder: (context, state) {
                   return state.maybeWhen(
-                    loading: () => SizedBox(
-                      height: MyScreenSize.height * middle,
-                      child: Center(
-                        child: CustomCircularProgressIndicator(),
-                      ),
+                    loading: () => ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 4,
+                      itemBuilder: (context, index) =>
+                          BookedPropertyCardShimmer(),
                     ),
                     error: (error) => SizedBox(
                       height: MyScreenSize.height * middle,

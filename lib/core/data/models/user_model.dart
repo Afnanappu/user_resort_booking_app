@@ -1,36 +1,52 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class UserModel {
-  String? uid;
+  final String? uid;
 
-  String name;
+  final String name;
 
-  String email;
+  final String email;
 
-  String? profilePicture;
+  final String? profilePicture;
+
+  final List<String> favorites;
+
+  final DateTime? createdAt;
+
+  final DateTime? updatedAt;
 
   UserModel({
     this.uid,
     required this.name,
     required this.email,
     this.profilePicture,
+    this.favorites = const [],
+    this.createdAt,
+    this.updatedAt,
   });
-  String createdAt = DateTime.timestamp().toIso8601String();
 
   UserModel copyWith({
     String? uid,
     String? name,
     String? email,
-    String? password,
     String? profilePicture,
+    List<String>? favorites,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
       name: name ?? this.name,
       email: email ?? this.email,
       profilePicture: profilePicture ?? this.profilePicture,
+      favorites: favorites ?? this.favorites,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
@@ -40,6 +56,9 @@ class UserModel {
       'name': name,
       'email': email,
       'profilePicture': profilePicture,
+      'favorites': favorites,
+      'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
+      'updatedAt': updatedAt != null ? Timestamp.fromDate(updatedAt!) : null,
     };
   }
 
@@ -51,6 +70,9 @@ class UserModel {
       profilePicture: map['profilePicture'] != null
           ? map['profilePicture'] as String
           : null,
+      favorites: List<String>.from(map['favorites'] ?? []),
+      createdAt: (map['createdAt'] as Timestamp?)?.toDate(),
+      updatedAt: (map['updatedAt'] as Timestamp?)?.toDate(),
     );
   }
 
@@ -61,7 +83,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(uid: $uid, name: $name, email: $email, profilePicture: $profilePicture)';
+    return 'UserModel(uid: $uid, name: $name, email: $email, profilePicture: $profilePicture, favorites: $favorites, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -71,7 +93,10 @@ class UserModel {
     return other.uid == uid &&
         other.name == name &&
         other.email == email &&
-        other.profilePicture == profilePicture;
+        other.profilePicture == profilePicture &&
+        listEquals(other.favorites, favorites) &&
+        other.createdAt == createdAt &&
+        other.updatedAt == updatedAt;
   }
 
   @override
@@ -79,6 +104,9 @@ class UserModel {
     return uid.hashCode ^
         name.hashCode ^
         email.hashCode ^
-        profilePicture.hashCode;
+        profilePicture.hashCode ^
+        favorites.hashCode ^
+        createdAt.hashCode ^
+        updatedAt.hashCode;
   }
 }

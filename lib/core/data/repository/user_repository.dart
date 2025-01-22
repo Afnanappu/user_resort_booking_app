@@ -17,4 +17,8 @@ class UserRepository {
       rethrow;
     }
   }
+
+  Future<void> updateFields() async {
+    await _services.backfillFavorites();
+  }
 }

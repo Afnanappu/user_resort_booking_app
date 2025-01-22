@@ -126,6 +126,11 @@ class _ScreenPaymentState extends State<ScreenPayment> {
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
+    if (response.code == 2) {
+      context.pop();
+      return;
+    }
+
     final userId = context.read<UserDataCubit>().state?.uid;
 
     assert(userId == null, 'User data can\'t be null');
@@ -158,9 +163,7 @@ class _ScreenPaymentState extends State<ScreenPayment> {
     );
 
     context.read<BookingBloc>().add(BookingEvent.failedBooking(
-       
           transactionModel: transactionModel,
-         
         ));
 
     log('Payment Error or Failed: ${response.code} | ${response.message}');

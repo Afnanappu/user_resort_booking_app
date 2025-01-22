@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -117,13 +116,12 @@ class ScreenSearch extends StatelessWidget {
                         ),
                       ),
                     ),
-                    loading: () => SizedBox(
-                      height: height,
-                      child: Center(
-                        child: Text(
-                          'Loading...',
-                        ),
-                      ),
+                    loading: () => ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 5,
+                      itemBuilder: (context, index) =>
+                          PropertySimpleCardShimmer(),
                     ),
                     loaded: (propertyList) {
                       return Column(

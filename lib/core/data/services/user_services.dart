@@ -12,7 +12,6 @@ class UserServices {
       final data =
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
       return data.data();
-      
     } on FirebaseException catch (e, stack) {
       log(e.toString(), stackTrace: stack);
       throw AppExceptionHandler.handleFirestoreException(e);
@@ -20,5 +19,19 @@ class UserServices {
       log(e.toString(), stackTrace: stack);
       throw AppExceptionHandler.handleGenericException(e);
     }
+  }
+
+  Future<void> backfillFavorites() async {
+    // final usersCollection = FirebaseFirestore.instance.collection('users');
+    // final querySnapshot = await usersCollection.get();
+    // for (var doc in querySnapshot.docs) {
+    //   if (!doc.data().containsKey('createdAt')) {
+    //     await doc.reference.update({
+    //       'favorites': [],
+    //       'createdAt': Timestamp.fromDate(DateTime.now()),
+    //       'updatedAt': Timestamp.fromDate(DateTime.now()),
+    //     }); // Set default empty array
+    //   }
+    // }
   }
 }

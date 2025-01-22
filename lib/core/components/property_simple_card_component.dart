@@ -1,5 +1,7 @@
-import 'dart:convert';
+import 'dart:convert' show base64Decode;
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:user_resort_booking_app/core/components/custom_app_container.dart';
 import 'package:user_resort_booking_app/core/data/models/location_model.dart';
 
 class PropertySimpleCardComponent extends StatelessWidget {
@@ -136,6 +138,102 @@ class PropertySimpleCardComponent extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+//Shimmer
+
+class PropertySimpleCardShimmer extends StatelessWidget {
+  const PropertySimpleCardShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: CustomAppContainer(
+        padding: const EdgeInsets.all(16.0),
+        // decoration: ShapeDecoration(
+        //   shape: RoundedRectangleBorder(
+        //     side: BorderSide(width: 0.2, color: const Color(0xFF8A8989)),
+        //     borderRadius: BorderRadius.circular(8.0),
+        //   ),
+        // ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Left Image Placeholder
+            _shimmerBox(width: 105, height: 105, borderRadius: 8.0),
+            const SizedBox(width: 16.0), // Space between image and text
+            // Right Text Section Placeholders
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _shimmerBox(
+                      width: double.infinity, height: 16), // Property Name
+                  const SizedBox(height: 8.0),
+                  Row(
+                    children: [
+                      _shimmerCircle(size: 12), // Location Icon
+                      const SizedBox(width: 4.0),
+                      Expanded(
+                        child: _shimmerBox(
+                            width: double.infinity,
+                            height: 12), // Location Text
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8.0),
+                  Row(
+                    children: [
+                      _shimmerCircle(size: 12), // Star Icon
+                      const SizedBox(width: 4.0),
+                      _shimmerBox(width: 120, height: 12), // Rating & Reviews
+                    ],
+                  ),
+                  const SizedBox(height: 8.0),
+                  _shimmerBox(width: 150, height: 16), // Price Text
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _shimmerBox({
+    required double width,
+    required double height,
+    double borderRadius = 0,
+  }) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: Colors.grey.shade300,
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+      ),
+    );
+  }
+
+  Widget _shimmerCircle({required double size}) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Container(
+        width: size,
+        height: size,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.grey,
         ),
       ),
     );

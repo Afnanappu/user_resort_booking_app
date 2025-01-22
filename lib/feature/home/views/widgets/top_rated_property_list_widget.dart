@@ -23,9 +23,9 @@ class TopRatedPropertyListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //fetching data
-    context
-        .read<PropertyListHomeBloc>()
-        .add(PropertyListHomeEvent.fetchProperties(type: 'top-rated'));
+    context.read<PropertyListHomeBloc>().add(
+          PropertyListHomeEvent.fetchProperties(type: 'top-rated'),
+        );
     return BlocBuilder<PropertyListHomeBloc, PropertyListHomeState>(
       builder: (context, state) {
         return state.maybeWhen(
@@ -55,11 +55,19 @@ class TopRatedPropertyListWidget extends StatelessWidget {
             ),
           ),
           loading: () => SizedBox(
-            height: MyScreenSize.height - sizedBoxHeight,
-            child: Center(
-              child: Text(
-                'Loading...',
-              ),
+            height: 250,
+            child: ListView(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              children: [1, 2, 3].map(
+                (property) {
+                  return SizedBox(
+                    // height: 100,
+                    width: MyScreenSize.width * .8,
+                    child: PropertyWidgetShimmer(),
+                  );
+                },
+              ).toList(),
             ),
           ),
           loaded: (propertyList) {

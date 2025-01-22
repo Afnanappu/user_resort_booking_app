@@ -17,6 +17,7 @@ class ScreenHome extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
+        // context.read<UserDataCubit>().updateFields();
         context.read<UserDataCubit>().fetchUserData();
       },
     );

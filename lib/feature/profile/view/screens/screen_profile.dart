@@ -18,7 +18,9 @@ class ScreenProfile extends StatelessWidget {
               if (await GoogleSignIn().isSignedIn()) {
                 GoogleSignIn().signOut();
               }
-              context.go("/${AppRoutes.login}");
+              if (context.mounted) {
+                context.go("/${AppRoutes.login}");
+              }
             },
             child: Text('Profile Screen'),
           ),

@@ -54,13 +54,11 @@ class ExtraPropertyListHomeWidget extends StatelessWidget {
               ),
             ),
           ),
-          loading: () => SizedBox(
-            height: MyScreenSize.height - sizedBoxHeight,
-            child: Center(
-              child: Text(
-                'Loading...',
-              ),
-            ),
+          loading: () => ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: 5,
+            itemBuilder: (context, index) => PropertySimpleCardShimmer(),
           ),
           orElse: () {
             return Center(

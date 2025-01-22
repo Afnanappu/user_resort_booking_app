@@ -31,7 +31,7 @@ import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_proper
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_home_list/property_list_home_bloc.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/repository/my_booking_repository.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/services/my_booking_services.dart';
-import 'package:user_resort_booking_app/feature/my_bookings/view_model/bloc/bloc/booked_property_details_bloc.dart';
+import 'package:user_resort_booking_app/feature/my_bookings/view_model/bloc/bloc_booked_property_details/booked_property_details_bloc.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/view_model/bloc/bloc_booked_property_list/booked_property_list_bloc.dart';
 import 'package:user_resort_booking_app/feature/profile/repository/payment_history_repository.dart';
 import 'package:user_resort_booking_app/feature/profile/services/payment_history_services.dart';

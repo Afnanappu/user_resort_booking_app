@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
 import 'package:user_resort_booking_app/core/data/models/room_model.dart';
-import 'package:user_resort_booking_app/feature/booking/views/components/selected_room_container.dart';
+import 'package:user_resort_booking_app/core/components/selected_room_container.dart';
 
 class SelectedRoomWidget extends StatelessWidget {
   const SelectedRoomWidget({

@@ -14,4 +14,8 @@ class UserDataCubit extends Cubit<UserModel?> {
   void setUser(UserModel userModel) {
     emit(userModel);
   }
+
+  void updateFields() async {
+   await _repository.updateFields();
+  }
 }

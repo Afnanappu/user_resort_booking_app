@@ -138,7 +138,7 @@ class MyBookingServices extends PropertyHomeServices {
               (e) => PickedDateRangeModel.fromMap(e),
             )
             .toList();
-        log('worked after date fromMap method');
+            
         final updatedBookedDateList = bookedDays.where((element) {
           final pickedDateRange = PickedDateRangeModel(
             startDate,
@@ -154,7 +154,6 @@ class MyBookingServices extends PropertyHomeServices {
             )
             .toList();
         batch.update(roomDoc, {'bookedDays': updatedDateToMap});
-        log('after range date filtered');
       }
 
       final amount = calculateRefundAmount(
@@ -176,17 +175,14 @@ class MyBookingServices extends PropertyHomeServices {
         updatedAt: DateTime.now(),
         ownerId: ownerId,
       );
-      log('after transaction model created');
 
       await transactionServices.makeTransaction(
         transactionModel: transactionModel,
         batch: batch,
       );
-      log('after makeTransaction worked');
 
       await batch.commit(); //commit the updates
 
-      log('after batch commit');
     } on FirebaseException catch (e, stack) {
       log(e.toString(), stackTrace: stack);
       throw AppExceptionHandler.handleFirestoreException(e);

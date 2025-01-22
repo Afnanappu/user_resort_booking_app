@@ -160,9 +160,11 @@ final routes = GoRouter(
               path: '/${AppRoutes.profile}',
               pageBuilder: (_, state) {
                 return customTransitionPage(
-                  state,
-                  ScreenProfile(),
-                );
+                    state,
+
+                    //TODO:change to screen profile
+                    // ScreenProfile(),
+                    ScreenPaymentHistory());
               },
             ),
           ],
