@@ -210,18 +210,18 @@ class BookedPropertyCardShimmer extends StatelessWidget {
     );
   }
 
-  Widget _shimmerCircle(double size) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
-      child: Container(
-        width: size,
-        height: size,
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.grey,
-        ),
-      ),
-    );
-  }
+  // Widget _shimmerCircle(double size) {
+  //   return Shimmer.fromColors(
+  //     baseColor: Colors.grey.shade300,
+  //     highlightColor: Colors.grey.shade100,
+  //     child: Container(
+  //       width: size,
+  //       height: size,
+  //       decoration: const BoxDecoration(
+  //         shape: BoxShape.circle,
+  //         color: Colors.grey,
+  //       ),
+  //     ),
+  //   );
+  // }
 }

@@ -10,6 +10,7 @@ class GoogleMapEvent with _$GoogleMapEvent {
       _ConfirmLocation;
   const factory GoogleMapEvent.setLocation(LocationModel locationModel) =
       _SetLocation;
+  // const factory GoogleMapEvent.openSettings() = _OpenSettings;
   const factory GoogleMapEvent.clearSelection() = _ClearSelection;
   const factory GoogleMapEvent.drawPath() = _DrawPath;
 }

@@ -11,6 +11,7 @@ import 'package:user_resort_booking_app/feature/booking/views/screens/screen_rev
 import 'package:user_resort_booking_app/feature/home/views/screens/screen_home.dart';
 import 'package:user_resort_booking_app/feature/home/views/screens/screen_home_property_details_.dart';
 import 'package:user_resort_booking_app/feature/booking/views/screens/screen_property_room_list.dart';
+import 'package:user_resort_booking_app/feature/home/views/screens/screen_notification.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/views/screens/screen_booked_property_details.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/views/screens/screen_my_bookings.dart';
 import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_onboarding_2.dart';
@@ -81,6 +82,11 @@ final routes = GoRouter(
       path: '/${AppRoutes.paymentHistory}',
       pageBuilder: (context, state) =>
           customTransitionPage(state, ScreenPaymentHistory()),
+    ),
+    GoRoute(
+      path: '/${AppRoutes.notification}',
+      pageBuilder: (context, state) =>
+          customTransitionPage(state, ScreenNotification()),
     ),
     GoRoute(
       path: '/${AppRoutes.bookedPropertyDetails}',

@@ -9,6 +9,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geocode/geocode.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:permission_handler/permission_handler.dart' as ph;
 import 'package:user_resort_booking_app/core/constants/api_keys.dart';
 import 'package:user_resort_booking_app/core/data/models/location_model.dart';
 import 'package:user_resort_booking_app/core/utils/exceptions/google_map_exception.dart';
@@ -40,7 +41,7 @@ class GoogleMapBloc extends Bloc<GoogleMapEvent, GoogleMapState> {
           ),
         );
       } on GoogleMapException catch (e) {
-        emit(GoogleMapState.error(e.toString()));
+        emit(GoogleMapState.error(e.message));
       } catch (e) {
         emit(
           GoogleMapState.error(
@@ -140,6 +141,13 @@ class GoogleMapBloc extends Bloc<GoogleMapEvent, GoogleMapState> {
         );
       },
     );
+
+    // on<_OpenSettings>((event, emit) async {
+    //  final isOpened = await openSettingsToEnableLocation();
+    //  if(isOpened){
+    //   emit
+    //  }
+    // });
   }
 
   ///Map Controller
@@ -154,6 +162,15 @@ class GoogleMapBloc extends Bloc<GoogleMapEvent, GoogleMapState> {
 
   ///Location controller getter
   Location get getLocationController => _locationController;
+
+  Future<bool> openSettingsToEnableLocation() async {
+    final permission = ph.Permission.location;
+
+    log('settings is opening to enable location');
+    await ph.openAppSettings();
+//  final isOpened =
+    return await permission.isGranted;
+  }
 
   Future<LatLng> getCurrentLocation() async {
     bool isServiceEnabled;

@@ -24,7 +24,11 @@ void bookingDatePickerDialog(
             selectionMode: DateRangePickerSelectionMode.multiRange,
             showActionButtons: true,
             enablePastDates: false,
-            confirmText: 'select',
+            // enableMultiView: true,
+            todayHighlightColor: MyColors.orange,
+
+            // confirmText: 'select',
+            // selectionTextStyle: TextStyle(color: MyColors.orange),
             selectionRadius: 30,
             selectionColor: MyColors.orange,
             rangeSelectionColor: MyColors.orangeBackground,
@@ -43,22 +47,29 @@ void bookingDatePickerDialog(
             onSubmit: (value) {
               if (value is! List<PickerDateRange>) {
                 log('Selected date is not pickerDateRange');
-                showCustomSnackBar(
-                  context: context,
-                  message: 'Select one date range',
-                );
+                // showCustomSnackBar(
+                //   context: context,
+                //   message: 'Select one date range',
+                // );
                 // context.pop();
                 return;
               }
-              if (value.first.startDate == null &&
-                  value.first.endDate == null) {
+              if (value.isEmpty) {
+                return;
+              }
+              if (value.first.startDate == null) {
                 log('Select a date between ranges, starting or ending date is null');
                 showCustomSnackBar(
                   context: context,
                   message: 'Select range have no end or starting',
                 );
               }
-              context.read<BookingSelectDateCubit>().setDateRange(value.first);
+
+              final pickedDates = PickerDateRange(
+                  value.first.startDate,
+                  value.first.endDate ??
+                      value.first.startDate!.add(Duration(days: 1)));
+              context.read<BookingSelectDateCubit>().setDateRange(pickedDates);
               context.pop();
             },
             onCancel: () {

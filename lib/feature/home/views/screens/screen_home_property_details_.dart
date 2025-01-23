@@ -1,7 +1,7 @@
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:user_resort_booking_app/core/components/carousel_image_picked_show_widget.dart';
 import 'package:user_resort_booking_app/core/components/custom_app_bar.dart';
@@ -22,7 +22,6 @@ import 'package:user_resort_booking_app/feature/home/views/components/custom_lis
 import 'package:user_resort_booking_app/feature/home/views/widgets/about_the_resort_widget_for_property_details.dart';
 import 'package:user_resort_booking_app/feature/home/views/widgets/main_details_widget_for_property_details.dart';
 import 'package:user_resort_booking_app/feature/home/views/widgets/review_and_rating_widget.dart';
-import 'package:user_resort_booking_app/routes/route_names.dart';
 
 // ignore: must_be_immutable
 class ScreenHomePropertyDetails extends StatelessWidget {
@@ -31,7 +30,6 @@ class ScreenHomePropertyDetails extends StatelessWidget {
   late LatLng propertyLocation;
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Details Resort',
@@ -40,10 +38,6 @@ class ScreenHomePropertyDetails extends StatelessWidget {
           IconButton(
             onPressed: () {
               //TODO: Add favorite option here
-
-              //!currently adding payment option here
-
-              context.push('/${AppRoutes.payment}');
             },
             icon: Icon(
               Icons.favorite_border,
@@ -198,44 +192,69 @@ class ScreenHomePropertyDetails extends StatelessWidget {
                 return null;
               },
             );
+
             if (cameraPosition != null) {
               initialCameraPosition = cameraPosition;
-            } else {
-              // context.read<GoogleMapBloc>().add(GoogleMapEvent.confirmLocation());
             }
+            // else {}
 
-            return initialCameraPosition == null
-                ? Center(
-                    child: Text(
-                      'Loading...',
-                    ),
-                  )
-                : CustomGoogleMapWidget(
-                    initialCameraPosition: initialCameraPosition,
-                    onMapCreated: (controller) {
-                      context
-                          .read<GoogleMapBloc>()
-                          .getMapController
-                          .complete(controller);
-                    },
-                    markers: state.maybeWhen(
-                      locationConfirmed: (selectedLocation, _) => {
-                        Marker(
-                          markerId: MarkerId('selectedPlace'),
-                          icon: BitmapDescriptor.defaultMarker,
-                          position: LatLng(
-                            selectedLocation.latitude,
-                            selectedLocation.longitude,
-                          ),
-                        )
-                      },
-                      orElse: () => {},
-                    ),
-                    polylines: state.maybeWhen(
-                      locationConfirmed: (_, polylines) => polylines ?? {},
-                      orElse: () => {},
-                    ),
-                  );
+            return
+                // cameraPosition == null
+                //     ? Center(
+                //         child: TextButton(
+                //           onPressed: () async {
+                //             // final isOpened = await context
+                //             //     .read<GoogleMapBloc>()
+                //             //     .openSettingsToEnableLocation();
+                //             // if (isOpened) {
+                //             //   log('Permission is granted $isOpened');
+                //             //   if (context.mounted) {
+                //             context
+                //                 .read<GoogleMapBloc>()
+                //                 .add(GoogleMapEvent.mapInitialized());
+                //             // }
+                //             // }
+                //           },
+                //           child: Text('Open settings to enable location'),
+                //         ),
+                //       )
+                //     :
+                initialCameraPosition == null
+                    ? Center(
+                        child: Text(state.maybeWhen(
+                          error: (error) => error,
+                          initial: () => 'Loading',
+                          orElse: () {
+                            return 'An unexpected error occurred';
+                          },
+                        )),
+                      )
+                    : CustomGoogleMapWidget(
+                        initialCameraPosition: initialCameraPosition,
+                        onMapCreated: (controller) {
+                          context
+                              .read<GoogleMapBloc>()
+                              .getMapController
+                              .complete(controller);
+                        },
+                        markers: state.maybeWhen(
+                          locationConfirmed: (selectedLocation, _) => {
+                            Marker(
+                              markerId: MarkerId('selectedPlace'),
+                              icon: BitmapDescriptor.defaultMarker,
+                              position: LatLng(
+                                selectedLocation.latitude,
+                                selectedLocation.longitude,
+                              ),
+                            )
+                          },
+                          orElse: () => {},
+                        ),
+                        polylines: state.maybeWhen(
+                          locationConfirmed: (_, polylines) => polylines ?? {},
+                          orElse: () => {},
+                        ),
+                      );
           },
         ),
       ),

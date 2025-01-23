@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/data/models/user_model.dart';
 import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
+import 'package:user_resort_booking_app/routes/route_names.dart';
 
 class AppBarForHome extends StatelessWidget implements PreferredSizeWidget {
   const AppBarForHome({super.key});
@@ -79,6 +81,7 @@ class AppBarForHome extends StatelessWidget implements PreferredSizeWidget {
                 IconButton.filled(
                   onPressed: () {
                     //TODO: add function to notification
+                    context.push('/${AppRoutes.notification}');
                   },
                   color: MyColors.orange,
                   style: IconButton.styleFrom(backgroundColor: MyColors.white),

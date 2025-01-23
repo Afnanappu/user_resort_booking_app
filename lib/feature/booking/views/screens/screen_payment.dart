@@ -8,6 +8,7 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user_resort_booking_app/core/components/custom_circular_progress_indicator.dart';
 import 'package:user_resort_booking_app/core/components/custom_snack_bar.dart';
 import 'package:user_resort_booking_app/core/constants/api_keys.dart';
+import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/data/models/room_model.dart';
 import 'package:user_resort_booking_app/core/data/models/transaction_model.dart';
 import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
@@ -126,9 +127,26 @@ class _ScreenPaymentState extends State<ScreenPayment> {
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    if (response.code == 2) {
+    if (response.code == Razorpay.PAYMENT_CANCELLED) {
+      log('Payment was cancelled by the user!');
+      showCustomSnackBar(
+        context: context,
+        message: 'Payment was cancelled by the user!',
+        bgColor: MyColors.grey,
+      );
+
       context.pop();
       return;
+    }
+    if (response.code == Razorpay.NETWORK_ERROR) {
+      log("Network issue detected. Please check your internet connection and try again.");
+      showCustomSnackBar(
+        context: context,
+        message:
+            "Network issue detected. Please check your internet connection and try again.",
+        bgColor: MyColors.grey,
+      );
+      context.pop();
     }
 
     final userId = context.read<UserDataCubit>().state?.uid;

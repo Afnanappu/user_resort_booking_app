@@ -36,8 +36,11 @@ void selectDateAndGustBottomSheet(BuildContext context) {
               children: [
                 BlocBuilder<BookingSelectDateCubit, PickerDateRange>(
                   builder: (context, pickedDate) {
-                    final startingDate = customDateFormat(pickedDate.startDate!);
-                    final endDate = customDateFormat(pickedDate.endDate!);
+                    final startingDate =
+                        customDateFormat(pickedDate.startDate!);
+                    final endDate = customDateFormat(
+                      pickedDate.endDate!,
+                    );
                     return ListTile(
                       leading: Icon(Icons.calendar_today),
                       title: Text("Select Date"),

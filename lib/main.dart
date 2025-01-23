@@ -1,15 +1,17 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:user_resort_booking_app/core/constants/theme.dart';
 import 'package:user_resort_booking_app/core/data/repository/user_repository.dart';
+import 'package:user_resort_booking_app/core/data/services/notification_services.dart';
 import 'package:user_resort_booking_app/core/data/services/transaction_services.dart';
 import 'package:user_resort_booking_app/core/data/services/user_services.dart';
+import 'package:user_resort_booking_app/core/data/view_model/bloc/bloc_notification/notification_bloc.dart';
 import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
 import 'package:user_resort_booking_app/core/data/view_model/bloc/bloc_google_map/google_map_bloc.dart';
-import 'package:user_resort_booking_app/feature/authentication/model/user_local_data_model.dart';
 import 'package:user_resort_booking_app/feature/authentication/repository/auth_repository.dart';
 import 'package:user_resort_booking_app/feature/authentication/repository/user_local_repository.dart';
 import 'package:user_resort_booking_app/feature/authentication/services/auth_service.dart';
@@ -50,10 +52,16 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await Hive.initFlutter();
-  if (!Hive.isAdapterRegistered(UserLocalDataModelAdapter().typeId)) {
-    Hive.registerAdapter(UserLocalDataModelAdapter());
-  }
+  final notificationService = NotificationServices();
+  // ..initNotification();
+
+  //initializing notification for  this app
+  // await NotificationServices().initNotification();
+
+  // await Hive.initFlutter();
+  // if (!Hive.isAdapterRegistered(UserLocalDataModelAdapter().typeId)) {
+  //   Hive.registerAdapter(UserLocalDataModelAdapter());
+  // }
 
   // if (kDebugMode) {
   //   try {
@@ -69,18 +77,8 @@ Future<void> main() async {
   //   }
   // }
 
-  runApp(const MainApp());
-}
-
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    MyScreenSize.initialize(context);
-
-    print(MyScreenSize());
-    return MultiRepositoryProvider(
+  runApp(
+    MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
           create: (context) => AuthRepository(
@@ -127,6 +125,15 @@ class MainApp extends StatelessWidget {
       //Providers
       child: MultiBlocProvider(
         providers: [
+          //notification
+          BlocProvider(create: (context) {
+            log('working on bloc provider to initialize bloc');
+            return NotificationBloc(notificationService);
+            // ..add(
+            //   NotificationEvent.initNotification(),
+            // );
+          }),
+
           BlocProvider(
             create: (context) => AuthBloc(context.read<AuthRepository>()),
           ),
@@ -200,12 +207,27 @@ class MainApp extends StatelessWidget {
             ),
           ),
         ],
-        child: MaterialApp.router(
-          routerConfig: routes,
-          debugShowCheckedModeBanner: false,
-          theme: customTheme,
-        ),
+        child: const MainApp(),
       ),
+    ),
+  );
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    MyScreenSize.initialize(context);
+    context.read<NotificationBloc>().add(
+          NotificationEvent.initNotification(),
+        );
+
+    print(MyScreenSize());
+    return MaterialApp.router(
+      routerConfig: routes,
+      debugShowCheckedModeBanner: false,
+      theme: customTheme,
     );
   }
 }
