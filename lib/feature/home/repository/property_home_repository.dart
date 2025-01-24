@@ -14,7 +14,7 @@ class PropertyHomeRepository {
       {required String type}) async {
     try {
       final data = await _services.fetchProperties(type: type);
-
+      log(data[2]['reviews'].toString());
       return data
           .map(
             (e) => PropertyCardModel.fromMap(e),
@@ -36,5 +36,4 @@ class PropertyHomeRepository {
       rethrow;
     }
   }
-
 }

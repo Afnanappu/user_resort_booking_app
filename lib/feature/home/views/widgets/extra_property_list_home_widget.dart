@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:user_resort_booking_app/core/components/property_simple_card_component.dart';
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
+import 'package:user_resort_booking_app/core/utils/math_functions.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
 import 'package:user_resort_booking_app/core/data/view_model/bloc/bloc_google_map/google_map_bloc.dart';
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_details/property_details_home_bloc.dart';
@@ -72,12 +73,23 @@ class ExtraPropertyListHomeWidget extends StatelessWidget {
               itemCount: propertyList.length,
               itemBuilder: (context, index) {
                 final property = propertyList[index];
+
                 return PropertySimpleCardComponent(
                   image: property.image.base64file,
                   propertyName: property.name,
-                  rating: property.rating ?? 0,
+                  rating: getAverage(
+                    property.reviews
+                        .map(
+                          (e) => e.rating,
+                        )
+                        .toList(),
+                  ),
+                  reviews: property.reviews
+                      .map(
+                        (e) => e.feedback,
+                      )
+                      .toList(),
                   location: property.location,
-                  reviews: property.reviews,
                   price: property.price,
                   havePlaceholder: false,
                   onTap: () {

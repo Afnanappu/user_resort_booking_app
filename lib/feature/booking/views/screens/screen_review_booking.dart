@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,6 +9,7 @@ import 'package:user_resort_booking_app/core/components/selected_room_widget.dar
 import 'package:user_resort_booking_app/core/constants/spaces.dart';
 import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
 import 'package:user_resort_booking_app/core/utils/custom_date_formats.dart';
+import 'package:user_resort_booking_app/core/utils/math_functions.dart';
 import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_select_date_cubit.dart';
 import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_select_people_cubit.dart';
 import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_selected_rooms_cubit.dart';
@@ -63,9 +65,20 @@ class ScreenReviewBooking extends StatelessWidget {
               image: property!.images.first.base64file,
               propertyName: property.name,
               location: property.location,
-              rating: property.rating,
-              reviews: property.reviews,
+              rating: getAverage(
+                property.reviews
+                    .map(
+                      (e) => e.rating,
+                    )
+                    .toList(),
+              ),
+              reviews: property.reviews
+                  .map(
+                    (e) => e.feedback,
+                  )
+                  .toList(),
               price: property.price,
+              
             ),
 
             MySpaces.hSpace20,

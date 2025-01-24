@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:user_resort_booking_app/core/data/models/transaction_model.dart';
 import 'package:user_resort_booking_app/feature/profile/model/payment_history_card_model.dart';
 import 'package:user_resort_booking_app/feature/profile/repository/payment_history_repository.dart';
 

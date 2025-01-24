@@ -107,7 +107,7 @@ class ScreenMyBookings extends StatelessWidget {
                                         '${customDateFormat(model.startDate)} - ${customDateFormat(model.endDate)}',
                                     price: model.price,
                                     imageUrl: model.imageUrl,
-                                    status: model.status,
+                                    status: getBookingStatus(model.status),
                                     onStatusPressed: () {},
                                   ),
                                 );

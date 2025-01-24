@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:syncfusion_flutter_datepicker/src/date_picker/date_picker_manager.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+
 import 'package:user_resort_booking_app/core/components/custom_bottom_navigation_bar.dart';
 import 'package:user_resort_booking_app/core/components/custom_elevated_button.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';

@@ -4,8 +4,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_resort_booking_app/core/constants/theme.dart';
+import 'package:user_resort_booking_app/core/data/repository/review_repository.dart';
 import 'package:user_resort_booking_app/core/data/repository/user_repository.dart';
 import 'package:user_resort_booking_app/core/data/services/notification_services.dart';
+import 'package:user_resort_booking_app/core/data/services/review_services.dart';
 import 'package:user_resort_booking_app/core/data/services/transaction_services.dart';
 import 'package:user_resort_booking_app/core/data/services/user_services.dart';
 import 'package:user_resort_booking_app/core/data/view_model/bloc/bloc_notification/notification_bloc.dart';
@@ -33,10 +35,11 @@ import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_proper
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_home_list/property_list_home_bloc.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/repository/my_booking_repository.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/services/my_booking_services.dart';
+import 'package:user_resort_booking_app/feature/my_bookings/view_model/bloc/bloc/review_bloc.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/view_model/bloc/bloc_booked_property_details/booked_property_details_bloc.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/view_model/bloc/bloc_booked_property_list/booked_property_list_bloc.dart';
+import 'package:user_resort_booking_app/feature/my_bookings/view_model/cubit/rating_count_cubit.dart';
 import 'package:user_resort_booking_app/feature/profile/repository/payment_history_repository.dart';
-import 'package:user_resort_booking_app/feature/profile/services/payment_history_services.dart';
 import 'package:user_resort_booking_app/feature/profile/view_model/bloc/payment_history_bloc.dart';
 import 'package:user_resort_booking_app/feature/search/repository/my_property_repository.dart';
 import 'package:user_resort_booking_app/feature/search/services/my_property_services.dart';
@@ -91,8 +94,11 @@ Future<void> main() async {
           ),
         ),
         RepositoryProvider(
-          create: (context) =>
-              PropertyHomeRepository(services: PropertyHomeServices()),
+          create: (context) => PropertyHomeRepository(
+            services: PropertyHomeServices(
+              ReviewServices(),
+            ),
+          ),
         ),
         RepositoryProvider(
           create: (context) =>
@@ -107,13 +113,17 @@ Future<void> main() async {
           ),
         ),
         RepositoryProvider(
+          create: (context) => ReviewRepository(
+            ReviewServices(),
+          ),
+        ),
+        RepositoryProvider(
           create: (context) => BookingRepository(
             service: BookingService(),
           ),
         ),
         RepositoryProvider(
           create: (context) => PaymentHistoryRepository(
-            paymentHistoryServices: PaymentHistoryServices(),
             transactionServices: TransactionServices(),
           ),
         ),
@@ -163,6 +173,9 @@ Future<void> main() async {
             create: (context) => BookingSelectDateCubit(),
           ),
           BlocProvider(
+            create: (context) => RatingCountCubit(),
+          ),
+          BlocProvider(
             create: (context) =>
                 PaymentHistoryBloc(context.read<PaymentHistoryRepository>()),
           ),
@@ -176,6 +189,9 @@ Future<void> main() async {
           ),
           BlocProvider(
             create: (context) => BookingSelectedRoomsCubit(),
+          ),
+          BlocProvider(
+            create: (context) => ReviewBloc(context.read<ReviewRepository>()),
           ),
           BlocProvider(
             create: (context) => UserDataCubit(context.read<UserRepository>()),

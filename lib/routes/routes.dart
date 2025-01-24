@@ -18,7 +18,6 @@ import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_
 import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_onboarding.dart';
 import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_splash.dart';
 import 'package:user_resort_booking_app/feature/profile/view/screens/screen_payment_history.dart';
-import 'package:user_resort_booking_app/feature/profile/view/screens/screen_profile.dart';
 import 'package:user_resort_booking_app/feature/search/view/screens/screen_search.dart';
 import 'package:user_resort_booking_app/routes/custom_route_transition.dart';
 import 'package:user_resort_booking_app/routes/route_names.dart';

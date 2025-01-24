@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:user_resort_booking_app/core/data/models/picked_date_range_model.dart';
 import 'package:user_resort_booking_app/core/data/models/transaction_model.dart';
+import 'package:user_resort_booking_app/core/data/services/review_services.dart';
 import 'package:user_resort_booking_app/core/data/services/transaction_services.dart';
 import 'package:user_resort_booking_app/core/utils/calculate_refund_amount.dart';
 import 'package:user_resort_booking_app/core/utils/exceptions/custom_exceptions.dart';
@@ -10,6 +11,7 @@ import 'package:user_resort_booking_app/feature/home/services/property_home_serv
 import 'package:user_resort_booking_app/feature/my_bookings/model/booked_property_details_model.dart';
 
 class MyBookingServices extends PropertyHomeServices {
+  MyBookingServices() : super(ReviewServices());
   final _userCollection = FirebaseFirestore.instance.collection('users');
   final _ownerCollection = FirebaseFirestore.instance.collection('owners');
   final _propertiesCollection =
@@ -138,7 +140,7 @@ class MyBookingServices extends PropertyHomeServices {
               (e) => PickedDateRangeModel.fromMap(e),
             )
             .toList();
-            
+
         final updatedBookedDateList = bookedDays.where((element) {
           final pickedDateRange = PickedDateRangeModel(
             startDate,
@@ -182,7 +184,6 @@ class MyBookingServices extends PropertyHomeServices {
       );
 
       await batch.commit(); //commit the updates
-
     } on FirebaseException catch (e, stack) {
       log(e.toString(), stackTrace: stack);
       throw AppExceptionHandler.handleFirestoreException(e);

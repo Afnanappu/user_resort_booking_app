@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_resort_booking_app/core/components/carousel_image_picked_show_widget.dart';
@@ -10,7 +8,7 @@ import 'package:user_resort_booking_app/core/constants/text_styles.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
 import 'package:user_resort_booking_app/feature/booking/view_model/bloc/bloc_room_details/property_room_details_bloc.dart';
 import 'package:user_resort_booking_app/feature/booking/views/components/price_per_day_widget.dart';
-import 'package:user_resort_booking_app/core/components/custom_icon_widget.dart';
+import 'package:user_resort_booking_app/feature/booking/views/widgets/property_room_details_amenities_widget.dart';
 
 class ScreenPropertyRoomDetails extends StatelessWidget {
   const ScreenPropertyRoomDetails({super.key});
@@ -21,15 +19,14 @@ class ScreenPropertyRoomDetails extends StatelessWidget {
       appBar: CustomAppBar(
         title: 'Details Resort',
         needUnderline: false,
-        actions: [
-          IconButton(
-            onPressed: () {
-              //TODO: Add editing option here
-            },
-            icon: Icon(Icons.edit_note_outlined),
-          ),
-          MySpaces.hSpace5,
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //     },
+        //     icon: Icon(Icons.edit_note_outlined),
+        //   ),
+        //   MySpaces.hSpace5,
+        // ],
       ),
       body: BlocBuilder<PropertyRoomDetailsBloc, PropertyRoomDetailsState>(
         builder: (context, state) {
@@ -93,7 +90,6 @@ class ScreenPropertyRoomDetails extends StatelessWidget {
                             ),
                             Text(
                               '${roomModel.roomArea} sqm • ${roomModel.roomType} • ${roomModel.bedType} • Max ${roomModel.maxGustCount} gust',
-                              // style: MyTextStyles.,
                             ),
 
                             MySpaces.hSpace20,
@@ -119,66 +115,15 @@ class ScreenPropertyRoomDetails extends StatelessWidget {
                                         padding:
                                             const EdgeInsets.only(left: 12),
                                         child: Text(
-                                          "If you're looking for Levi Ackerman wallpapers, you can find a wide variety on platforms like",
-                                          // roomModel.description,
+                                          roomModel.description,
                                           style:
                                               MyTextStyles.bodySmallNormalBlack,
                                         ),
                                       )
                                     ],
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    spacing: 8,
-                                    children: [
-                                      Text(
-                                        'Description',
-                                        style: MyTextStyles
-                                            .titleMediumSemiBoldBlack,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 12),
-                                        child: GridView.builder(
-                                          shrinkWrap: true,
-                                          physics:
-                                              NeverScrollableScrollPhysics(), // Prevents scroll conflicts
-                                          itemCount: roomModel.amenities.length,
-                                          gridDelegate:
-                                              SliverGridDelegateWithMaxCrossAxisExtent(
-                                            childAspectRatio: 4,
-                                            maxCrossAxisExtent: 200,
-                                            mainAxisSpacing: 10,
-                                            crossAxisSpacing: 10,
-                                          ),
-                                          itemBuilder: (context, index) {
-                                            final amenities =
-                                                roomModel.amenities[index];
-                                            return LayoutBuilder(
-                                              builder: (context, constraints) {
-                                                return CustomIconTextWidget(
-                                                  icon: amenities.image == null
-                                                      ? SizedBox()
-                                                      : Image.memory(
-                                                          base64Decode(
-                                                            amenities.image!,
-                                                          ),
-                                                          height: 20,
-                                                        ),
-                                                  content: Text(
-                                                    amenities.name,
-                                                    textAlign: TextAlign.center,
-                                                    style:
-                                                        TextStyle(fontSize: 14),
-                                                  ),
-                                                );
-                                              },
-                                            );
-                                          },
-                                        ),
-                                      )
-                                    ],
+                                  PropertyRoomDetailsAmenitiesWidget(
+                                    roomModel: roomModel,
                                   ),
                                 ],
                               ),
@@ -223,5 +168,3 @@ class ScreenPropertyRoomDetails extends StatelessWidget {
     );
   }
 }
-
-//===================

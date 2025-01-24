@@ -4,16 +4,12 @@ import 'dart:developer';
 import 'package:user_resort_booking_app/core/data/models/transaction_model.dart';
 import 'package:user_resort_booking_app/core/data/services/transaction_services.dart';
 import 'package:user_resort_booking_app/feature/profile/model/payment_history_card_model.dart';
-import 'package:user_resort_booking_app/feature/profile/services/payment_history_services.dart';
 
 class PaymentHistoryRepository {
-  final PaymentHistoryServices _paymentHistoryServices;
   final TransactionServices _transactionServices;
   PaymentHistoryRepository({
-    required PaymentHistoryServices paymentHistoryServices,
     required TransactionServices transactionServices,
-  })  : _paymentHistoryServices = paymentHistoryServices,
-        _transactionServices = transactionServices;
+  }) : _transactionServices = transactionServices;
 
   Future<List<PaymentHistoryModel>> fetchMyPaymentTransactions({
     required String userId,

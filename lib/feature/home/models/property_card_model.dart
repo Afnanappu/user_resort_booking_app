@@ -2,8 +2,10 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+
 import 'package:user_resort_booking_app/core/data/models/location_model.dart';
 import 'package:user_resort_booking_app/core/data/models/picked_file_model.dart';
+import 'package:user_resort_booking_app/core/data/models/review_model.dart';
 
 class PropertyCardModel {
   String? id;
@@ -11,8 +13,7 @@ class PropertyCardModel {
   String name;
   LocationModel location;
   double price;
-  double? rating;
-  List<String> reviews;
+  List<ReviewModel> reviews;
   int rooms;
   PropertyCardModel({
     this.id,
@@ -20,7 +21,6 @@ class PropertyCardModel {
     required this.name,
     required this.location,
     required this.price,
-    required this.rating,
     required this.reviews,
     required this.rooms,
   });
@@ -31,8 +31,7 @@ class PropertyCardModel {
     String? name,
     LocationModel? location,
     double? price,
-    double? rating,
-    List<String>? reviews,
+    List<ReviewModel>? reviews,
     int? rooms,
   }) {
     return PropertyCardModel(
@@ -41,7 +40,6 @@ class PropertyCardModel {
       name: name ?? this.name,
       location: location ?? this.location,
       price: price ?? this.price,
-      rating: rating ?? this.rating,
       reviews: reviews ?? this.reviews,
       rooms: rooms ?? this.rooms,
     );
@@ -54,8 +52,7 @@ class PropertyCardModel {
       'name': name,
       'location': location.toMap(),
       'price': price,
-      'rating': rating,
-      'reviews': reviews,
+      'reviews': reviews.map((x) => x.toMap()).toList(),
       'rooms': rooms,
     };
   }
@@ -68,8 +65,11 @@ class PropertyCardModel {
       name: map['name'] as String,
       location: LocationModel.fromMap(map['location'] as Map<String, dynamic>),
       price: (map['roomPrice'] as num).toDouble(),
-      rating: map['rating'] != null ? (map['rating'] as num).toDouble() : null,
-      reviews: List<String>.from((map['reviews'] as List<dynamic>)),
+      reviews: List<ReviewModel>.from(
+        (map['reviews'] ?? []).map<ReviewModel>(
+          (x) => ReviewModel.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
       rooms: map['roomCount'] as int,
     );
   }
@@ -81,7 +81,7 @@ class PropertyCardModel {
 
   @override
   String toString() {
-    return 'PropertyCardModel(id: $id, image: $image, name: $name, location: $location, price: $price, rating: $rating, reviews: $reviews, rooms: $rooms)';
+    return 'PropertyCardModel(id: $id, image: $image, name: $name, location: $location, price: $price, reviews: $reviews, rooms: $rooms)';
   }
 
   @override
@@ -93,7 +93,6 @@ class PropertyCardModel {
         other.name == name &&
         other.location == location &&
         other.price == price &&
-        other.rating == rating &&
         listEquals(other.reviews, reviews) &&
         other.rooms == rooms;
   }
@@ -105,7 +104,6 @@ class PropertyCardModel {
         name.hashCode ^
         location.hashCode ^
         price.hashCode ^
-        rating.hashCode ^
         reviews.hashCode ^
         rooms.hashCode;
   }
@@ -119,3 +117,33 @@ class PropertyCardModel {
 //       ? double.parse(element['price'])
 //       : previousValue,
 // );
+
+
+
+
+  // Map<String, dynamic> toMap() {
+  //   return <String, dynamic>{
+  //     'id': id,
+  //     'image': image.toMap(),
+  //     'name': name,
+  //     'location': location.toMap(),
+  //     'price': price,
+  //     'rating': rating,
+  //     'reviews': reviews,
+  //     'rooms': rooms,
+  //   };
+  // }
+
+  // factory PropertyCardModel.fromMap(Map<String, dynamic> map) {
+  //   return PropertyCardModel(
+  //     id: map['id'] != null ? map['id'] as String : null,
+  //     image: PickedFileModel.fromMap(
+  //         (map['images'] as List<dynamic>).first as Map<String, dynamic>),
+  //     name: map['name'] as String,
+  //     location: LocationModel.fromMap(map['location'] as Map<String, dynamic>),
+  //     price: (map['roomPrice'] as num).toDouble(),
+  //     rating: map['rating'] != null ? (map['rating'] as num).toDouble() : null,
+  //     reviews: List<String>.from((map['reviews'] as List<dynamic>)),
+  //     rooms: map['roomCount'] as int,
+  //   );
+  // }

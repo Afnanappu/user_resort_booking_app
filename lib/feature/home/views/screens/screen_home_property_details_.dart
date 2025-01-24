@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -77,7 +75,6 @@ class ScreenHomePropertyDetails extends StatelessWidget {
             loaded: (propertyModel) {
               final rules = propertyModel.extraDetails.rulesDetailsModel;
               final basicDetails = propertyModel.extraDetails.basicDetailsModel;
-
               return ListView(
                 children: [
                   CarouselImagePickedShowWidget(
@@ -114,7 +111,7 @@ class ScreenHomePropertyDetails extends StatelessWidget {
 
                         //Review and rating
                         ReviewAndRatingWidget(
-                          propertyModel: propertyModel,
+                          reviews: propertyModel.reviews,
                         ),
                         MySpaces.hSpace60,
                         //
@@ -146,7 +143,9 @@ class ScreenHomePropertyDetails extends StatelessWidget {
   }
 
   CustomContainerForPropertyDetails _resortRulesBuilder(
-      PropertyDetailsModel propertyModel, RulesDetailsModel rules) {
+    PropertyDetailsModel propertyModel,
+    RulesDetailsModel rules,
+  ) {
     return CustomContainerForPropertyDetails(
       title: 'Resort Rules',
       child: Column(
@@ -177,8 +176,6 @@ class ScreenHomePropertyDetails extends StatelessWidget {
   CustomContainerForPropertyDetails _locationBuilder() {
     return CustomContainerForPropertyDetails(
       title: 'Location',
-
-      //TODO: Add location here using google map.
       child: SizedBox(
         height: 250,
         width: .5,
@@ -196,65 +193,43 @@ class ScreenHomePropertyDetails extends StatelessWidget {
             if (cameraPosition != null) {
               initialCameraPosition = cameraPosition;
             }
-            // else {}
 
-            return
-                // cameraPosition == null
-                //     ? Center(
-                //         child: TextButton(
-                //           onPressed: () async {
-                //             // final isOpened = await context
-                //             //     .read<GoogleMapBloc>()
-                //             //     .openSettingsToEnableLocation();
-                //             // if (isOpened) {
-                //             //   log('Permission is granted $isOpened');
-                //             //   if (context.mounted) {
-                //             context
-                //                 .read<GoogleMapBloc>()
-                //                 .add(GoogleMapEvent.mapInitialized());
-                //             // }
-                //             // }
-                //           },
-                //           child: Text('Open settings to enable location'),
-                //         ),
-                //       )
-                //     :
-                initialCameraPosition == null
-                    ? Center(
-                        child: Text(state.maybeWhen(
-                          error: (error) => error,
-                          initial: () => 'Loading',
-                          orElse: () {
-                            return 'An unexpected error occurred';
-                          },
-                        )),
-                      )
-                    : CustomGoogleMapWidget(
-                        initialCameraPosition: initialCameraPosition,
-                        onMapCreated: (controller) {
-                          context
-                              .read<GoogleMapBloc>()
-                              .getMapController
-                              .complete(controller);
-                        },
-                        markers: state.maybeWhen(
-                          locationConfirmed: (selectedLocation, _) => {
-                            Marker(
-                              markerId: MarkerId('selectedPlace'),
-                              icon: BitmapDescriptor.defaultMarker,
-                              position: LatLng(
-                                selectedLocation.latitude,
-                                selectedLocation.longitude,
-                              ),
-                            )
-                          },
-                          orElse: () => {},
-                        ),
-                        polylines: state.maybeWhen(
-                          locationConfirmed: (_, polylines) => polylines ?? {},
-                          orElse: () => {},
-                        ),
-                      );
+            return initialCameraPosition == null
+                ? Center(
+                    child: Text(state.maybeWhen(
+                      error: (error) => error,
+                      initial: () => 'Loading',
+                      orElse: () {
+                        return 'An unexpected error occurred';
+                      },
+                    )),
+                  )
+                : CustomGoogleMapWidget(
+                    initialCameraPosition: initialCameraPosition,
+                    onMapCreated: (controller) {
+                      context
+                          .read<GoogleMapBloc>()
+                          .getMapController
+                          .complete(controller);
+                    },
+                    markers: state.maybeWhen(
+                      locationConfirmed: (selectedLocation, _) => {
+                        Marker(
+                          markerId: MarkerId('selectedPlace'),
+                          icon: BitmapDescriptor.defaultMarker,
+                          position: LatLng(
+                            selectedLocation.latitude,
+                            selectedLocation.longitude,
+                          ),
+                        )
+                      },
+                      orElse: () => {},
+                    ),
+                    polylines: state.maybeWhen(
+                      locationConfirmed: (_, polylines) => polylines ?? {},
+                      orElse: () => {},
+                    ),
+                  );
           },
         ),
       ),
