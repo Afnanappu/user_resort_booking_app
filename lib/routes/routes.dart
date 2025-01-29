@@ -8,6 +8,8 @@ import 'package:user_resort_booking_app/feature/authentication/views/screens/scr
 import 'package:user_resort_booking_app/feature/booking/views/screens/screen_payment.dart';
 import 'package:user_resort_booking_app/feature/booking/views/screens/screen_property_room_details.dart';
 import 'package:user_resort_booking_app/feature/booking/views/screens/screen_review_booking.dart';
+import 'package:user_resort_booking_app/feature/profile/view/screens/screen_about.dart';
+import 'package:user_resort_booking_app/feature/profile/view/screens/screen_favorite.dart';
 import 'package:user_resort_booking_app/feature/home/views/screens/screen_home.dart';
 import 'package:user_resort_booking_app/feature/home/views/screens/screen_home_property_details_.dart';
 import 'package:user_resort_booking_app/feature/booking/views/screens/screen_property_room_list.dart';
@@ -18,6 +20,8 @@ import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_
 import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_onboarding.dart';
 import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_splash.dart';
 import 'package:user_resort_booking_app/feature/profile/view/screens/screen_payment_history.dart';
+import 'package:user_resort_booking_app/feature/profile/view/screens/screen_profile.dart';
+import 'package:user_resort_booking_app/feature/profile/view/screens/screen_settings.dart';
 import 'package:user_resort_booking_app/feature/search/view/screens/screen_search.dart';
 import 'package:user_resort_booking_app/routes/custom_route_transition.dart';
 import 'package:user_resort_booking_app/routes/route_names.dart';
@@ -26,7 +30,7 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _sectionNavigatorKey = GlobalKey<NavigatorState>();
 
 final routes = GoRouter(
-  initialLocation: '/${AppRoutes.home}',
+  initialLocation: '/${AppRoutes.splash}',
   navigatorKey: _rootNavigatorKey,
   observers: [
     MyNavigatorObserver(),
@@ -78,6 +82,11 @@ final routes = GoRouter(
           customTransitionPage(state, ScreenReviewBooking()),
     ),
     GoRoute(
+      path: '/${AppRoutes.settings}',
+      pageBuilder: (context, state) =>
+          customTransitionPage(state, ScreenSettings()),
+    ),
+    GoRoute(
       path: '/${AppRoutes.paymentHistory}',
       pageBuilder: (context, state) =>
           customTransitionPage(state, ScreenPaymentHistory()),
@@ -99,6 +108,20 @@ final routes = GoRouter(
       pageBuilder: (context, state) => customTransitionPage(
         state,
         ScreenPropertyRoomsList(),
+      ),
+    ),
+    GoRoute(
+      path: '/${AppRoutes.favorite}',
+      pageBuilder: (context, state) => customTransitionPage(
+        state,
+        ScreenFavorite(),
+      ),
+    ),
+    GoRoute(
+      path: '/${AppRoutes.about}',
+      pageBuilder: (context, state) => customTransitionPage(
+        state,
+        ScreenAbout(),
       ),
     ),
     GoRoute(
@@ -165,11 +188,10 @@ final routes = GoRouter(
               path: '/${AppRoutes.profile}',
               pageBuilder: (_, state) {
                 return customTransitionPage(
-                    state,
-
-                    //TODO:change to screen profile
-                    // ScreenProfile(),
-                    ScreenPaymentHistory());
+                  state,
+                  ScreenProfile(),
+                  // ScreenPaymentHistory()
+                );
               },
             ),
           ],

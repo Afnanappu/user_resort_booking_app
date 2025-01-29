@@ -14,7 +14,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthState.loading());
 
       try {
-        //TODO: Look hear some time.
         await _authRepository.register(
           event.name,
           event.email,

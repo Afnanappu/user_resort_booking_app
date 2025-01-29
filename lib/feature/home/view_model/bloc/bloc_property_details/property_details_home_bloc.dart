@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -12,7 +13,7 @@ part 'property_details_home_state.dart';
 class PropertyDetailsHomeBloc
     extends Bloc<PropertyDetailsHomeEvent, PropertyDetailsHomeState> {
   final PropertyHomeRepository _repository;
-
+  String? _propertyId;
   PropertyDetailsHomeBloc(this._repository) : super(_Initial()) {
     on<_FetchPropertyDetails>((event, emit) async {
       emit(PropertyDetailsHomeState.loading());
@@ -20,6 +21,10 @@ class PropertyDetailsHomeBloc
       try {
         final propertyDetailsModel =
             await _repository.fetchPropertyDetails(id: event.id);
+
+        _propertyId = propertyDetailsModel.id!;
+        log('emitted propertyId is $_propertyId');
+
         emit(PropertyDetailsHomeState.loaded(propertyDetailsModel));
       } catch (e) {
         emit(PropertyDetailsHomeState.error(e.toString()));
@@ -28,9 +33,7 @@ class PropertyDetailsHomeBloc
   }
 
   String? getPropertyId() {
-    if (state is _Loaded) {
-      return (state as _Loaded).propertyDetails.id;
-    }
-    return null;
+    log('Current selected propertyId is $_propertyId');
+    return _propertyId;
   }
 }

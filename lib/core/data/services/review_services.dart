@@ -17,8 +17,6 @@ class ReviewServices {
           .doc();
       review.reviewId = doc.id;
       await doc.set(review.toMap());
-
-      log('review added: \n${review.toString()}');
     } on FirebaseException catch (e, stack) {
       log(e.toString(), stackTrace: stack);
       throw AppExceptionHandler.handleFirestoreException(e);

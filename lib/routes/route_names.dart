@@ -5,6 +5,9 @@ class AppRoutes {
   static const onboarding2 = 'onboarding2';
   static const signUp = 'sign-up';
   static const home = 'home';
+  static const about = 'about';
+  static const favorite = 'favorite';
+  static const settings = 'settings';
   static const notification = 'notification';
   static const propertyDetailsHome = 'property-details-home';
   static const propertyRoomDetails = 'property-room-details';

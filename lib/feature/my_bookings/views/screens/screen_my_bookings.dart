@@ -61,12 +61,6 @@ class ScreenMyBookings extends StatelessWidget {
                         child: Text(error),
                       ),
                     ),
-                    initial: () => SizedBox(
-                      height: MyScreenSize.height * middle,
-                      child: Center(
-                        child: CustomCircularProgressIndicator(),
-                      ),
-                    ),
                     orElse: () => SizedBox(
                       height: MyScreenSize.height * middle,
                       child: Center(

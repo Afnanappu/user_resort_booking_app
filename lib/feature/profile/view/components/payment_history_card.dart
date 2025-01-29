@@ -49,7 +49,10 @@ class PaymentHistoryCard extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [Color(0xFFFB6E34), Color(0xFFFBAE34)],
+                colors: [
+                  Color(0xFFFB6E34),
+                  Color(0xFFFBAE34),
+                ],
               ),
               borderRadius: BorderRadius.circular(25),
               image: profile == null

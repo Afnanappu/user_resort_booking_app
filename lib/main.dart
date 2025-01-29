@@ -28,11 +28,15 @@ import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking
 import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_select_date_cubit.dart';
 import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_select_people_cubit.dart';
 import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_selected_rooms_cubit.dart';
+import 'package:user_resort_booking_app/feature/profile/repository/favorite_repository.dart';
+import 'package:user_resort_booking_app/feature/profile/services/favorite_service.dart';
+import 'package:user_resort_booking_app/feature/profile/view_model/bloc/bloc_favorite/favorite_bloc.dart';
 import 'package:user_resort_booking_app/feature/home/repository/property_home_repository.dart';
 import 'package:user_resort_booking_app/feature/home/services/property_home_services.dart';
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_details/property_details_home_bloc.dart';
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_home_extra_list/property_home_extra_list_bloc.dart';
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_home_list/property_list_home_bloc.dart';
+import 'package:user_resort_booking_app/feature/home/view_model/cubit/favorite_icon_cubit.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/repository/my_booking_repository.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/services/my_booking_services.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/view_model/bloc/bloc/review_bloc.dart';
@@ -40,7 +44,7 @@ import 'package:user_resort_booking_app/feature/my_bookings/view_model/bloc/bloc
 import 'package:user_resort_booking_app/feature/my_bookings/view_model/bloc/bloc_booked_property_list/booked_property_list_bloc.dart';
 import 'package:user_resort_booking_app/feature/my_bookings/view_model/cubit/rating_count_cubit.dart';
 import 'package:user_resort_booking_app/feature/profile/repository/payment_history_repository.dart';
-import 'package:user_resort_booking_app/feature/profile/view_model/bloc/payment_history_bloc.dart';
+import 'package:user_resort_booking_app/feature/profile/view_model/bloc/bloc_payment_history/payment_history_bloc.dart';
 import 'package:user_resort_booking_app/feature/search/repository/my_property_repository.dart';
 import 'package:user_resort_booking_app/feature/search/services/my_property_services.dart';
 import 'package:user_resort_booking_app/feature/search/view_model/bloc_property_list/my_property_list_bloc.dart';
@@ -130,6 +134,11 @@ Future<void> main() async {
         RepositoryProvider(
           create: (context) => GoogleMapBloc(),
         ),
+        RepositoryProvider(
+          create: (context) => FavoriteRepository(
+            FavoriteService(),
+          ),
+        ),
       ],
 
       //Providers
@@ -181,6 +190,10 @@ Future<void> main() async {
           ),
           BlocProvider(
             create: (context) =>
+                FavoriteBloc(context.read<FavoriteRepository>()),
+          ),
+          BlocProvider(
+            create: (context) =>
                 BookedPropertyDetailsBloc(context.read<MyBookingRepository>()),
           ),
           BlocProvider(
@@ -189,6 +202,9 @@ Future<void> main() async {
           ),
           BlocProvider(
             create: (context) => BookingSelectedRoomsCubit(),
+          ),
+          BlocProvider(
+            create: (context) => FavoriteIconCubit(),
           ),
           BlocProvider(
             create: (context) => ReviewBloc(context.read<ReviewRepository>()),

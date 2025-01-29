@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:user_resort_booking_app/feature/home/models/property_card_model.dart';
+import 'package:user_resort_booking_app/core/data/models/property_card_model.dart';
 import 'package:user_resort_booking_app/feature/search/services/my_property_services.dart';
 
 class MyPropertyRepository {

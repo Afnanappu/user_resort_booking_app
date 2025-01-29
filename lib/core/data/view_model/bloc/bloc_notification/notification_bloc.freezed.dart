@@ -20,18 +20,21 @@ mixin _$NotificationEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() initNotification,
     required TResult Function(RemoteMessage notification) showNotification,
+    required TResult Function() updateNotification,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initNotification,
     TResult? Function(RemoteMessage notification)? showNotification,
+    TResult? Function()? updateNotification,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initNotification,
     TResult Function(RemoteMessage notification)? showNotification,
+    TResult Function()? updateNotification,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -39,18 +42,21 @@ mixin _$NotificationEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_InitNotification value) initNotification,
     required TResult Function(_ShowNotification value) showNotification,
+    required TResult Function(_UpdateNotification value) updateNotification,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_InitNotification value)? initNotification,
     TResult? Function(_ShowNotification value)? showNotification,
+    TResult? Function(_UpdateNotification value)? updateNotification,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_InitNotification value)? initNotification,
     TResult Function(_ShowNotification value)? showNotification,
+    TResult Function(_UpdateNotification value)? updateNotification,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -120,6 +126,7 @@ class _$InitNotificationImpl implements _InitNotification {
   TResult when<TResult extends Object?>({
     required TResult Function() initNotification,
     required TResult Function(RemoteMessage notification) showNotification,
+    required TResult Function() updateNotification,
   }) {
     return initNotification();
   }
@@ -129,6 +136,7 @@ class _$InitNotificationImpl implements _InitNotification {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initNotification,
     TResult? Function(RemoteMessage notification)? showNotification,
+    TResult? Function()? updateNotification,
   }) {
     return initNotification?.call();
   }
@@ -138,6 +146,7 @@ class _$InitNotificationImpl implements _InitNotification {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initNotification,
     TResult Function(RemoteMessage notification)? showNotification,
+    TResult Function()? updateNotification,
     required TResult orElse(),
   }) {
     if (initNotification != null) {
@@ -151,6 +160,7 @@ class _$InitNotificationImpl implements _InitNotification {
   TResult map<TResult extends Object?>({
     required TResult Function(_InitNotification value) initNotification,
     required TResult Function(_ShowNotification value) showNotification,
+    required TResult Function(_UpdateNotification value) updateNotification,
   }) {
     return initNotification(this);
   }
@@ -160,6 +170,7 @@ class _$InitNotificationImpl implements _InitNotification {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_InitNotification value)? initNotification,
     TResult? Function(_ShowNotification value)? showNotification,
+    TResult? Function(_UpdateNotification value)? updateNotification,
   }) {
     return initNotification?.call(this);
   }
@@ -169,6 +180,7 @@ class _$InitNotificationImpl implements _InitNotification {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_InitNotification value)? initNotification,
     TResult Function(_ShowNotification value)? showNotification,
+    TResult Function(_UpdateNotification value)? updateNotification,
     required TResult orElse(),
   }) {
     if (initNotification != null) {
@@ -254,6 +266,7 @@ class _$ShowNotificationImpl implements _ShowNotification {
   TResult when<TResult extends Object?>({
     required TResult Function() initNotification,
     required TResult Function(RemoteMessage notification) showNotification,
+    required TResult Function() updateNotification,
   }) {
     return showNotification(notification);
   }
@@ -263,6 +276,7 @@ class _$ShowNotificationImpl implements _ShowNotification {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initNotification,
     TResult? Function(RemoteMessage notification)? showNotification,
+    TResult? Function()? updateNotification,
   }) {
     return showNotification?.call(notification);
   }
@@ -272,6 +286,7 @@ class _$ShowNotificationImpl implements _ShowNotification {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initNotification,
     TResult Function(RemoteMessage notification)? showNotification,
+    TResult Function()? updateNotification,
     required TResult orElse(),
   }) {
     if (showNotification != null) {
@@ -285,6 +300,7 @@ class _$ShowNotificationImpl implements _ShowNotification {
   TResult map<TResult extends Object?>({
     required TResult Function(_InitNotification value) initNotification,
     required TResult Function(_ShowNotification value) showNotification,
+    required TResult Function(_UpdateNotification value) updateNotification,
   }) {
     return showNotification(this);
   }
@@ -294,6 +310,7 @@ class _$ShowNotificationImpl implements _ShowNotification {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_InitNotification value)? initNotification,
     TResult? Function(_ShowNotification value)? showNotification,
+    TResult? Function(_UpdateNotification value)? updateNotification,
   }) {
     return showNotification?.call(this);
   }
@@ -303,6 +320,7 @@ class _$ShowNotificationImpl implements _ShowNotification {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_InitNotification value)? initNotification,
     TResult Function(_ShowNotification value)? showNotification,
+    TResult Function(_UpdateNotification value)? updateNotification,
     required TResult orElse(),
   }) {
     if (showNotification != null) {
@@ -323,6 +341,117 @@ abstract class _ShowNotification implements NotificationEvent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ShowNotificationImplCopyWith<_$ShowNotificationImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UpdateNotificationImplCopyWith<$Res> {
+  factory _$$UpdateNotificationImplCopyWith(_$UpdateNotificationImpl value,
+          $Res Function(_$UpdateNotificationImpl) then) =
+      __$$UpdateNotificationImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$UpdateNotificationImplCopyWithImpl<$Res>
+    extends _$NotificationEventCopyWithImpl<$Res, _$UpdateNotificationImpl>
+    implements _$$UpdateNotificationImplCopyWith<$Res> {
+  __$$UpdateNotificationImplCopyWithImpl(_$UpdateNotificationImpl _value,
+      $Res Function(_$UpdateNotificationImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$UpdateNotificationImpl implements _UpdateNotification {
+  const _$UpdateNotificationImpl();
+
+  @override
+  String toString() {
+    return 'NotificationEvent.updateNotification()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$UpdateNotificationImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initNotification,
+    required TResult Function(RemoteMessage notification) showNotification,
+    required TResult Function() updateNotification,
+  }) {
+    return updateNotification();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initNotification,
+    TResult? Function(RemoteMessage notification)? showNotification,
+    TResult? Function()? updateNotification,
+  }) {
+    return updateNotification?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initNotification,
+    TResult Function(RemoteMessage notification)? showNotification,
+    TResult Function()? updateNotification,
+    required TResult orElse(),
+  }) {
+    if (updateNotification != null) {
+      return updateNotification();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_InitNotification value) initNotification,
+    required TResult Function(_ShowNotification value) showNotification,
+    required TResult Function(_UpdateNotification value) updateNotification,
+  }) {
+    return updateNotification(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_InitNotification value)? initNotification,
+    TResult? Function(_ShowNotification value)? showNotification,
+    TResult? Function(_UpdateNotification value)? updateNotification,
+  }) {
+    return updateNotification?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_InitNotification value)? initNotification,
+    TResult Function(_ShowNotification value)? showNotification,
+    TResult Function(_UpdateNotification value)? updateNotification,
+    required TResult orElse(),
+  }) {
+    if (updateNotification != null) {
+      return updateNotification(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UpdateNotification implements NotificationEvent {
+  const factory _UpdateNotification() = _$UpdateNotificationImpl;
 }
 
 /// @nodoc

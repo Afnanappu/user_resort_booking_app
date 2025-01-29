@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:user_resort_booking_app/core/data/models/user_model.dart';
+import 'package:user_resort_booking_app/core/data/services/notification_services.dart';
 import 'package:user_resort_booking_app/core/utils/exceptions/custom_exceptions.dart';
 import 'package:user_resort_booking_app/feature/authentication/services/auth_service.dart';
 
@@ -12,16 +13,17 @@ class AuthRepository {
 
   Future<void> register(String name, String email, String password) async {
     try {
+      final fcmToke = await NotificationServices().getFcmToken();
       //First create an account for the user
-      final user = (await _authService.register(email, password)).user;
-      log('User registered');
-      //Then add the user data to firestore for future needs
-      await _authService.addUserToCollections(UserModel(
-        uid: user!.uid,
-        name: name,
-        email: email,
-      ));
-      log('User created in fireStore');
+      await _authService.register(
+          email: email,
+          password: password,
+          userModel: UserModel(
+            name: name,
+            email: email,
+            fcmToken: fcmToke,
+          ));
+      log('User registered successfully');
     } catch (e) {
       rethrow;
     }

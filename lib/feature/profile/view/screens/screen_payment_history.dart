@@ -4,7 +4,7 @@ import 'package:user_resort_booking_app/core/components/custom_app_bar.dart';
 import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
 import 'package:user_resort_booking_app/core/utils/custom_date_formats.dart';
 import 'package:user_resort_booking_app/feature/profile/view/components/payment_history_card.dart';
-import 'package:user_resort_booking_app/feature/profile/view_model/bloc/payment_history_bloc.dart';
+import 'package:user_resort_booking_app/feature/profile/view_model/bloc/bloc_payment_history/payment_history_bloc.dart';
 
 class ScreenPaymentHistory extends StatelessWidget {
   const ScreenPaymentHistory({super.key});
@@ -30,15 +30,7 @@ class ScreenPaymentHistory extends StatelessWidget {
                   loading: () => ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: 6,
-                    itemBuilder: (context, index) {
-                      return PaymentHistoryCardShimmer();
-                    },
-                  ),
-                  initial: () => ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: 6,
+                    itemCount: 12,
                     itemBuilder: (context, index) {
                       return PaymentHistoryCardShimmer();
                     },

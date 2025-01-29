@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:user_resort_booking_app/core/data/view_model/bloc/bloc_google_map/google_map_bloc.dart';
-import 'package:user_resort_booking_app/feature/home/models/property_card_model.dart';
+import 'package:user_resort_booking_app/core/data/models/property_card_model.dart';
 import 'package:user_resort_booking_app/feature/search/repository/my_property_repository.dart';
 import 'package:user_resort_booking_app/feature/search/services/my_property_services.dart';
 

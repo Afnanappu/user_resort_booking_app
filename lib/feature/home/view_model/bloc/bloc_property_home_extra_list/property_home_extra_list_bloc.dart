@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:user_resort_booking_app/feature/home/models/property_card_model.dart';
+import 'package:user_resort_booking_app/core/data/models/property_card_model.dart';
 import 'package:user_resort_booking_app/feature/home/repository/property_home_repository.dart';
 
 part 'property_home_extra_list_event.dart';

@@ -25,7 +25,6 @@ class GoogleMapBloc extends Bloc<GoogleMapEvent, GoogleMapState> {
     on<_MapInitialized>((event, emit) async {
       try {
         myLocation = await getCurrentLocation();
-        log('Current location: $myLocation');
         final cameraPosition = CameraPosition(
           target: event.location == null
               ? LatLng(myLocation.latitude, myLocation.longitude)
@@ -53,7 +52,6 @@ class GoogleMapBloc extends Bloc<GoogleMapEvent, GoogleMapState> {
     ///location selection
     on<_SelectLocation>(
       (event, emit) {
-        log('Current location: ${event.selectedLocation}');
         //emit selected location
         emit(
           GoogleMapState.locationSelected(
@@ -76,7 +74,6 @@ class GoogleMapBloc extends Bloc<GoogleMapEvent, GoogleMapState> {
         LatLng? location = event.selectedLocation;
 
         location ??= myLocation;
-        log('Current location: $location');
         late final Address address;
         late final String addressLocation;
         try {
@@ -95,7 +92,6 @@ class GoogleMapBloc extends Bloc<GoogleMapEvent, GoogleMapState> {
         // } else {
         //   log('No throttled');
         // }
-        log('Current address: $address');
         final locationModel = LocationModel(
           latitude: location.latitude,
           longitude: location.longitude,
@@ -128,8 +124,6 @@ class GoogleMapBloc extends Bloc<GoogleMapEvent, GoogleMapState> {
             },
           ),
         );
-
-        log('Location confirmed: \n$locationModel \n$polylines');
       },
     );
 
@@ -279,9 +273,6 @@ class GoogleMapBloc extends Bloc<GoogleMapEvent, GoogleMapState> {
       );
 
       if (result.points.isNotEmpty) {
-        for (var element in result.points) {
-          log('${element.latitude}, ${element.latitude}');
-        }
         return result.points
             .map((point) => LatLng(point.latitude, point.longitude))
             .toList();

@@ -71,7 +71,7 @@ class ReviewAndRatingWidget extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: 5,
                   shrinkWrap: true,
-                  physics: AlwaysScrollableScrollPhysics(),
+                  physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return RatingStartIndicatorComponent(
                       index: 5 - index,

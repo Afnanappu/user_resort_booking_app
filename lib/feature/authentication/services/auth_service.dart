@@ -8,11 +8,24 @@ import 'package:user_resort_booking_app/core/utils/exceptions/custom_exceptions.
 
 class AuthService {
   final userCollection = 'users';
-  Future<UserCredential> register(String email, String password) async {
+  Future<void> register({
+    required String email,
+    required String password,
+    required UserModel userModel,
+  }) async {
     try {
-      final user = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      return user;
+      FirebaseFirestore.instance.runTransaction(
+        (transaction) async {
+          final user = await FirebaseAuth.instance
+              .createUserWithEmailAndPassword(email: email, password: password);
+          userModel.uid = user.user?.uid;
+          final data = userModel.toMap();
+          final docRef = FirebaseFirestore.instance
+              .collection(userCollection)
+              .doc(userModel.uid);
+          transaction.set(docRef, data);
+        },
+      );
     } on FirebaseAuthException catch (e, stack) {
       final error = AppExceptionHandler.handleFirebaseAuthException(e);
       log(error, stackTrace: stack);
@@ -24,21 +37,21 @@ class AuthService {
     }
   }
 
-  Future<void> addUserToCollections(UserModel user) async {
-    try {
-      final db = FirebaseFirestore.instance;
-      final data = user.toMap();
-      await db.collection(userCollection).doc(user.uid).set(data);
-    } on FirebaseException catch (e, stack) {
-      final error = AppExceptionHandler.handleFirestoreException(e);
-      log(error, stackTrace: stack);
-      throw error;
-    } catch (e, stack) {
-      final error = AppExceptionHandler.handleGenericException(e);
-      log(error, stackTrace: stack);
-      throw error;
-    }
-  }
+  // Future<void> addUserToCollections(UserModel user) async {
+  //   try {
+  //     // final db = FirebaseFirestore.instance;
+  //     // final data = user.toMap();
+  //     // await db.collection(userCollection).doc(user.uid).set(data);
+  //   } on FirebaseException catch (e, stack) {
+  //     final error = AppExceptionHandler.handleFirestoreException(e);
+  //     log(error, stackTrace: stack);
+  //     throw error;
+  //   } catch (e, stack) {
+  //     final error = AppExceptionHandler.handleGenericException(e);
+  //     log(error, stackTrace: stack);
+  //     throw error;
+  //   }
+  // }
 
   Future<UserCredential> loginWithEmail(String email, String password) async {
     try {

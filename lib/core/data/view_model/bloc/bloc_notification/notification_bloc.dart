@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -31,7 +32,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
             if (notification == null) {
               return;
             }
-            
 
             add(NotificationEvent.showNotification(notification));
           },
@@ -41,6 +41,18 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<_ShowNotification>((event, emit) {
       emit(NotificationState.onNotification(event.notification));
+    });
+
+    on<_UpdateNotification>((event, emit) async {
+      final fcmToken = await _notificationServices.getFcmToken();
+      final userId = FirebaseAuth.instance.currentUser?.uid;
+      if (userId != null) {
+        await _notificationServices.updateToken(
+          newFcmToken: fcmToken,
+          userId: userId,
+        );
+      }
+      // emit(NotificationState.onNotification(event.notification));
     });
   }
 }
