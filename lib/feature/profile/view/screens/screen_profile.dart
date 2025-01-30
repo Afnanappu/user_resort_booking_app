@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:user_resort_booking_app/core/components/custom_snack_bar.dart';
 import 'package:user_resort_booking_app/feature/profile/view/components/list_tile_for_profile.dart';
-import 'package:user_resort_booking_app/feature/profile/view/components/user_profile_card.dart';
+import 'package:user_resort_booking_app/feature/profile/view/widgets/app_bar_for_profile.dart';
 import 'package:user_resort_booking_app/routes/route_names.dart';
 
 class ScreenProfile extends StatelessWidget {
@@ -12,48 +11,7 @@ class ScreenProfile extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: [
-          Container(
-            width: double.infinity,
-            height: 250,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  const Color.fromARGB(255, 239, 130, 86),
-                  const Color.fromARGB(255, 254, 193, 169),
-                ],
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  child: Container(
-                    width: 600,
-                    height: 426.03,
-                    transform: Matrix4.identity()
-                      ..translate(0.0, 100.0)
-                      ..rotateZ(.4),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [
-                          const Color.fromARGB(255, 254, 193, 169),
-                          const Color.fromARGB(255, 239, 130, 86),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: UserProfileCard(),
-                ),
-              ],
-            ),
-          ),
+          AppBarForProfile(),
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -77,7 +35,9 @@ class ScreenProfile extends StatelessWidget {
                 ListTileForProfile(
                   icon: Icons.assessment_outlined,
                   title: 'Report',
-                  onTap: () {},
+                  onTap: () {
+                    //TODO: Report
+                  },
                 ),
                 ListTileForProfile(
                   icon: Icons.settings_outlined,
@@ -89,7 +49,9 @@ class ScreenProfile extends StatelessWidget {
                 ListTileForProfile(
                   icon: Icons.support_agent_outlined,
                   title: 'Support',
-                  onTap: () {},
+                  onTap: () {
+                    //TODO: support
+                  },
                 ),
                 ListTileForProfile(
                   icon: Icons.info_outline,

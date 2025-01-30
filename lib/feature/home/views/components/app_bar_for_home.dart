@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/data/models/user_model.dart';
 import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
+import 'package:user_resort_booking_app/core/utils/screen_size.dart';
 import 'package:user_resort_booking_app/routes/route_names.dart';
 
 class AppBarForHome extends StatelessWidget implements PreferredSizeWidget {
@@ -59,35 +60,40 @@ class AppBarForHome extends StatelessWidget implements PreferredSizeWidget {
           ),
           Positioned(
             left: 23,
+            right: 23,
             top: 65,
-            child: Row(
-              children: [
-                BlocBuilder<UserDataCubit, UserModel?>(
-                  builder: (context, user) {
-                    return Text(
-                      'Hello, ${user == null ? 'Sir' : user.name}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w700,
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(
-                  width: 160,
-                ),
-                IconButton.filled(
-                  onPressed: () {
-                    //TODO: add function to notification
-                    context.push('/${AppRoutes.notification}');
-                  },
-                  color: MyColors.orange,
-                  style: IconButton.styleFrom(backgroundColor: MyColors.white),
-                  icon: Icon(Icons.notifications_active_outlined),
-                ),
-              ],
+            child: SizedBox(
+              width: MyScreenSize.width - 46,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  BlocBuilder<UserDataCubit, UserModel?>(
+                    builder: (context, user) {
+                      return Text(
+                        'Hello, ${user == null ? 'Sir' : user.name}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      );
+                    },
+                  ),
+                  Flexible(
+                    fit: FlexFit.loose,
+                    child: IconButton.filled(
+                      onPressed: () {
+                        context.push('/${AppRoutes.notification}');
+                      },
+                      color: MyColors.orange,
+                      style:
+                          IconButton.styleFrom(backgroundColor: MyColors.white),
+                      icon: Icon(Icons.notifications_active_outlined),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

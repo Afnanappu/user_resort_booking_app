@@ -44,10 +44,11 @@ final routes = GoRouter(
       },
     ),
     GoRoute(
-        name: 'onboarding',
-        path: '/${AppRoutes.onboarding}',
-        pageBuilder: (context, state) =>
-            customTransitionPage(state, ScreenOnboarding())),
+      name: 'onboarding',
+      path: '/${AppRoutes.onboarding}',
+      pageBuilder: (context, state) =>
+          customTransitionPage(state, ScreenOnboarding()),
+    ),
     GoRoute(
       name: 'onboarding2',
       path: '/${AppRoutes.onboarding2}',

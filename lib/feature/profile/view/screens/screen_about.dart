@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:user_resort_booking_app/core/components/custom_app_bar.dart';
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
+import 'package:user_resort_booking_app/core/constants/my_constants.dart';
 
 class ScreenAbout extends StatelessWidget {
+  const ScreenAbout({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,8 +23,7 @@ class ScreenAbout extends StatelessWidget {
                   // Placeholder for the logo
                   CircleAvatar(
                     radius: 60,
-                    backgroundImage: AssetImage(
-                        'assets/logo.png'), // Replace with your app logo
+                    backgroundImage: AssetImage(appIconAsset),
                   ),
                   SizedBox(height: 16),
                   Text(

@@ -3,12 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_resort_booking_app/core/components/custom_app_bar.dart';
 import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
 import 'package:user_resort_booking_app/core/utils/custom_date_formats.dart';
+import 'package:user_resort_booking_app/core/utils/screen_size.dart';
 import 'package:user_resort_booking_app/feature/profile/view/components/payment_history_card.dart';
 import 'package:user_resort_booking_app/feature/profile/view_model/bloc/bloc_payment_history/payment_history_bloc.dart';
 
 class ScreenPaymentHistory extends StatelessWidget {
-  const ScreenPaymentHistory({super.key});
-
+  ScreenPaymentHistory({super.key});
+  final height = MyScreenSize.height * .9;
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -35,16 +36,25 @@ class ScreenPaymentHistory extends StatelessWidget {
                       return PaymentHistoryCardShimmer();
                     },
                   ),
-                  error: (error) => Center(
-                    child: Text(error),
+                  error: (error) => SizedBox(
+                    height: MyScreenSize.height - height,
+                    child: Center(
+                      child: Text(error),
+                    ),
                   ),
-                  orElse: () => Center(
-                    child: Text('An unexpected error occurred'),
+                  orElse: () => SizedBox(
+                    height: MyScreenSize.height - height,
+                    child: Center(
+                      child: Text('An unexpected error occurred'),
+                    ),
                   ),
                   loaded: (transactions) {
                     return transactions.isEmpty
-                        ? Center(
-                            child: Text('No transaction found'),
+                        ? SizedBox(
+                            height: MyScreenSize.height - height,
+                            child: Center(
+                              child: Text('No transaction found'),
+                            ),
                           )
                         : ListView.builder(
                             shrinkWrap: true,
