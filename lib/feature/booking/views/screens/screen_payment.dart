@@ -11,6 +11,7 @@ import 'package:user_resort_booking_app/core/constants/api_keys.dart';
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
 import 'package:user_resort_booking_app/core/data/models/room_model.dart';
 import 'package:user_resort_booking_app/core/data/models/transaction_model.dart';
+import 'package:user_resort_booking_app/core/data/view_model/bloc/bloc_notification/notification_bloc.dart';
 import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
 import 'package:user_resort_booking_app/core/utils/custom_date_formats.dart';
 import 'package:user_resort_booking_app/core/data/models/booking_model.dart';
@@ -115,11 +116,13 @@ class _ScreenPaymentState extends State<ScreenPayment> {
     }
 
     //request booking
-    context.read<BookingBloc>().add(BookingEvent.requestBooking(
-          bookingModel: bookingModel,
-          roomList: roomList,
-          ownerId: ownerId,
-        ));
+    context.read<BookingBloc>().add(
+          BookingEvent.requestBooking(
+            bookingModel: bookingModel,
+            roomList: roomList,
+            ownerId: ownerId,
+          ),
+        );
 
     log(response.data.toString());
     // response.
@@ -198,10 +201,21 @@ class _ScreenPaymentState extends State<ScreenPayment> {
           loaded: (propertyDetails) => propertyDetails,
           orElse: () {},
         );
+    final userName = context.read<UserDataCubit>().state!.name;
     return Scaffold(
       body: BlocConsumer<BookingBloc, BookingState>(
         listener: (context, state) {
           state.maybeWhen(
+            booked: (bookingDetails) {
+              context.read<NotificationBloc>().add(
+                    NotificationEvent.sendNotification(
+                      uid: property!.ownerId,
+                      title: "✅ New Booking Received",
+                      content:
+                          "📍 $userName has booked ${property.name} from ${customDateFormat2(bookingDetails.startDate)} to ${customDateFormat2(bookingDetails.endDate)}.",
+                    ),
+                  );
+            },
             failed: () {
               showCustomSnackBar(
                 context: context,

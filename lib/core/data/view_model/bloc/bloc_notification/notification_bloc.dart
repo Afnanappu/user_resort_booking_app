@@ -81,15 +81,34 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     });
 
     on<_UpdateNotification>((event, emit) async {
-      final fcmToken = await _notificationServices.getFcmToken();
-      final userId = FirebaseAuth.instance.currentUser?.uid;
-      if (userId != null) {
-        await _notificationServices.updateToken(
-          newFcmToken: fcmToken,
-          userId: userId,
-        );
+      try {
+        final fcmToken = await _notificationServices.getFcmToken();
+        final userId = FirebaseAuth.instance.currentUser?.uid;
+        if (userId != null) {
+          await _notificationServices.updateToken(
+            newFcmToken: fcmToken,
+            userId: userId,
+          );
+        }
+      } catch (e, stack) {
+        log(e.toString(), stackTrace: stack);
       }
       // emit(NotificationState.onNotification(event.notification));
     });
+
+    on<_SendNotification>(
+      (event, emit) async {
+        try {
+          await _notificationServices.sendNotification(
+            uid: event.uid,
+            title: event.title,
+            content: event.content,
+            collection: 'users',
+          );
+        } catch (e, stack) {
+          log(e.toString(), stackTrace: stack);
+        }
+      },
+    );
   }
 }

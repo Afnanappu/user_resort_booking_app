@@ -87,7 +87,9 @@ class ReviewBookingBottomNavigationWidget extends StatelessWidget {
             // propertyName: property.name,
           );
           context.read<BookingDetailsCubit>().setBookingDetails(
-              bookingModel: bookingModel, roomList: roomList);
+                bookingModel: bookingModel,
+                roomList: roomList,
+              );
           context.push('/${AppRoutes.payment}');
         },
       ),

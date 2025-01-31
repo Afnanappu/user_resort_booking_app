@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,10 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:user_resort_booking_app/core/constants/my_constants.dart';
 import 'package:user_resort_booking_app/core/utils/exceptions/custom_exceptions.dart';
-// import 'package:flutter/material.dart';
-// import 'package:go_router/go_router.dart';
-// import 'package:user_resort_booking_app/feature/home/views/screens/screen_notification.dart';
-// import 'package:user_resort_booking_app/routes/route_names.dart';
+import 'package:http/http.dart' as http;
 
 Future<void> handleBackgroundMessaging(RemoteMessage message) async {
   log('Title: ${message.notification?.title}');
@@ -24,9 +22,6 @@ class NotificationServices {
 
   RemoteMessage? handleMessage(RemoteMessage? message) {
     if (message == null) return null;
-    // globalNavKey.currentState!.push(MaterialPageRoute(
-    //   builder: (context) => ScreenNotification(),
-    // ));
     return message;
   }
 
@@ -149,4 +144,41 @@ class NotificationServices {
     presentBadge: true,
     presentSound: true,
   );
+
+  //------------Notification Service----------//
+
+  ///Sent notification to the person with uid and uses the token in from his document for sending notification
+  Future<void> sendNotification({
+    required String uid,
+    required String title,
+    required String content,
+    required String collection,
+    Map<String, dynamic>? payload,
+  }) async {
+    const url = "http://172.16.4.113:5000/notification/single";
+    final body = {
+      "uid": uid,
+      "title": title,
+      "body": content,
+      "collection": collection,
+      if (payload != null) "data": payload
+    };
+    log(jsonEncode(body));
+    final response = await http.post(
+      Uri.parse(url),
+      body: jsonEncode(body),
+      headers: {
+        "Content-Type":
+            "application/json", // Important header for JSON requests
+      },
+    );
+    final status = response.statusCode;
+    log('Notification worked');
+    if (status == 200) {
+      log('notification is sended to the $uid\n${jsonDecode(response.body)}');
+    } else {
+      log('Notification failed with status $status');
+      log(jsonDecode(response.body)['error']);
+    }
+  }
 }

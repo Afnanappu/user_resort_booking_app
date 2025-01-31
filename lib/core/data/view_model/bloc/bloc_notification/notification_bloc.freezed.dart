@@ -21,6 +21,8 @@ mixin _$NotificationEvent {
     required TResult Function() initNotification,
     required TResult Function(RemoteMessage notification) showNotification,
     required TResult Function() updateNotification,
+    required TResult Function(String uid, String title, String content)
+        sendNotification,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +30,8 @@ mixin _$NotificationEvent {
     TResult? Function()? initNotification,
     TResult? Function(RemoteMessage notification)? showNotification,
     TResult? Function()? updateNotification,
+    TResult? Function(String uid, String title, String content)?
+        sendNotification,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +39,8 @@ mixin _$NotificationEvent {
     TResult Function()? initNotification,
     TResult Function(RemoteMessage notification)? showNotification,
     TResult Function()? updateNotification,
+    TResult Function(String uid, String title, String content)?
+        sendNotification,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +49,7 @@ mixin _$NotificationEvent {
     required TResult Function(_InitNotification value) initNotification,
     required TResult Function(_ShowNotification value) showNotification,
     required TResult Function(_UpdateNotification value) updateNotification,
+    required TResult Function(_SendNotification value) sendNotification,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +57,7 @@ mixin _$NotificationEvent {
     TResult? Function(_InitNotification value)? initNotification,
     TResult? Function(_ShowNotification value)? showNotification,
     TResult? Function(_UpdateNotification value)? updateNotification,
+    TResult? Function(_SendNotification value)? sendNotification,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +65,7 @@ mixin _$NotificationEvent {
     TResult Function(_InitNotification value)? initNotification,
     TResult Function(_ShowNotification value)? showNotification,
     TResult Function(_UpdateNotification value)? updateNotification,
+    TResult Function(_SendNotification value)? sendNotification,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -127,6 +136,8 @@ class _$InitNotificationImpl implements _InitNotification {
     required TResult Function() initNotification,
     required TResult Function(RemoteMessage notification) showNotification,
     required TResult Function() updateNotification,
+    required TResult Function(String uid, String title, String content)
+        sendNotification,
   }) {
     return initNotification();
   }
@@ -137,6 +148,8 @@ class _$InitNotificationImpl implements _InitNotification {
     TResult? Function()? initNotification,
     TResult? Function(RemoteMessage notification)? showNotification,
     TResult? Function()? updateNotification,
+    TResult? Function(String uid, String title, String content)?
+        sendNotification,
   }) {
     return initNotification?.call();
   }
@@ -147,6 +160,8 @@ class _$InitNotificationImpl implements _InitNotification {
     TResult Function()? initNotification,
     TResult Function(RemoteMessage notification)? showNotification,
     TResult Function()? updateNotification,
+    TResult Function(String uid, String title, String content)?
+        sendNotification,
     required TResult orElse(),
   }) {
     if (initNotification != null) {
@@ -161,6 +176,7 @@ class _$InitNotificationImpl implements _InitNotification {
     required TResult Function(_InitNotification value) initNotification,
     required TResult Function(_ShowNotification value) showNotification,
     required TResult Function(_UpdateNotification value) updateNotification,
+    required TResult Function(_SendNotification value) sendNotification,
   }) {
     return initNotification(this);
   }
@@ -171,6 +187,7 @@ class _$InitNotificationImpl implements _InitNotification {
     TResult? Function(_InitNotification value)? initNotification,
     TResult? Function(_ShowNotification value)? showNotification,
     TResult? Function(_UpdateNotification value)? updateNotification,
+    TResult? Function(_SendNotification value)? sendNotification,
   }) {
     return initNotification?.call(this);
   }
@@ -181,6 +198,7 @@ class _$InitNotificationImpl implements _InitNotification {
     TResult Function(_InitNotification value)? initNotification,
     TResult Function(_ShowNotification value)? showNotification,
     TResult Function(_UpdateNotification value)? updateNotification,
+    TResult Function(_SendNotification value)? sendNotification,
     required TResult orElse(),
   }) {
     if (initNotification != null) {
@@ -267,6 +285,8 @@ class _$ShowNotificationImpl implements _ShowNotification {
     required TResult Function() initNotification,
     required TResult Function(RemoteMessage notification) showNotification,
     required TResult Function() updateNotification,
+    required TResult Function(String uid, String title, String content)
+        sendNotification,
   }) {
     return showNotification(notification);
   }
@@ -277,6 +297,8 @@ class _$ShowNotificationImpl implements _ShowNotification {
     TResult? Function()? initNotification,
     TResult? Function(RemoteMessage notification)? showNotification,
     TResult? Function()? updateNotification,
+    TResult? Function(String uid, String title, String content)?
+        sendNotification,
   }) {
     return showNotification?.call(notification);
   }
@@ -287,6 +309,8 @@ class _$ShowNotificationImpl implements _ShowNotification {
     TResult Function()? initNotification,
     TResult Function(RemoteMessage notification)? showNotification,
     TResult Function()? updateNotification,
+    TResult Function(String uid, String title, String content)?
+        sendNotification,
     required TResult orElse(),
   }) {
     if (showNotification != null) {
@@ -301,6 +325,7 @@ class _$ShowNotificationImpl implements _ShowNotification {
     required TResult Function(_InitNotification value) initNotification,
     required TResult Function(_ShowNotification value) showNotification,
     required TResult Function(_UpdateNotification value) updateNotification,
+    required TResult Function(_SendNotification value) sendNotification,
   }) {
     return showNotification(this);
   }
@@ -311,6 +336,7 @@ class _$ShowNotificationImpl implements _ShowNotification {
     TResult? Function(_InitNotification value)? initNotification,
     TResult? Function(_ShowNotification value)? showNotification,
     TResult? Function(_UpdateNotification value)? updateNotification,
+    TResult? Function(_SendNotification value)? sendNotification,
   }) {
     return showNotification?.call(this);
   }
@@ -321,6 +347,7 @@ class _$ShowNotificationImpl implements _ShowNotification {
     TResult Function(_InitNotification value)? initNotification,
     TResult Function(_ShowNotification value)? showNotification,
     TResult Function(_UpdateNotification value)? updateNotification,
+    TResult Function(_SendNotification value)? sendNotification,
     required TResult orElse(),
   }) {
     if (showNotification != null) {
@@ -387,6 +414,8 @@ class _$UpdateNotificationImpl implements _UpdateNotification {
     required TResult Function() initNotification,
     required TResult Function(RemoteMessage notification) showNotification,
     required TResult Function() updateNotification,
+    required TResult Function(String uid, String title, String content)
+        sendNotification,
   }) {
     return updateNotification();
   }
@@ -397,6 +426,8 @@ class _$UpdateNotificationImpl implements _UpdateNotification {
     TResult? Function()? initNotification,
     TResult? Function(RemoteMessage notification)? showNotification,
     TResult? Function()? updateNotification,
+    TResult? Function(String uid, String title, String content)?
+        sendNotification,
   }) {
     return updateNotification?.call();
   }
@@ -407,6 +438,8 @@ class _$UpdateNotificationImpl implements _UpdateNotification {
     TResult Function()? initNotification,
     TResult Function(RemoteMessage notification)? showNotification,
     TResult Function()? updateNotification,
+    TResult Function(String uid, String title, String content)?
+        sendNotification,
     required TResult orElse(),
   }) {
     if (updateNotification != null) {
@@ -421,6 +454,7 @@ class _$UpdateNotificationImpl implements _UpdateNotification {
     required TResult Function(_InitNotification value) initNotification,
     required TResult Function(_ShowNotification value) showNotification,
     required TResult Function(_UpdateNotification value) updateNotification,
+    required TResult Function(_SendNotification value) sendNotification,
   }) {
     return updateNotification(this);
   }
@@ -431,6 +465,7 @@ class _$UpdateNotificationImpl implements _UpdateNotification {
     TResult? Function(_InitNotification value)? initNotification,
     TResult? Function(_ShowNotification value)? showNotification,
     TResult? Function(_UpdateNotification value)? updateNotification,
+    TResult? Function(_SendNotification value)? sendNotification,
   }) {
     return updateNotification?.call(this);
   }
@@ -441,6 +476,7 @@ class _$UpdateNotificationImpl implements _UpdateNotification {
     TResult Function(_InitNotification value)? initNotification,
     TResult Function(_ShowNotification value)? showNotification,
     TResult Function(_UpdateNotification value)? updateNotification,
+    TResult Function(_SendNotification value)? sendNotification,
     required TResult orElse(),
   }) {
     if (updateNotification != null) {
@@ -452,6 +488,184 @@ class _$UpdateNotificationImpl implements _UpdateNotification {
 
 abstract class _UpdateNotification implements NotificationEvent {
   const factory _UpdateNotification() = _$UpdateNotificationImpl;
+}
+
+/// @nodoc
+abstract class _$$SendNotificationImplCopyWith<$Res> {
+  factory _$$SendNotificationImplCopyWith(_$SendNotificationImpl value,
+          $Res Function(_$SendNotificationImpl) then) =
+      __$$SendNotificationImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String uid, String title, String content});
+}
+
+/// @nodoc
+class __$$SendNotificationImplCopyWithImpl<$Res>
+    extends _$NotificationEventCopyWithImpl<$Res, _$SendNotificationImpl>
+    implements _$$SendNotificationImplCopyWith<$Res> {
+  __$$SendNotificationImplCopyWithImpl(_$SendNotificationImpl _value,
+      $Res Function(_$SendNotificationImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? uid = null,
+    Object? title = null,
+    Object? content = null,
+  }) {
+    return _then(_$SendNotificationImpl(
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SendNotificationImpl implements _SendNotification {
+  const _$SendNotificationImpl(
+      {required this.uid, required this.title, required this.content});
+
+  @override
+  final String uid;
+  @override
+  final String title;
+  @override
+  final String content;
+
+  @override
+  String toString() {
+    return 'NotificationEvent.sendNotification(uid: $uid, title: $title, content: $content)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SendNotificationImpl &&
+            (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.content, content) || other.content == content));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, uid, title, content);
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SendNotificationImplCopyWith<_$SendNotificationImpl> get copyWith =>
+      __$$SendNotificationImplCopyWithImpl<_$SendNotificationImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initNotification,
+    required TResult Function(RemoteMessage notification) showNotification,
+    required TResult Function() updateNotification,
+    required TResult Function(String uid, String title, String content)
+        sendNotification,
+  }) {
+    return sendNotification(uid, title, content);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initNotification,
+    TResult? Function(RemoteMessage notification)? showNotification,
+    TResult? Function()? updateNotification,
+    TResult? Function(String uid, String title, String content)?
+        sendNotification,
+  }) {
+    return sendNotification?.call(uid, title, content);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initNotification,
+    TResult Function(RemoteMessage notification)? showNotification,
+    TResult Function()? updateNotification,
+    TResult Function(String uid, String title, String content)?
+        sendNotification,
+    required TResult orElse(),
+  }) {
+    if (sendNotification != null) {
+      return sendNotification(uid, title, content);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_InitNotification value) initNotification,
+    required TResult Function(_ShowNotification value) showNotification,
+    required TResult Function(_UpdateNotification value) updateNotification,
+    required TResult Function(_SendNotification value) sendNotification,
+  }) {
+    return sendNotification(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_InitNotification value)? initNotification,
+    TResult? Function(_ShowNotification value)? showNotification,
+    TResult? Function(_UpdateNotification value)? updateNotification,
+    TResult? Function(_SendNotification value)? sendNotification,
+  }) {
+    return sendNotification?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_InitNotification value)? initNotification,
+    TResult Function(_ShowNotification value)? showNotification,
+    TResult Function(_UpdateNotification value)? updateNotification,
+    TResult Function(_SendNotification value)? sendNotification,
+    required TResult orElse(),
+  }) {
+    if (sendNotification != null) {
+      return sendNotification(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SendNotification implements NotificationEvent {
+  const factory _SendNotification(
+      {required final String uid,
+      required final String title,
+      required final String content}) = _$SendNotificationImpl;
+
+  String get uid;
+  String get title;
+  String get content;
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SendNotificationImplCopyWith<_$SendNotificationImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:user_resort_booking_app/core/components/custom_app_bar.dart';
-import 'package:user_resort_booking_app/core/components/custom_circular_progress_indicator.dart';
 import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
 import 'package:user_resort_booking_app/core/utils/custom_date_formats.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
