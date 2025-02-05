@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,6 +82,8 @@ Future<void> main() async {
   //   }
   // }
 
+  NotificationServices().onBackgroundMessages();
+
   runApp(
     MultiRepositoryProvider(
       providers: [
@@ -146,11 +146,7 @@ Future<void> main() async {
         providers: [
           //notification
           BlocProvider(create: (context) {
-            log('working on bloc provider to initialize bloc');
             return NotificationBloc(notificationService);
-            // ..add(
-            //   NotificationEvent.initNotification(),
-            // );
           }),
 
           BlocProvider(

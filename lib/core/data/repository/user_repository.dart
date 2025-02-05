@@ -17,10 +17,10 @@ class UserRepository {
       rethrow;
     }
   }
+
   Future<void> updateUserData(UserModel userModel) async {
     try {
       await _services.updateUserData(userModel);
-      
     } catch (e, stack) {
       log(e.toString(), stackTrace: stack);
       rethrow;
@@ -30,4 +30,6 @@ class UserRepository {
   Future<void> updateFields() async {
     await _services.backfillFavorites();
   }
+
+  Stream<bool> isUserBlocked() => _services.isUserBlocked();
 }

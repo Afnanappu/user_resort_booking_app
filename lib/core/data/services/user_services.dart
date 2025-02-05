@@ -43,6 +43,30 @@ class UserServices {
     }
   }
 
+  Stream<bool> isUserBlocked() {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    try {
+      return FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .snapshots()
+          .map(
+        (event) {
+          if (event.exists) {
+            return event.data()?['isBlocked'] ?? false;
+          }
+          return false;
+        },
+      );
+    } on FirebaseException catch (e, stack) {
+      log(e.toString(), stackTrace: stack);
+      throw AppExceptionHandler.handleFirestoreException(e);
+    } catch (e, stack) {
+      log(e.toString(), stackTrace: stack);
+      throw AppExceptionHandler.handleGenericException(e);
+    }
+  }
+
   Future<void> backfillFavorites() async {
     // final usersCollection = FirebaseFirestore.instance.collection('users');
     // final querySnapshot = await usersCollection.get();

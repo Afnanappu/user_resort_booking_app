@@ -12,13 +12,15 @@ class UserModel {
 
   final String email;
 
-  final String? phone;
-
-  final String? fcmToken;
-
   final String? profilePicture;
 
   final List<String> favorites;
+
+  final String? phone;
+
+  final bool isBlocked;
+
+  final String? fcmToken;
 
   final DateTime? createdAt;
 
@@ -34,6 +36,7 @@ class UserModel {
     this.favorites = const [],
     this.createdAt,
     this.updatedAt,
+    this.isBlocked = false,
   });
 
   UserModel copyWith({
@@ -46,6 +49,7 @@ class UserModel {
     List<String>? favorites,
     DateTime? createdAt,
     DateTime? updatedAt,
+    bool? isBlocked,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
@@ -57,6 +61,7 @@ class UserModel {
       favorites: favorites ?? this.favorites,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      isBlocked: isBlocked ?? this.isBlocked,
     );
   }
 
@@ -71,6 +76,7 @@ class UserModel {
       'favorites': favorites,
       'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
       'updatedAt': updatedAt != null ? Timestamp.fromDate(updatedAt!) : null,
+      'isBlocked': isBlocked
     };
   }
 
@@ -87,6 +93,7 @@ class UserModel {
       favorites: List<String>.from((map['favorites'] as List<dynamic>)),
       createdAt: (map['createdAt'] as Timestamp?)?.toDate(),
       updatedAt: (map['updatedAt'] as Timestamp?)?.toDate(),
+      isBlocked: map['isBlocked'] as bool,
     );
   }
 
@@ -112,7 +119,8 @@ class UserModel {
         other.profilePicture == profilePicture &&
         listEquals(other.favorites, favorites) &&
         other.createdAt == createdAt &&
-        other.updatedAt == updatedAt;
+        other.updatedAt == updatedAt &&
+        other.isBlocked == isBlocked;
   }
 
   @override
@@ -125,6 +133,7 @@ class UserModel {
         profilePicture.hashCode ^
         favorites.hashCode ^
         createdAt.hashCode ^
-        updatedAt.hashCode;
+        updatedAt.hashCode ^
+        isBlocked.hashCode;
   }
 }

@@ -35,8 +35,8 @@ class MyBookingRepository {
           endDate: (booking['endDate'] as Timestamp).toDate(),
           price: booking['totalPrice'].toString(),
           imageUrl: PickedFileModel.fromMap(
-                  (propertyData['images'] as List<dynamic>).first)
-              .base64file,
+            (propertyData['images'] as List<dynamic>).first,
+          ).base64file,
           status: booking['status'],
           ownerId: propertyData['ownerId'] as String,
         ));

@@ -31,21 +31,79 @@ class MyBookingServices extends PropertyHomeServices {
           .get();
 
       final List<Map<String, dynamic>> list = [];
+
+      final currentTime = DateTime.now();
+
       for (var element in bookings.docs) {
         final map = element.data();
 
         final ownerId = map['ownerId'] as String;
         final bookingId = map['bookingId'] as String;
-        final book = await _ownerCollection
+        final bookingsData = await _ownerCollection
             .doc(ownerId)
             .collection(_bookingCollectionName)
             .doc(bookingId)
             .get();
 
-        if (book.data() != null) {
-          list.add(book.data()!);
+        final booking = bookingsData.data()!;
+
+        
+        final status = (booking['status'] as String).toLowerCase();
+        if (status == 'cancelled') {
+          list.add(booking);
+          continue;
         }
+        final start = (booking['startDate'] as Timestamp).toDate();
+        final end = (booking['endDate'] as Timestamp).toDate();
+
+        if (currentTime.isAfter(end) && status != 'completed') {
+          // booking date is already past current time, then update it to complete
+          await _ownerCollection
+              .doc(ownerId)
+              .collection(_bookingCollectionName)
+              .doc(bookingId)
+              .update({'status': 'completed'});
+          booking['status'] = 'completed';
+
+          log('$bookingId updated to completed');
+        } else if (currentTime.isAfter(start) &&
+            currentTime.isBefore(end) &&
+            status != 'active') {
+          // make it active
+          await _ownerCollection
+              .doc(ownerId)
+              .collection(_bookingCollectionName)
+              .doc(bookingId)
+              .update({'status': 'active'});
+          booking['status'] = 'active';
+
+          log('$bookingId updated to active');
+        }
+        list.add(booking);
       }
+
+      // for (var booking in list) {
+      //   final status = (booking['status'] as String).toLowerCase();
+      //   if (status == 'cancelled') {
+      //     continue;
+      //   }
+      //   final ownerId = booking['ownerId']
+      //   final start = (booking['startDate'] as Timestamp).toDate();
+      //   final end = (booking['endDate'] as Timestamp).toDate();
+
+      //   if (currentTime.isAfter(end) && status != 'completed') {
+      //     // booking date is already past current time, then update it to complete
+      //     await _ownerCollection
+      //       .doc(ownerId)
+      //       .collection(_bookingCollectionName)
+      //       .doc(bookingId).update({
+      //         'status':
+      //       })
+      //   } else if (currentTime.isAfter(start) && status != 'active') {
+      //     // make it active
+
+      //   }
+      // }
       return list;
     } on FirebaseException catch (e, stack) {
       log(e.toString(), stackTrace: stack);
