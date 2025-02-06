@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:user_resort_booking_app/core/constants/my_constants.dart';
+import 'package:user_resort_booking_app/core/constants/url.dart';
 import 'package:user_resort_booking_app/core/utils/exceptions/custom_exceptions.dart';
 import 'package:http/http.dart' as http;
 
@@ -157,7 +158,7 @@ class NotificationServices {
     required String collection,
     Map<String, dynamic>? payload,
   }) async {
-    const url = "http://172.16.4.113:5000/notification/single";
+    const url = NOTIFICATION_SINGLE_URL;
     try {
       final body = {
         "uid": uid,
