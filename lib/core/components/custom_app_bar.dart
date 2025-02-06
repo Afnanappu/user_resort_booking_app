@@ -12,12 +12,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.needUnderline = true,
     this.needSystemOverlayStyle = true,
     this.hadLeading = true,
+    this.bottom,
   });
   final String title;
   final List<Widget>? actions;
   final bool needUnderline;
   final bool needSystemOverlayStyle;
   final bool hadLeading;
+  final PreferredSizeWidget? bottom;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,6 +36,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           actionsIconTheme: IconThemeData(size: 30),
           actions: actions,
+          bottom: bottom,
         ),
         if (needUnderline) CustomDivider(horizontal: MyScreenSize.width * .08),
       ],
