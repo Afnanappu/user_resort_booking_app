@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:user_resort_booking_app/core/components/custom_alert_dialog.dart';
+import 'package:user_resort_booking_app/core/utils/user_auth_state.dart';
 import 'package:user_resort_booking_app/feature/profile/view/components/list_tile_for_profile.dart';
 import 'package:user_resort_booking_app/feature/profile/view/widgets/app_bar_for_profile.dart';
 import 'package:user_resort_booking_app/routes/route_names.dart';
@@ -33,17 +35,10 @@ class ScreenProfile extends StatelessWidget {
                   },
                 ),
                 ListTileForProfile(
-                  icon: Icons.assessment_outlined,
+                  icon: Icons.report_gmailerrorred_outlined,
                   title: 'Report',
                   onTap: () {
-                    //TODO: Report
-                  },
-                ),
-                ListTileForProfile(
-                  icon: Icons.settings_outlined,
-                  title: 'Settings',
-                  onTap: () {
-                    context.push('/${AppRoutes.settings}');
+                    context.push('/${AppRoutes.reportIssue}');
                   },
                 ),
                 ListTileForProfile(
@@ -58,6 +53,25 @@ class ScreenProfile extends StatelessWidget {
                   title: 'About',
                   onTap: () {
                     context.push('/${AppRoutes.about}');
+                  },
+                ),
+                ListTileForProfile(
+                  icon: Icons.logout_outlined,
+                  title: 'Logout',
+                  onTap: () {
+                    customAlertDialog(
+                      context: context,
+                      title: 'Logout',
+                      content: 'Do you want to logout from our app?',
+                      firstText: 'No',
+                      firstOnPressed: () {
+                        context.pop();
+                      },
+                      secondText: 'Yes',
+                      secondOnPressed: () async {
+                        await logoutFromApp(context);
+                      },
+                    );
                   },
                 ),
               ],

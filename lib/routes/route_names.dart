@@ -8,6 +8,7 @@ class AppRoutes {
   static const about = 'about';
   static const favorite = 'favorite';
   static const settings = 'settings';
+  static const reportIssue = 'report-issue';
   static const notification = 'notification';
   static const propertyDetailsHome = 'property-details-home';
   static const propertyRoomDetails = 'property-room-details';

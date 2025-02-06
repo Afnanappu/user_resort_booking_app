@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:user_resort_booking_app/core/navigation/screen_navigation.dart';
 import 'package:user_resort_booking_app/feature/authentication/views/screens/screen_login.dart';
@@ -21,7 +22,8 @@ import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_
 import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_splash.dart';
 import 'package:user_resort_booking_app/feature/profile/view/screens/screen_payment_history.dart';
 import 'package:user_resort_booking_app/feature/profile/view/screens/screen_profile.dart';
-import 'package:user_resort_booking_app/feature/profile/view/screens/screen_settings.dart';
+import 'package:user_resort_booking_app/feature/profile/view/screens/screen_report_issue.dart';
+import 'package:user_resort_booking_app/feature/profile/view_model/cubit/cubit_report_issue/report_issue_cubit.dart';
 import 'package:user_resort_booking_app/feature/search/view/screens/screen_search.dart';
 import 'package:user_resort_booking_app/routes/custom_route_transition.dart';
 import 'package:user_resort_booking_app/routes/route_names.dart';
@@ -82,11 +84,11 @@ final routes = GoRouter(
       pageBuilder: (context, state) =>
           customTransitionPage(state, ScreenReviewBooking()),
     ),
-    GoRoute(
-      path: '/${AppRoutes.settings}',
-      pageBuilder: (context, state) =>
-          customTransitionPage(state, ScreenSettings()),
-    ),
+    // GoRoute(
+    //   path: '/${AppRoutes.settings}',
+    //   pageBuilder: (context, state) =>
+    //       customTransitionPage(state, ScreenSettings()),
+    // ),
     GoRoute(
       path: '/${AppRoutes.paymentHistory}',
       pageBuilder: (context, state) =>
@@ -123,6 +125,16 @@ final routes = GoRouter(
       pageBuilder: (context, state) => customTransitionPage(
         state,
         ScreenAbout(),
+      ),
+    ),
+    GoRoute(
+      path: '/${AppRoutes.reportIssue}',
+      pageBuilder: (context, state) => customTransitionPage(
+        state,
+        BlocProvider(
+          create: (context) => ReportIssueCubit(),
+          child: ReportIssueScreen(),
+        ),
       ),
     ),
     GoRoute(

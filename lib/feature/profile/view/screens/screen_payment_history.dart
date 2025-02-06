@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:user_resort_booking_app/core/components/custom_app_bar.dart';
 import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
-import 'package:user_resort_booking_app/core/utils/custom_date_formats.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
 import 'package:user_resort_booking_app/feature/profile/view/components/payment_history_card.dart';
 import 'package:user_resort_booking_app/feature/profile/view_model/bloc/bloc_payment_history/payment_history_bloc.dart';
+import 'package:collection/collection.dart';
 
 class ScreenPaymentHistory extends StatelessWidget {
   ScreenPaymentHistory({super.key});
@@ -48,7 +49,15 @@ class ScreenPaymentHistory extends StatelessWidget {
                       child: Text('An unexpected error occurred'),
                     ),
                   ),
-                  loaded: (transactions) {
+                  loaded: (loadedValue) {
+                    final transactions = groupBy(
+                      loadedValue,
+                      (value) {
+                        return DateFormat.yMMMd().format(
+                          value.transactionModel.createdAt,
+                        );
+                      },
+                    );
                     return transactions.isEmpty
                         ? SizedBox(
                             height: MyScreenSize.height - height,
@@ -56,27 +65,86 @@ class ScreenPaymentHistory extends StatelessWidget {
                               child: Text('No transaction found'),
                             ),
                           )
-                        : ListView.builder(
-                            shrinkWrap: true,
+                        : ListView(
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: transactions.length,
-                            itemBuilder: (context, index) {
-                              final payment = transactions[index];
-
-                              return PaymentHistoryCard(
-                                userName: payment.payerName,
-                                profile: payment.profile,
-                                amount: payment.transactionModel.amount,
-                                transactionDate: customDateFormat3(
-                                  payment.transactionModel.transactionDate,
-                                ),
-                                status:
-                                    payment.transactionModel.status == 'failed'
-                                        ? 'failed'
-                                        : payment.transactionModel.type,
-                              );
-                            },
+                            shrinkWrap: true,
+                            children: transactions.entries.map(
+                              (transaction) {
+                                return Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(transaction.key),
+                                    ),
+                                    // Row(
+                                    //   mainAxisAlignment:
+                                    //       MainAxisAlignment.center,
+                                    //   children: [
+                                    //     Container(
+                                    //       margin: EdgeInsets.symmetric(
+                                    //         vertical: 15,
+                                    //       ),
+                                    //       padding: EdgeInsets.symmetric(
+                                    //         horizontal: 10,
+                                    //         vertical: 5,
+                                    //       ),
+                                    //       decoration: BoxDecoration(
+                                    //         color: MyColors.greyLight
+                                    //             .withAlpha(150),
+                                    //         borderRadius: BorderRadius.circular(
+                                    //           borderRad10,
+                                    //         ),
+                                    //       ),
+                                    //       child: Text(transaction.key),
+                                    //     )
+                                    //   ],
+                                    // ),
+                                    ...transaction.value.map(
+                                      (payment) {
+                                        return PaymentHistoryCard(
+                                          userName: payment.payerName,
+                                          profile: payment.profile,
+                                          amount:
+                                              payment.transactionModel.amount,
+                                          transactionDate:
+                                              DateFormat.jm().format(
+                                            payment.transactionModel
+                                                .transactionDate,
+                                          ),
+                                          status: payment.transactionModel
+                                                      .status ==
+                                                  'failed'
+                                              ? 'failed'
+                                              : payment.transactionModel.type,
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            ).toList(),
                           );
+                    // ListView.builder(
+                    //     shrinkWrap: true,
+                    //     physics: NeverScrollableScrollPhysics(),
+                    //     itemCount: transactions.length,
+                    //     itemBuilder: (context, index) {
+                    //       final payment = transactions[index];
+
+                    //       return PaymentHistoryCard(
+                    //         userName: payment.payerName,
+                    //         profile: payment.profile,
+                    //         amount: payment.transactionModel.amount,
+                    //         transactionDate: customDateFormat3(
+                    //           payment.transactionModel.transactionDate,
+                    //         ),
+                    //         status:
+                    //             payment.transactionModel.status == 'failed'
+                    //                 ? 'failed'
+                    //                 : payment.transactionModel.type,
+                    //       );
+                    //     },
+                    //   );
                   },
                 );
               },
