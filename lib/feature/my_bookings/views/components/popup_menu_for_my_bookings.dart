@@ -27,10 +27,6 @@ class PopupMenuForMyBookings extends StatelessWidget {
             value: 'all',
             child: Text('All'),
           ),
-          // PopupMenuItem(
-          //   value: 'pending',
-          //   child: Text('Pending'),
-          // ),
           PopupMenuItem(
             value: 'booked',
             child: Text('Booked'),
@@ -38,6 +34,10 @@ class PopupMenuForMyBookings extends StatelessWidget {
           PopupMenuItem(
             value: 'cancelled',
             child: Text('Cancelled'),
+          ),
+          PopupMenuItem(
+            value: 'completed',
+            child: Text('Completed'),
           ),
         ];
       },
