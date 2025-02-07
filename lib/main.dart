@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +14,7 @@ import 'package:user_resort_booking_app/core/data/view_model/bloc/bloc_notificat
 import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
 import 'package:user_resort_booking_app/core/data/view_model/bloc/bloc_google_map/google_map_bloc.dart';
+import 'package:user_resort_booking_app/core/utils/user_auth_state.dart';
 import 'package:user_resort_booking_app/feature/authentication/repository/auth_repository.dart';
 import 'package:user_resort_booking_app/feature/authentication/repository/user_local_repository.dart';
 import 'package:user_resort_booking_app/feature/authentication/services/auth_service.dart';
@@ -26,6 +29,7 @@ import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking
 import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_select_date_cubit.dart';
 import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_select_people_cubit.dart';
 import 'package:user_resort_booking_app/feature/booking/view_model/cubit/booking_selected_rooms_cubit.dart';
+import 'package:user_resort_booking_app/feature/onboarding/views/screens/screen_onboarding_2.dart';
 import 'package:user_resort_booking_app/feature/profile/repository/favorite_repository.dart';
 import 'package:user_resort_booking_app/feature/profile/services/favorite_service.dart';
 import 'package:user_resort_booking_app/feature/profile/view_model/bloc/bloc_favorite/favorite_bloc.dart';
@@ -49,6 +53,7 @@ import 'package:user_resort_booking_app/feature/search/view_model/bloc_property_
 import 'package:user_resort_booking_app/feature/search/view_model/cubit/filter_data_cubit.dart';
 import 'package:user_resort_booking_app/feature/search/view_model/cubit/property_type_cubit.dart';
 import 'package:user_resort_booking_app/firebase_options.dart';
+import 'package:user_resort_booking_app/routes/route_names.dart';
 import 'package:user_resort_booking_app/routes/routes.dart';
 
 Future<void> main() async {
@@ -58,31 +63,10 @@ Future<void> main() async {
   );
 
   final notificationService = NotificationServices();
-  // ..initNotification();
-
-  //initializing notification for  this app
-  // await NotificationServices().initNotification();
-
-  // await Hive.initFlutter();
-  // if (!Hive.isAdapterRegistered(UserLocalDataModelAdapter().typeId)) {
-  //   Hive.registerAdapter(UserLocalDataModelAdapter());
-  // }
-
-  // if (kDebugMode) {
-  //   try {
-  //     // final deviceIp = '172.16.4.113';
-  //     final deviceIp = ' 192.168.1.25';
-  //     await FirebaseAuth.instance.useAuthEmulator(deviceIp, 9099);
-  //     FirebaseFirestore.instance.useFirestoreEmulator(deviceIp, 8089);
-  //     log('Backend is running on Firebase Local Emulator');
-  //     log('Connected to Firestore and auth locally');
-  //   } catch (e) {
-  //     log(e.toString());
-  //     log('Error while connecting to Firebase Local Emulator');
-  //   }
-  // }
 
   NotificationServices().onBackgroundMessages();
+
+  final initialRoute = await check();
 
   runApp(
     MultiRepositoryProvider(
@@ -235,15 +219,15 @@ Future<void> main() async {
             ),
           ),
         ],
-        child: const MainApp(),
+        child: MainApp(initialRoute: initialRoute),
       ),
     ),
   );
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
+  const MainApp({super.key, required this.initialRoute});
+  final String initialRoute;
   @override
   Widget build(BuildContext context) {
     MyScreenSize.initialize(context);
@@ -253,9 +237,23 @@ class MainApp extends StatelessWidget {
 
     print(MyScreenSize());
     return MaterialApp.router(
-      routerConfig: routes,
+      routerConfig: routes(initialRoute),
       debugShowCheckedModeBanner: false,
       theme: customTheme,
     );
+  }
+}
+
+Future<String> check() async {
+  if (!await checkBoardingScreenIsWatchedOrNot()) {
+    log('going to onBoarding screen');
+    return AppRoutes.onboarding;
+  }
+  if (userCurrentAuthState()) {
+    log('going to home screen');
+    return AppRoutes.home;
+  } else {
+    log('going to login screen');
+    return AppRoutes.login;
   }
 }

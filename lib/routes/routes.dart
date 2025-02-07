@@ -31,188 +31,207 @@ import 'package:user_resort_booking_app/routes/route_names.dart';
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _sectionNavigatorKey = GlobalKey<NavigatorState>();
 
-final routes = GoRouter(
-  initialLocation: '/${AppRoutes.splash}',
-  navigatorKey: _rootNavigatorKey,
-  observers: [
-    MyNavigatorObserver(),
-  ],
-  routes: [
-    GoRoute(
-      name: 'splash',
-      path: '/${AppRoutes.splash}',
-      pageBuilder: (context, state) {
-        return customTransitionPage(state, ScreenSplash());
-      },
-    ),
-    GoRoute(
-      name: 'onboarding',
-      path: '/${AppRoutes.onboarding}',
-      pageBuilder: (context, state) =>
-          customTransitionPage(state, ScreenOnboarding()),
-    ),
-    GoRoute(
-      name: 'onboarding2',
-      path: '/${AppRoutes.onboarding2}',
-      pageBuilder: (context, state) =>
-          customTransitionPage(state, ScreenOnboarding2()),
-    ),
-    GoRoute(
-      name: 'login',
-      path: '/${AppRoutes.login}',
-      pageBuilder: (context, state) =>
-          customTransitionPage(state, ScreenLogin()),
-    ),
-    GoRoute(
-      name: 'signup',
-      path: '/${AppRoutes.signUp}',
-      pageBuilder: (context, state) =>
-          customTransitionPage(state, ScreenSignUp()),
-    ),
-    GoRoute(
-      path: '/${AppRoutes.propertyDetailsHome}',
-      pageBuilder: (context, state) =>
-          customTransitionPage(state, ScreenHomePropertyDetails()),
-    ),
-    GoRoute(
-      path: '/${AppRoutes.payment}',
-      pageBuilder: (context, state) =>
-          customTransitionPage(state, ScreenPayment()),
-    ),
-    GoRoute(
-      path: '/${AppRoutes.reviewBooking}',
-      pageBuilder: (context, state) =>
-          customTransitionPage(state, ScreenReviewBooking()),
-    ),
-    // GoRoute(
-    //   path: '/${AppRoutes.settings}',
-    //   pageBuilder: (context, state) =>
-    //       customTransitionPage(state, ScreenSettings()),
-    // ),
-    GoRoute(
-      path: '/${AppRoutes.paymentHistory}',
-      pageBuilder: (context, state) =>
-          customTransitionPage(state, ScreenPaymentHistory()),
-    ),
-    GoRoute(
-      path: '/${AppRoutes.notification}',
-      pageBuilder: (context, state) =>
-          customTransitionPage(state, ScreenNotification()),
-    ),
-    GoRoute(
-      path: '/${AppRoutes.bookedPropertyDetails}',
-      pageBuilder: (context, state) => customTransitionPage(
-        state,
-        ScreenBookedPropertyDetails(),
-      ),
-    ),
-    GoRoute(
-      path: '/${AppRoutes.propertyRoomList}',
-      pageBuilder: (context, state) => customTransitionPage(
-        state,
-        ScreenPropertyRoomsList(),
-      ),
-    ),
-    GoRoute(
-      path: '/${AppRoutes.favorite}',
-      pageBuilder: (context, state) => customTransitionPage(
-        state,
-        ScreenFavorite(),
-      ),
-    ),
-    GoRoute(
-      path: '/${AppRoutes.about}',
-      pageBuilder: (context, state) => customTransitionPage(
-        state,
-        ScreenPrivacyPolicy(),
-      ),
-    ),
-    GoRoute(
-      path: '/${AppRoutes.reportIssue}',
-      pageBuilder: (context, state) => customTransitionPage(
-        state,
-        BlocProvider(
-          create: (context) => ReportIssueCubit(),
-          child: ReportIssueScreen(),
-        ),
-      ),
-    ),
-    GoRoute(
-      path: '/${AppRoutes.propertyRoomDetails}',
-      pageBuilder: (context, state) => customTransitionPage(
-        state,
-        ScreenPropertyRoomDetails(),
-      ),
-    ),
+RouterConfig<Object> routes(String initialRoute) => GoRouter(
+      initialLocation: '/$initialRoute',
+      navigatorKey: _rootNavigatorKey,
+      // redirect: (context, state) async {
+      //   if (!await checkBoardingScreenIsWatchedOrNot()) {
+      //     log('going to onBoarding screen');
+      //     return '/${AppRoutes.onboarding}';
+      //   }
+      //   if (userCurrentAuthState()) {
+      //     if (context.mounted) {
+      //       context.read<NotificationBloc>().add(
+      //             NotificationEvent.updateNotification(),
+      //           );
+      //     }
+      //     log('going to home screen');
+      //     return '/${AppRoutes.home}';
+      //   } else {
+      //     log('going to login screen');
 
-    //Bottom navigation bar screens
-    StatefulShellRoute.indexedStack(
-      pageBuilder: (_, state, navigationShell) => customTransitionPage(
-        state,
-        ScreenNavigation(
-          navigationShell: navigationShell,
-        ),
-      ),
-      branches: [
-        StatefulShellBranch(
-          initialLocation: '/${AppRoutes.home}',
-          navigatorKey: _sectionNavigatorKey,
-          routes: [
-            GoRoute(
-              path: '/${AppRoutes.home}',
-              pageBuilder: (_, state) {
-                return customTransitionPage(
-                  state,
-                  ScreenHome(),
-                );
-              },
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/${AppRoutes.search}',
-              pageBuilder: (_, state) {
-                return customTransitionPage(
-                  state,
-                  ScreenSearch(),
-                );
-              },
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/${AppRoutes.myBookings}',
-              pageBuilder: (_, state) {
-                return customTransitionPage(
-                  state,
-                  ScreenMyBookings(),
-                );
-              },
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/${AppRoutes.profile}',
-              pageBuilder: (_, state) {
-                return customTransitionPage(
-                  state,
-                  ScreenProfile(),
-                  // ScreenPaymentHistory()
-                );
-              },
-            ),
-          ],
-        ),
+      //     return '/${AppRoutes.login}';
+      //   }
+      // },
+      observers: [
+        MyNavigatorObserver(),
       ],
-    )
-  ],
-);
+      routes: [
+        GoRoute(
+          name: 'splash',
+          path: '/${AppRoutes.splash}',
+          pageBuilder: (context, state) {
+            return customTransitionPage(state, ScreenSplash());
+          },
+        ),
+        GoRoute(
+            name: 'onboarding',
+            path: '/${AppRoutes.onboarding}',
+            pageBuilder: (context, state) {
+              return customTransitionPage(state, ScreenOnboarding());
+            }),
+        GoRoute(
+          name: 'onboarding2',
+          path: '/${AppRoutes.onboarding2}',
+          pageBuilder: (context, state) =>
+              customTransitionPage(state, ScreenOnboarding2()),
+        ),
+        GoRoute(
+          name: 'login',
+          path: '/${AppRoutes.login}',
+          pageBuilder: (context, state) =>
+              customTransitionPage(state, ScreenLogin()),
+        ),
+        GoRoute(
+          name: 'signup',
+          path: '/${AppRoutes.signUp}',
+          pageBuilder: (context, state) =>
+              customTransitionPage(state, ScreenSignUp()),
+        ),
+        GoRoute(
+          path: '/${AppRoutes.propertyDetailsHome}',
+          pageBuilder: (context, state) =>
+              customTransitionPage(state, ScreenHomePropertyDetails()),
+        ),
+        GoRoute(
+          path: '/${AppRoutes.payment}',
+          pageBuilder: (context, state) =>
+              customTransitionPage(state, ScreenPayment()),
+        ),
+        GoRoute(
+          path: '/${AppRoutes.reviewBooking}',
+          pageBuilder: (context, state) =>
+              customTransitionPage(state, ScreenReviewBooking()),
+        ),
+        // GoRoute(
+        //   path: '/${AppRoutes.settings}',
+        //   pageBuilder: (context, state) =>
+        //       customTransitionPage(state, ScreenSettings()),
+        // ),
+        GoRoute(
+          path: '/${AppRoutes.paymentHistory}',
+          pageBuilder: (context, state) =>
+              customTransitionPage(state, ScreenPaymentHistory()),
+        ),
+        GoRoute(
+          path: '/${AppRoutes.notification}',
+          pageBuilder: (context, state) =>
+              customTransitionPage(state, ScreenNotification()),
+        ),
+        GoRoute(
+          path: '/${AppRoutes.bookedPropertyDetails}',
+          pageBuilder: (context, state) => customTransitionPage(
+            state,
+            ScreenBookedPropertyDetails(),
+          ),
+        ),
+        GoRoute(
+          path: '/${AppRoutes.propertyRoomList}',
+          pageBuilder: (context, state) => customTransitionPage(
+            state,
+            ScreenPropertyRoomsList(),
+          ),
+        ),
+        GoRoute(
+          path: '/${AppRoutes.favorite}',
+          pageBuilder: (context, state) => customTransitionPage(
+            state,
+            ScreenFavorite(),
+          ),
+        ),
+        GoRoute(
+          path: '/${AppRoutes.about}',
+          pageBuilder: (context, state) => customTransitionPage(
+            state,
+            ScreenPrivacyPolicy(),
+          ),
+        ),
+        GoRoute(
+          path: '/${AppRoutes.reportIssue}',
+          pageBuilder: (context, state) => customTransitionPage(
+            state,
+            BlocProvider(
+              create: (context) => ReportIssueCubit(),
+              child: ReportIssueScreen(),
+            ),
+          ),
+        ),
+        GoRoute(
+          path: '/${AppRoutes.propertyRoomDetails}',
+          pageBuilder: (context, state) => customTransitionPage(
+            state,
+            ScreenPropertyRoomDetails(),
+          ),
+        ),
+
+        //Bottom navigation bar screens
+        StatefulShellRoute.indexedStack(
+          pageBuilder: (_, state, navigationShell) => customTransitionPage(
+            state,
+            ScreenNavigation(
+              navigationShell: navigationShell,
+            ),
+          ),
+          branches: [
+            StatefulShellBranch(
+              initialLocation: '/${AppRoutes.home}',
+              navigatorKey: _sectionNavigatorKey,
+              routes: [
+                GoRoute(
+                  path: '/${AppRoutes.home}',
+                  pageBuilder: (_, state) {
+                    return customTransitionPage(
+                      state,
+                      ScreenHome(),
+                    );
+                  },
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: '/${AppRoutes.search}',
+                  pageBuilder: (_, state) {
+                    return customTransitionPage(
+                      state,
+                      ScreenSearch(),
+                    );
+                  },
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: '/${AppRoutes.myBookings}',
+                  pageBuilder: (_, state) {
+                    return customTransitionPage(
+                      state,
+                      ScreenMyBookings(),
+                    );
+                  },
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: '/${AppRoutes.profile}',
+                  pageBuilder: (_, state) {
+                    return customTransitionPage(
+                      state,
+                      ScreenProfile(),
+                      // ScreenPaymentHistory()
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
+        )
+      ],
+    );
 
 //This class is an observable class that will log every navigation changes. Put this class in an observer.
 //Can customize out put of any navigation.

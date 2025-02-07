@@ -1,17 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_resort_booking_app/core/components/elevated_button_auth.dart';
 import 'package:user_resort_booking_app/core/constants/spaces.dart';
 import 'package:user_resort_booking_app/core/constants/text_styles.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
 import 'package:user_resort_booking_app/routes/route_names.dart';
 
+
+final isBoardingWatchedKey = 'isBoardingWatched';
+Future<bool> checkBoardingScreenIsWatchedOrNot() async {
+  final sharedPref = await SharedPreferences.getInstance();
+  return sharedPref.getBool(isBoardingWatchedKey) ?? false;
+}
+
 class ScreenOnboarding2 extends StatelessWidget {
   const ScreenOnboarding2({super.key});
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SharedPreferences.getInstance().then(
+        (sharedPref) async {
+          await sharedPref.setBool(
+            isBoardingWatchedKey,
+            true,
+          );
+        },
+      );
+    });
     return Scaffold(
       body: SizedBox(
         height: MyScreenSize.height,

@@ -56,10 +56,11 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
             add(NotificationEvent.showNotification(notification));
           },
         );
+        add(NotificationEvent.updateNotification());
       },
     );
 
-     on<_FetchNotification>(
+    on<_FetchNotification>(
       (event, emit) async {
         emit(NotificationState.loading());
         final data = await _notificationServices.fetchNotification();
