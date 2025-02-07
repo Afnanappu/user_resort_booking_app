@@ -72,6 +72,7 @@ class TopRatedPropertyListWidget extends StatelessWidget {
             ),
           ),
           loaded: (propertyList) {
+            // final propertyList = propertyLis.skip(2);
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

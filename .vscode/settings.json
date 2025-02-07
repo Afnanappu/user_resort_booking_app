@@ -3,9 +3,12 @@
         "aclonica",
         "dlat",
         "dlon",
+        "dontwarn",
         "geocoder",
         "komar",
+        "proguard",
         "removebg",
-        "Scap"
+        "Scap",
+        "stayscape"
     ]
 }

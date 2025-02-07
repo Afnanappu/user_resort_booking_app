@@ -88,7 +88,7 @@ class ReviewAndRatingWidget extends StatelessWidget {
 
         MySpaces.hSpace20,
 
-        CustomContainerForPropertyDetails(
+       if(reviews.isNotEmpty) CustomContainerForPropertyDetails(
           title: 'Your Review',
           child: ListView.separated(
             shrinkWrap: true,
