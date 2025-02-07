@@ -10,6 +10,7 @@ import 'package:user_resort_booking_app/core/constants/my_constants.dart';
 import 'package:user_resort_booking_app/core/constants/url.dart';
 import 'package:user_resort_booking_app/core/utils/exceptions/custom_exceptions.dart';
 import 'package:http/http.dart' as http;
+import 'package:user_resort_booking_app/feature/home/models/notification_model.dart';
 
 Future<void> handleBackgroundMessaging(RemoteMessage message) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -189,6 +190,31 @@ class NotificationServices {
     } catch (e, stack) {
       log('Notification sending failed: $e');
       log(e.toString(), stackTrace: stack);
+    }
+  }
+
+  Future<List<NotificationModel>> fetchNotification() async {
+    try {
+      final usersCollection = FirebaseFirestore.instance.collection('users');
+      final notificationCollectionName = 'notifications';
+
+      final data = await usersCollection
+          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .collection(notificationCollectionName)
+          .get();
+      final listData = data.docChanges.map((e) => e.doc.data()).toList();
+
+      return listData
+          .map(
+            (e) => NotificationModel.fromMap(e!),
+          )
+          .toList();
+    } on FirebaseException catch (e, stack) {
+      log(e.toString(), stackTrace: stack);
+      throw AppExceptionHandler.handleFirestoreException(e);
+    } catch (e, stack) {
+      log(e.toString(), stackTrace: stack);
+      throw AppExceptionHandler.handleGenericException(e);
     }
   }
 }

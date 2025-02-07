@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:user_resort_booking_app/core/data/services/notification_services.dart';
+import 'package:user_resort_booking_app/feature/home/models/notification_model.dart';
 import 'package:user_resort_booking_app/feature/profile/view/screens/screen_profile.dart';
 
 part 'notification_event.dart';
@@ -18,7 +19,7 @@ final globalNavKey = GlobalKey<NavigatorState>();
 
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   final NotificationServices _notificationServices;
-  NotificationBloc(this._notificationServices) : super(_Initial()) {
+  NotificationBloc(this._notificationServices) : super(_Loading()) {
     on<_InitNotification>(
       (event, emit) async {
         await _notificationServices.initNotification(
@@ -58,8 +59,16 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       },
     );
 
+     on<_FetchNotification>(
+      (event, emit) async {
+        emit(NotificationState.loading());
+        final data = await _notificationServices.fetchNotification();
+        emit(NotificationState.onNotification(data));
+      },
+    );
+
     on<_ShowNotification>((event, emit) {
-      emit(NotificationState.onNotification(event.notification));
+      // emit(NotificationState.onNotification(event.notification));
     });
 
     on<_UpdateNotification>((event, emit) async {
