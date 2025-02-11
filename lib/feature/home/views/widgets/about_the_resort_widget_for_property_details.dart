@@ -4,6 +4,7 @@ import 'package:user_resort_booking_app/core/data/models/basic_details_model.dar
 import 'package:user_resort_booking_app/feature/home/models/property_details_model.dart';
 import 'package:user_resort_booking_app/core/components/custom_container_for_property_details.dart';
 import 'package:user_resort_booking_app/feature/home/views/widgets/basic_details_widget_for_property_details.dart';
+
 class AboutTheResortWidgetForPropertyDetails extends StatelessWidget {
   const AboutTheResortWidgetForPropertyDetails({
     super.key,

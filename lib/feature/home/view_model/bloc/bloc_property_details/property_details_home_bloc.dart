@@ -14,7 +14,7 @@ class PropertyDetailsHomeBloc
     extends Bloc<PropertyDetailsHomeEvent, PropertyDetailsHomeState> {
   final PropertyHomeRepository _repository;
   String? _propertyId;
-  PropertyDetailsHomeBloc(this._repository) : super(_Initial()) {
+  PropertyDetailsHomeBloc(this._repository) : super(_Loading()) {
     on<_FetchPropertyDetails>((event, emit) async {
       emit(PropertyDetailsHomeState.loading());
 

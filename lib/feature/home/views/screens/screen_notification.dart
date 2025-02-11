@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_resort_booking_app/core/components/custom_app_bar.dart';
 import 'package:user_resort_booking_app/core/components/custom_icon_widget.dart';
 import 'package:user_resort_booking_app/core/constants/my_colors.dart';
+import 'package:user_resort_booking_app/core/constants/text_styles.dart';
 import 'package:user_resort_booking_app/core/data/view_model/bloc/bloc_notification/notification_bloc.dart';
 import 'package:user_resort_booking_app/core/utils/custom_date_formats.dart';
 import 'package:user_resort_booking_app/feature/home/models/notification_model.dart';
@@ -37,7 +38,11 @@ class ScreenNotification extends StatelessWidget {
             ),
             onNotification: (notifications) {
               return notifications.isEmpty
-                  ? Center(child: Text('Notification is empty'))
+                  ? Center(
+                      child: Text(
+                      'Notification is empty',
+                      style: MyTextStyles.bodyLargeNormalGrey,
+                    ))
                   : ListView.builder(
                       shrinkWrap: true,
                       itemCount: notifications.length,

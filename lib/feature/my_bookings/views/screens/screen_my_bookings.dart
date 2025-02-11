@@ -93,13 +93,6 @@ class ScreenMyBookings extends StatelessWidget {
 
   Widget _buildBookingList(
       List<BookedPropertyCardModel> bookings, BuildContext context) {
-    if (bookings.isEmpty) {
-      return SizedBox(
-        height: MyScreenSize.height * middle,
-        child: Center(child: Text('No bookings found')),
-      );
-    }
-
     return RefreshIndicator.adaptive(
       onRefresh: () async {
         final userId = context.read<UserDataCubit>().state!.uid!;
@@ -107,32 +100,48 @@ class ScreenMyBookings extends StatelessWidget {
               BookedPropertyListEvent.fetchMyBookings(userId: userId),
             );
       },
-      child: ListView.builder(
-        itemCount: bookings.length,
-        itemBuilder: (context, index) {
-          final model = bookings[index];
-          return GestureDetector(
-            onTap: () {
-              context.read<BookedPropertyDetailsBloc>().add(
-                    BookedPropertyDetailsEvent.fetchBookedDetails(
-                      ownerId: model.ownerId,
-                      bookingId: model.bookingId,
+      child: ListView(
+        children: [
+          bookings.isEmpty
+              ? SizedBox(
+                  height: MyScreenSize.height * middle,
+                  child: Center(
+                    child: Text(
+                      'No bookings found',
+                      style: MyTextStyles.bodyLargeNormalGrey,
                     ),
-                  );
-              context.push('/${AppRoutes.bookedPropertyDetails}');
-            },
-            child: BookedPropertyCard(
-              bookingId: model.bookingId,
-              propertyName: model.propertyName,
-              bookingDates:
-                  '${customDateFormat(model.startDate)} - ${customDateFormat(model.endDate)}',
-              price: model.price,
-              imageUrl: model.imageUrl,
-              status: getBookingStatus(model.status),
-              onStatusPressed: () {},
-            ),
-          );
-        },
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: bookings.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final model = bookings[index];
+                    return GestureDetector(
+                      onTap: () {
+                        context.read<BookedPropertyDetailsBloc>().add(
+                              BookedPropertyDetailsEvent.fetchBookedDetails(
+                                ownerId: model.ownerId,
+                                bookingId: model.bookingId,
+                              ),
+                            );
+                        context.push('/${AppRoutes.bookedPropertyDetails}');
+                      },
+                      child: BookedPropertyCard(
+                        bookingId: model.bookingId,
+                        propertyName: model.propertyName,
+                        bookingDates:
+                            '${customDateFormat(model.startDate)} - ${customDateFormat(model.endDate)}',
+                        price: model.price,
+                        imageUrl: model.imageUrl,
+                        status: getBookingStatus(model.status),
+                        onStatusPressed: () {},
+                      ),
+                    );
+                  },
+                ),
+        ],
       ),
     );
   }

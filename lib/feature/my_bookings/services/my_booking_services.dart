@@ -47,7 +47,6 @@ class MyBookingServices extends PropertyHomeServices {
 
         final booking = bookingsData.data()!;
 
-        
         final status = (booking['status'] as String).toLowerCase();
         if (status == 'cancelled') {
           list.add(booking);
@@ -81,29 +80,6 @@ class MyBookingServices extends PropertyHomeServices {
         }
         list.add(booking);
       }
-
-      // for (var booking in list) {
-      //   final status = (booking['status'] as String).toLowerCase();
-      //   if (status == 'cancelled') {
-      //     continue;
-      //   }
-      //   final ownerId = booking['ownerId']
-      //   final start = (booking['startDate'] as Timestamp).toDate();
-      //   final end = (booking['endDate'] as Timestamp).toDate();
-
-      //   if (currentTime.isAfter(end) && status != 'completed') {
-      //     // booking date is already past current time, then update it to complete
-      //     await _ownerCollection
-      //       .doc(ownerId)
-      //       .collection(_bookingCollectionName)
-      //       .doc(bookingId).update({
-      //         'status':
-      //       })
-      //   } else if (currentTime.isAfter(start) && status != 'active') {
-      //     // make it active
-
-      //   }
-      // }
       return list;
     } on FirebaseException catch (e, stack) {
       log(e.toString(), stackTrace: stack);

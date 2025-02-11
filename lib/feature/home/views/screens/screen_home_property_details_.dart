@@ -16,6 +16,7 @@ import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cub
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
 import 'package:user_resort_booking_app/core/data/view_model/bloc/bloc_google_map/google_map_bloc.dart';
 import 'package:user_resort_booking_app/feature/booking/views/widgets/select_date_and_gust_sheet.dart';
+import 'package:user_resort_booking_app/feature/home/views/widgets/property_details_shimmer.dart';
 import 'package:user_resort_booking_app/feature/profile/view_model/bloc/bloc_favorite/favorite_bloc.dart';
 import 'package:user_resort_booking_app/feature/home/models/property_details_model.dart';
 import 'package:user_resort_booking_app/feature/home/view_model/bloc/bloc_property_details/property_details_home_bloc.dart';
@@ -37,7 +38,6 @@ class ScreenHomePropertyDetails extends StatelessWidget {
         title: 'Details Resort',
         needUnderline: false,
         actions: [
-
           //TODO: complete the lag issue in the favorite button
           BlocBuilder<FavoriteBloc, FavoriteState>(
             builder: (context, favoriteState) {
@@ -84,19 +84,11 @@ class ScreenHomePropertyDetails extends StatelessWidget {
       body: BlocBuilder<PropertyDetailsHomeBloc, PropertyDetailsHomeState>(
         builder: (context, state) {
           return state.maybeWhen(
-            initial: () {
-              return Center(
-                child: Text(
-                  'Loading property details, please wait!',
-                ),
-              );
-            },
+            // loaded: (s) {
+            //   return ShimmerPropertyDetails();
+            // },
             loading: () {
-              return Center(
-                child: Text(
-                  'Loading property details, please wait!',
-                ),
-              );
+              return ShimmerPropertyDetails();
             },
             error: (message) {
               return Center(

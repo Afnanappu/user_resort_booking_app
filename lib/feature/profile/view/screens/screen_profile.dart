@@ -49,8 +49,8 @@ class ScreenProfile extends StatelessWidget {
                   },
                 ),
                 ListTileForProfile(
-                  icon: Icons.info_outline,
-                  title: 'About',
+                  icon: Icons.policy_outlined,
+                  title: 'Privacy Policy',
                   onTap: () {
                     context.push('/${AppRoutes.about}');
                   },

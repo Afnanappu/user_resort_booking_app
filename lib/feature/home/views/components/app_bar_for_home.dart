@@ -63,7 +63,7 @@ class AppBarForHome extends StatelessWidget implements PreferredSizeWidget {
             right: 23,
             top: 65,
             child: SizedBox(
-              width: MyScreenSize.width - 46,
+              width: MyScreenSize.width - 48,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

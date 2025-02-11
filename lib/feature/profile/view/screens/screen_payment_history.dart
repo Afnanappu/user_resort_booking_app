@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:user_resort_booking_app/core/components/custom_app_bar.dart';
+import 'package:user_resort_booking_app/core/constants/text_styles.dart';
 import 'package:user_resort_booking_app/core/data/view_model/cubit/user_data_cubit.dart';
 import 'package:user_resort_booking_app/core/utils/screen_size.dart';
 import 'package:user_resort_booking_app/feature/profile/view/components/payment_history_card.dart';
@@ -10,7 +11,7 @@ import 'package:collection/collection.dart';
 
 class ScreenPaymentHistory extends StatelessWidget {
   ScreenPaymentHistory({super.key});
-  final height = MyScreenSize.height * .9;
+  final height = MyScreenSize.height * .2;
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -62,7 +63,9 @@ class ScreenPaymentHistory extends StatelessWidget {
                         ? SizedBox(
                             height: MyScreenSize.height - height,
                             child: Center(
-                              child: Text('No transaction found'),
+                              child: Text('No transaction found',
+                                style: MyTextStyles.bodyLargeNormalGrey,
+                              ),
                             ),
                           )
                         : ListView(
@@ -76,29 +79,6 @@ class ScreenPaymentHistory extends StatelessWidget {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(transaction.key),
                                     ),
-                                    // Row(
-                                    //   mainAxisAlignment:
-                                    //       MainAxisAlignment.center,
-                                    //   children: [
-                                    //     Container(
-                                    //       margin: EdgeInsets.symmetric(
-                                    //         vertical: 15,
-                                    //       ),
-                                    //       padding: EdgeInsets.symmetric(
-                                    //         horizontal: 10,
-                                    //         vertical: 5,
-                                    //       ),
-                                    //       decoration: BoxDecoration(
-                                    //         color: MyColors.greyLight
-                                    //             .withAlpha(150),
-                                    //         borderRadius: BorderRadius.circular(
-                                    //           borderRad10,
-                                    //         ),
-                                    //       ),
-                                    //       child: Text(transaction.key),
-                                    //     )
-                                    //   ],
-                                    // ),
                                     ...transaction.value.map(
                                       (payment) {
                                         return PaymentHistoryCard(
@@ -124,27 +104,6 @@ class ScreenPaymentHistory extends StatelessWidget {
                               },
                             ).toList(),
                           );
-                    // ListView.builder(
-                    //     shrinkWrap: true,
-                    //     physics: NeverScrollableScrollPhysics(),
-                    //     itemCount: transactions.length,
-                    //     itemBuilder: (context, index) {
-                    //       final payment = transactions[index];
-
-                    //       return PaymentHistoryCard(
-                    //         userName: payment.payerName,
-                    //         profile: payment.profile,
-                    //         amount: payment.transactionModel.amount,
-                    //         transactionDate: customDateFormat3(
-                    //           payment.transactionModel.transactionDate,
-                    //         ),
-                    //         status:
-                    //             payment.transactionModel.status == 'failed'
-                    //                 ? 'failed'
-                    //                 : payment.transactionModel.type,
-                    //       );
-                    //     },
-                    //   );
                   },
                 );
               },
